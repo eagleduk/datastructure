@@ -13,15 +13,17 @@
   align-items: center;
   justify-content: center;
   flex-flow: wrap;
-  padding: 20px;
+  padding: 80px 20px 20px 20px;
   box-sizing: border-box;
+  gap: 15px 15px;
 }
 
 .module-container div.module-container__content-array div {
   text-align: center;
-  margin-right: 30px;
   padding: 20px;
   border: 2px solid black;
+  width: 130px;
+  box-sizing: border-box;
 }
 
 .module-container div.module-container__content-array div:active {
