@@ -1,6 +1,7 @@
-const render = () => {
-  document.querySelector("aside").innerText = "hashtable";
-  console.log("TEST");
-};
+export const CONTROLMENU = [];
+
+export const renderModule = () => {};
+
+const render = () => {};
 
 export default render;
