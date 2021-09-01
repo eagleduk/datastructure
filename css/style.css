@@ -1,4 +1,6 @@
 @import url("/css/module/array.css");
+@import url("/css/module/queue.css");
+
 :root {
   --controller-width: 200px;
 }
@@ -71,7 +73,7 @@ article li span {
   background-color: darkcyan;
 }
 
-article li span.abled-click {
+article li span.control-abled {
   cursor: pointer;
 }
 

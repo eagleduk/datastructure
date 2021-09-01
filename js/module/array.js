@@ -1,15 +1,10 @@
 const MODULECONTENTCLASS = "module-container__content-array";
-const DEFAULTLENGTH = 5;
 
 function renderButtonEvent(e) {
   const number = document.querySelector(
     ".module-container__control-array input[type=number]"
   ).value;
   renderContent(number);
-}
-
-function getRandomValue() {
-  return parseInt(Math.random() * 100);
 }
 
 export const CONTROLMENU = [
@@ -44,6 +39,7 @@ function renderContentArray() {
   return moduleContent;
 }
 
+/* 배열 그리기 */
 function renderContent(number = DEFAULTLENGTH) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
@@ -76,6 +72,3 @@ export const renderModule = () => {
 
   renderContent();
 };
-const render = () => {};
-
-export default render;

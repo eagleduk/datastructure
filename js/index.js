@@ -1,3 +1,9 @@
+const DEFAULTLENGTH = 5;
+
+function getRandomValue() {
+  return parseInt(Math.random() * 100);
+}
+
 function createElement(tagName) {
   return document.createElement(tagName);
 }
