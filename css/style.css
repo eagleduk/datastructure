@@ -1,5 +1,6 @@
 @import url("/css/module/array.css");
 @import url("/css/module/queue.css");
+@import url("/css/module/stack.css");
 
 :root {
   --controller-width: 200px;

@@ -54,7 +54,7 @@ async function moduleLoader(module) {
 }
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  const module = "array";
+  const module = "stack";
   moduleLoader(module);
 });
 

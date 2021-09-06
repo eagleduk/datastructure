@@ -1,11 +1,11 @@
 const MODULECONTENTCLASS = "module-container__content-array";
 
-function renderButtonEvent(e) {
+const renderButtonEvent = (e) => {
   const number = document.querySelector(
     ".module-container__control-array input[type=number]"
   ).value;
   renderContent(number);
-}
+};
 
 export const CONTROLMENU = [
   {
