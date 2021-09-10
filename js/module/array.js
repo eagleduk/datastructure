@@ -9,7 +9,7 @@ const renderButtonEvent = (e) => {
 
 export const CONTROLMENU = [
   {
-    display: "LENGTH",
+    display: "Render",
   },
 ];
 

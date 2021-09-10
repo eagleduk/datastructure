@@ -1,6 +1,7 @@
 @import url("/css/module/array.css");
 @import url("/css/module/queue.css");
 @import url("/css/module/stack.css");
+@import url("/css/module/linkedlist.css");
 
 :root {
   --controller-width: 200px;

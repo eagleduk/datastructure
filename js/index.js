@@ -1,7 +1,8 @@
 const DEFAULTLENGTH = 5;
+const NSADDRESS = "http://www.w3.org/2000/svg";
 
-function getRandomValue() {
-  return parseInt(Math.random() * 100);
+function getRandomValue(maxValue = 100) {
+  return parseInt(Math.random() * maxValue + 1);
 }
 
 function createElement(tagName) {
@@ -15,6 +16,12 @@ function createSpanElement() {
 function createDivElement() {
   return createElement("div");
 }
+
+const getRandomColor = () => {
+  const result = "#" + Math.floor(Math.random() * 16777215).toString(16);
+  if (result.length < 7) return getRandomColor();
+  return result;
+};
 
 function replaceModule(module, targetTag) {
   const targetNode = document.querySelector(targetTag);
@@ -54,7 +61,7 @@ async function moduleLoader(module) {
 }
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  const module = "stack";
+  const module = "linkedlist";
   moduleLoader(module);
 });
 
