@@ -1,4 +1,4 @@
-const DEFAULTLENGTH = 5;
+const DEFAULTLENGTH = 1;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
 function getRandomValue(maxValue = 100) {
@@ -15,6 +15,10 @@ function createSpanElement() {
 
 function createDivElement() {
   return createElement("div");
+}
+
+function createSectionElement() {
+  return createElement("section");
 }
 
 const getRandomColor = () => {
@@ -61,7 +65,7 @@ async function moduleLoader(module) {
 }
 
 window.addEventListener("DOMContentLoaded", async (e) => {
-  const module = "linkedlist";
+  const module = "hashtable";
   moduleLoader(module);
 });
 

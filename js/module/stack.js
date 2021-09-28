@@ -103,6 +103,7 @@ function renderContentStackLeft() {
 
   return queueTop;
 }
+
 function renderContentStackCenter() {
   const queueMiddle = createDivElement();
   queueMiddle.className = "content-stack content-stack__center";
@@ -111,6 +112,7 @@ function renderContentStackCenter() {
 
   return queueMiddle;
 }
+
 function renderContentStackRight() {
   const queueBottom = createDivElement();
   queueBottom.className = "content-stack content-stack__right";

@@ -2,9 +2,12 @@
 @import url("/css/module/queue.css");
 @import url("/css/module/stack.css");
 @import url("/css/module/linkedlist.css");
+@import url("/css/module/hashtable.css");
 
 :root {
   --controller-width: 200px;
+  --linkedlist-content-width: 60px;
+  --linkedlist-content-height: var(--linkedlist-content-width);
 }
 
 html {
@@ -54,7 +57,6 @@ main {
 
 section {
   background-color: aquamarine;
-  height: 100%;
   width: 100%;
 }
 
