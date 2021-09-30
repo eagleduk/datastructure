@@ -1,5 +1,41 @@
-const CONTENTID = "hashtable_";
+const MODULENAME = "hashtable_";
 const MODULECONTENTCLASS = "module-container__content-hashtable";
+
+const HASHTABLEKEYID = `${MODULENAME}_key`;
+const HASHTABLERESULTID = `${MODULENAME}_result`;
+const HASHTABLEVALUEID = `${MODULENAME}_value`;
+const HASHTABLEVALUEROW = `${MODULENAME}_row_`;
+const HASHTABLEVALUEARRAYCLASS = "valueArrays";
+
+const hashtableValueArray = (index, key, value) => {
+  const hashtableRow = document.querySelector(
+    `#${HASHTABLEVALUEROW}${index} div.${HASHTABLEVALUEARRAYCLASS}`
+  );
+
+  const h3 = document.createElement("h3");
+  h3.innerText = key;
+
+  const h1 = document.createElement("h1");
+  h1.innerText = value;
+
+  const div = document.createElement("div");
+
+  div.appendChild(h3);
+  div.appendChild(h1);
+
+  hashtableRow.appendChild(div);
+};
+
+const putButtonEventHandler = (e) => {
+  const { value: key } = document.getElementById(HASHTABLEKEYID);
+  const index = parseInt(key) % DEFAULTLENGTH;
+  const value = getRandomValue();
+
+  document.getElementById(HASHTABLERESULTID).innerText = index;
+  document.getElementById(HASHTABLEVALUEID).innerText = value;
+
+  hashtableValueArray(index, key, value);
+};
 
 export const CONTROLMENU = [];
 
@@ -8,7 +44,7 @@ function renderContentContainer() {
   container.className = `${MODULECONTENTCLASS}`;
 
   container.appendChild(renderHashtableHeaderContainer());
-  //container.appendChild(renderContentMainContainer());
+  container.appendChild(renderContentMainContainer());
 
   return container;
 }
@@ -42,7 +78,9 @@ function renderHashtableHeaderHashKeyContainer() {
   label.innerText = "Key";
 
   const input = createElement("input");
-  input.type = "text";
+  input.type = "number";
+  input.value = 54;
+  input.id = HASHTABLEKEYID;
 
   container.appendChild(label);
   container.appendChild(input);
@@ -60,6 +98,7 @@ function renderHashtableHeaderHashButtonContainer() {
   const putButton = createElement("input");
   putButton.type = "button";
   putButton.value = "Put";
+  putButton.addEventListener("click", putButtonEventHandler);
 
   container.appendChild(searchButton);
   container.appendChild(putButton);
@@ -82,7 +121,7 @@ function renderHashtableHeaderHashResultContainer() {
   label.innerText = "Key";
 
   const result = createElement("h1");
-  result.innerText = "result";
+  result.id = HASHTABLERESULTID;
 
   container.appendChild(label);
   container.appendChild(result);
@@ -98,7 +137,7 @@ function renderHashtableHeaderValueContainer() {
   label.innerText = "Value";
 
   const result = createElement("h1");
-  result.innerText = "value";
+  result.id = HASHTABLEVALUEID;
 
   hashValueContainer.appendChild(label);
   hashValueContainer.appendChild(result);
@@ -119,12 +158,26 @@ function renderContentMainContainer() {
 
 function renderContentSection(index) {
   const section = createSectionElement();
-  section.className = `${CONTENTID}${index}`;
+  section.className = `${MODULENAME}rows`;
+  section.id = `${HASHTABLEVALUEROW}${index}`;
   // hashtable__hash
-  section.appendChild(createDivElement());
+  section.appendChild(renderContentSectionKeyContainer(index));
   // hashtable__value
-  section.appendChild(createDivElement());
+  section.appendChild(renderContentSectionValueContainer(index));
   return section;
+}
+
+function renderContentSectionKeyContainer(index) {
+  const container = createDivElement();
+  container.innerText = index;
+  return container;
+}
+
+function renderContentSectionValueContainer(index) {
+  const container = createDivElement();
+  //container.id = `${HASHTABLEVALUEROWS}${index}`;
+  container.className = HASHTABLEVALUEARRAYCLASS;
+  return container;
 }
 
 export const renderModule = () => {

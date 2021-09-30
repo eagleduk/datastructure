@@ -1,4 +1,4 @@
-const DEFAULTLENGTH = 1;
+const DEFAULTLENGTH = 3;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
 function getRandomValue(maxValue = 100) {
@@ -64,12 +64,12 @@ async function moduleLoader(module) {
   importModule.renderModule();
 }
 
-window.addEventListener("DOMContentLoaded", async (e) => {
+window.addEventListener("DOMContentLoaded", (e) => {
   const module = "hashtable";
   moduleLoader(module);
 });
 
-window.addEventListener("hashchange", async (e) => {
+window.addEventListener("hashchange", (e) => {
   const module = globalThis.location.hash.slice(1);
   moduleLoader(module);
 });

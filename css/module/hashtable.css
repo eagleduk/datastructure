@@ -41,7 +41,7 @@
   div.hashtable__hash-container
   div.hash-container__hash-key
   div:first-child
-  input[type="text"] {
+  input[type="number"] {
   padding: 10px 10px;
 }
 
@@ -125,4 +125,37 @@
   background-color: whitesmoke;
   margin-left: 20px;
   width: 100%;
+}
+
+.module-container
+  div.module-container__content-hashtable
+  div.hashtable__main-container
+  section
+  > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.module-container
+  div.module-container__content-hashtable
+  div.hashtable__main-container
+  section
+  > div:last-child::before {
+  content: "[";
+  margin-right: 10px;
+}
+
+.module-container
+  div.module-container__content-hashtable
+  div.hashtable__main-container
+  section
+  > div:last-child::after {
+  content: "]";
+}
+
+.valueArrays div {
+  margin-right: 10px;
 }
