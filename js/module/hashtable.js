@@ -7,26 +7,43 @@ const HASHTABLEVALUEID = `${MODULENAME}_value`;
 const HASHTABLEVALUEROW = `${MODULENAME}_row_`;
 const HASHTABLEVALUEARRAYCLASS = "valueArrays";
 
-const hashtableValueArray = (index, key, value) => {
-  const hashtableRow = document.querySelector(
-    `#${HASHTABLEVALUEROW}${index} div.${HASHTABLEVALUEARRAYCLASS}`
+const hashtableValueArray = async (index, key, value) => {
+  const hashtableRow = document.querySelector(`#${HASHTABLEVALUEROW}${index}`);
+
+  const hashtableRowkey = hashtableRow.querySelector("div:first-child");
+  hashtableRowkey.classList.add("selectedKey");
+
+  const hashtableRowValues = hashtableRow.querySelector(
+    `div.${HASHTABLEVALUEARRAYCLASS}`
   );
 
-  const h3 = document.createElement("h3");
+  let correctChild = createDivElement();
+  const childLength = hashtableRowValues.childNodes.length;
+
+  for (let i = 0; i < childLength; i++) {
+    let node = hashtableRowValues.childNodes[i];
+    node.classList.add("searchValue");
+    if (node.dataset.key === key) correctChild = node;
+  }
+
+  const h3 = correctChild.querySelector("h3") ?? document.createElement("h3");
   h3.innerText = key;
 
-  const h1 = document.createElement("h1");
+  const h1 = correctChild.querySelector("h1") ?? document.createElement("h1");
   h1.innerText = value;
 
-  const div = document.createElement("div");
+  const div = correctChild;
+  div.dataset.key = key;
 
   div.appendChild(h3);
   div.appendChild(h1);
 
-  hashtableRow.appendChild(div);
+  hashtableRowValues.appendChild(div);
+
+  //hashtableRowkey.classList.remove("selectedKey");
 };
 
-const putButtonEventHandler = (e) => {
+const putButtonEventHandler = async (e) => {
   const { value: key } = document.getElementById(HASHTABLEKEYID);
   const index = parseInt(key) % DEFAULTLENGTH;
   const value = getRandomValue();
@@ -34,7 +51,9 @@ const putButtonEventHandler = (e) => {
   document.getElementById(HASHTABLERESULTID).innerText = index;
   document.getElementById(HASHTABLEVALUEID).innerText = value;
 
-  hashtableValueArray(index, key, value);
+  await hashtableValueArray(index, key, value);
+
+  document.getElementById(HASHTABLEKEYID).value = getRandomValue();
 };
 
 export const CONTROLMENU = [];
@@ -121,6 +140,7 @@ function renderHashtableHeaderHashResultContainer() {
   label.innerText = "Key";
 
   const result = createElement("h1");
+  result.innerText = "-";
   result.id = HASHTABLERESULTID;
 
   container.appendChild(label);
