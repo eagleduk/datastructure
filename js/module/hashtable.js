@@ -7,7 +7,24 @@ const HASHTABLEVALUEID = `${MODULENAME}_value`;
 const HASHTABLEVALUEROW = `${MODULENAME}_row_`;
 const HASHTABLEVALUEARRAYCLASS = "valueArrays";
 
-const hashtableValueArray = async (index, key, value) => {
+const searchValue = (node, key) => {
+  const childLength = node.childNodes.length;
+
+  for (let i = 0; i < childLength; i++) {
+    let child = node.childNodes[i];
+    child.classList.add("searchValue");
+    if (child.dataset.key === key) return i;
+  }
+
+  return -1;
+};
+
+const searchButtonEventHandler = (e) => {
+  const { value: key } = document.getElementById(HASHTABLEKEYID);
+  const index = parseInt(key) % DEFAULTLENGTH;
+
+  document.getElementById(HASHTABLERESULTID).innerText = index;
+
   const hashtableRow = document.querySelector(`#${HASHTABLEVALUEROW}${index}`);
 
   const hashtableRowkey = hashtableRow.querySelector("div:first-child");
@@ -17,30 +34,50 @@ const hashtableValueArray = async (index, key, value) => {
     `div.${HASHTABLEVALUEARRAYCLASS}`
   );
 
-  let correctChild = createDivElement();
-  const childLength = hashtableRowValues.childNodes.length;
-
-  for (let i = 0; i < childLength; i++) {
-    let node = hashtableRowValues.childNodes[i];
-    node.classList.add("searchValue");
-    if (node.dataset.key === key) correctChild = node;
+  const nodeIndex = searchValue(hashtableRowValues, key);
+  let value = `Key[${key}] is not found.`;
+  if (nodeIndex > -1) {
+    value =
+      hashtableRowValues.childNodes[nodeIndex].querySelector("h1").innerText;
   }
 
-  const h3 = correctChild.querySelector("h3") ?? document.createElement("h3");
-  h3.innerText = key;
+  document.getElementById(HASHTABLEVALUEID).innerText = value;
+};
 
-  const h1 = correctChild.querySelector("h1") ?? document.createElement("h1");
-  h1.innerText = value;
+const hashtableValueArray = (index, key, value) => {
+  const hashtableRow = document.querySelector(`#${HASHTABLEVALUEROW}${index}`);
 
-  const div = correctChild;
-  div.dataset.key = key;
+  const hashtableRowkey = hashtableRow.querySelector("div:first-child");
+  hashtableRowkey.classList.add("selectedKey");
 
-  div.appendChild(h3);
-  div.appendChild(h1);
+  const hashtableRowValues = hashtableRow.querySelector(
+    `div.${HASHTABLEVALUEARRAYCLASS}`
+  );
 
-  hashtableRowValues.appendChild(div);
+  const nodeIndex = searchValue(hashtableRowValues, key);
 
-  //hashtableRowkey.classList.remove("selectedKey");
+  if (nodeIndex > -1) {
+    const correctChild = hashtableRowValues.childNodes[nodeIndex];
+
+    const h1 = correctChild.querySelector("h1");
+    h1.innerText = value;
+  } else {
+    const newChild = createDivElement();
+    newChild.dataset.key = key;
+
+    const h3 = document.createElement("h3");
+    h3.innerText = key;
+
+    const h1 = document.createElement("h1");
+    h1.innerText = value;
+
+    newChild.appendChild(h3);
+    newChild.appendChild(h1);
+
+    hashtableRowValues.appendChild(newChild);
+  }
+
+  hashtableRowkey.classList.remove("selectedKey");
 };
 
 const putButtonEventHandler = async (e) => {
@@ -51,7 +88,7 @@ const putButtonEventHandler = async (e) => {
   document.getElementById(HASHTABLERESULTID).innerText = index;
   document.getElementById(HASHTABLEVALUEID).innerText = value;
 
-  await hashtableValueArray(index, key, value);
+  hashtableValueArray(index, key, value);
 
   document.getElementById(HASHTABLEKEYID).value = getRandomValue();
 };
@@ -113,6 +150,7 @@ function renderHashtableHeaderHashButtonContainer() {
   const searchButton = createElement("input");
   searchButton.type = "button";
   searchButton.value = "Search";
+  searchButton.addEventListener("click", searchButtonEventHandler);
 
   const putButton = createElement("input");
   putButton.type = "button";
@@ -158,6 +196,7 @@ function renderHashtableHeaderValueContainer() {
 
   const result = createElement("h1");
   result.id = HASHTABLEVALUEID;
+  result.innerText = "-";
 
   hashValueContainer.appendChild(label);
   hashValueContainer.appendChild(result);
