@@ -1,7 +1,35 @@
+const MODULENAME = "tree_";
+const MODULECONTENTCLASS = "module-container__content-tree";
+
 export const CONTROLMENU = [];
 
-export const renderModule = () => {};
+function renderTreeHeaderContainer() {
+  const treeHeaderContainer = createDivElement();
+  treeHeaderContainer.className = "tree__header-container";
 
-const render = () => {};
+  return treeHeaderContainer;
+}
 
-export default render;
+function renderTreeMainContainer() {
+  const treeMainContainer = createDivElement();
+  treeMainContainer.className = "tree__main-container";
+
+  return treeMainContainer;
+}
+
+function renderContentContainer() {
+  const container = createDivElement();
+  container.className = `${MODULECONTENTCLASS}`;
+
+  container.appendChild(renderTreeHeaderContainer());
+  container.appendChild(renderTreeMainContainer());
+
+  return container;
+}
+
+export const renderModule = () => {
+  const nodeModule = createDivElement();
+  nodeModule.className = "module-container";
+  nodeModule.appendChild(renderContentContainer());
+  renderModuleContent(nodeModule);
+};

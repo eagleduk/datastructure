@@ -13,6 +13,7 @@
   z-index: 9999;
   display: grid;
   grid-template-columns: 2fr 1fr;
+  text-align: center;
 }
 
 :is(div.hash-container__hash-key, div.hash-container__hash-value) div {
