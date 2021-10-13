@@ -175,7 +175,7 @@ function renderHashtableHeaderHashResultContainer() {
   const container = createDivElement();
 
   const label = createElement("h3");
-  label.innerText = "Key";
+  label.innerText = "Hashed Key";
 
   const result = createElement("h1");
   result.innerText = "-";
