@@ -5,6 +5,9 @@ const BINARY = 2;
 const ROOTVALUE = 50;
 const ROOTNODEID = "rootNode";
 const TREEINPUTVALUEID = `${MODULENAME}_value`;
+const CONTENTWIDTH = 50;
+const SVGCONTAINERID = "tree-SVG";
+const RESULTTEXTID = "resultText";
 
 const DATASET = {
   ROW: [],
@@ -18,8 +21,10 @@ const CLASSNAMES = {
 };
 
 const inputButtonEventHandler = (e) => {
-  const { value: inputValue } = document.getElementById(TREEINPUTVALUEID);
+  const input = document.getElementById(TREEINPUTVALUEID);
+  const { value: inputValue } = input;
   insertInputValue(inputValue, 0, 0);
+  input.value = getRandomValue();
 };
 
 function insertInputValue(inputValue, row, column) {
@@ -38,19 +43,25 @@ function insertInputValue(inputValue, row, column) {
       addRowContainer();
     }
 
-    if (comparsionValue < inputValue) {
+    if (parseInt(comparsionValue) < parseInt(inputValue)) {
       insertInputValue(inputValue, row + 1, column * 2 + 1);
     } else {
       insertInputValue(inputValue, row + 1, column * 2);
     }
   } else {
     addValueContent(inputValue, row, column);
+
+    connectContents(row, column);
   }
 }
 
 const searchButtonEventHandler = (e) => {
   const { value: inputValue } = document.getElementById(TREEINPUTVALUEID);
-  searchInputValue(inputValue, 0, 0);
+  const searchResult = searchInputValue(inputValue, 0, 0);
+
+  document.getElementById(RESULTTEXTID).innerText = `Value[${inputValue}] is ${
+    searchResult ? "" : "not"
+  } found`;
 };
 
 function searchInputValue(inputValue, row, column) {
@@ -60,25 +71,34 @@ function searchInputValue(inputValue, row, column) {
   const rowContainers = mainContainer.childNodes;
   const columnContainer = rowContainers[row].childNodes[column];
   const comparsionContent = columnContainer?.childNodes[0];
-  const { self: comparsionValue } = comparsionContent.dataset;
+  if (comparsionContent) {
+    const { self: comparsionValue } = comparsionContent.dataset;
 
-  if (comparsionValue === inputValue) {
-    console.log("값이 있다..");
-    return;
-  } else {
-    if (rowContainers.length <= row + 1) {
-      console.log("값이 없음");
-      return;
-    }
-    if (comparsionValue < inputValue) {
-      searchInputValue(inputValue, row + 1, column * 2 + 1);
+    if (comparsionValue === inputValue) {
+      return true;
     } else {
-      searchInputValue(inputValue, row + 1, column * 2);
+      if (rowContainers.length <= row + 1) {
+        return false;
+      }
+      if (parseInt(comparsionValue) < parseInt(inputValue)) {
+        searchInputValue(inputValue, row + 1, column * 2 + 1);
+      } else {
+        searchInputValue(inputValue, row + 1, column * 2);
+      }
     }
+  } else {
+    return false;
   }
 }
 
 export const CONTROLMENU = [];
+
+function renderSVGContainer() {
+  const svg = document.createElementNS(NSADDRESS, "svg");
+  svg.id = SVGCONTAINERID;
+
+  return svg;
+}
 
 function renderTreeHeaderContainer() {
   const treeHeaderContainer = createDivElement();
@@ -144,6 +164,7 @@ function renderResultContainer() {
 
   const result = createElement("h1");
   result.innerText = "-";
+  result.id = RESULTTEXTID;
 
   resultContainer.appendChild(label);
   resultContainer.appendChild(result);
@@ -162,6 +183,7 @@ function renderContentContainer() {
   const container = createDivElement();
   container.className = `${MODULECONTENTCLASS}`;
 
+  container.appendChild(renderSVGContainer());
   container.appendChild(renderTreeHeaderContainer());
   container.appendChild(renderTreeMainContainer());
 
@@ -201,6 +223,7 @@ function addColumn(rowContainer, rowNumber = 0) {
   for (let i = 0; i < length; i++) {
     let column = createDivElement();
     column.className = CLASSNAMES.COLUMN.join(" ");
+    column.dataset.columnNumber = i;
 
     rowContainer.appendChild(column);
   }
@@ -222,6 +245,7 @@ function addRootValue() {
   valueContent.dataset.self = ROOTVALUE;
   valueContent.dataset.smaller = undefined;
   valueContent.dataset.bigger = undefined;
+  valueContent.dataset.parent = undefined;
 
   column.appendChild(valueContent);
 }
@@ -239,6 +263,49 @@ function addValueContent(inputValue, row, column) {
   valueContent.dataset.self = inputValue;
   valueContent.dataset.smaller = undefined;
   valueContent.dataset.bigger = undefined;
+  valueContent.dataset.parent = undefined;
 
   columnContainer.appendChild(valueContent);
+
+  return columnContainer;
+}
+
+function connectContents(row, column) {
+  const mainContainer = document.querySelector(
+    `.${MODULENAME}__main-container`
+  );
+
+  const parentRow = row - 1;
+  const parentColumn = parseInt(column / 2);
+  const childState = column % 2;
+
+  const parentNode =
+    mainContainer.childNodes[parentRow].childNodes[parentColumn].childNodes[0];
+  const childNode =
+    mainContainer.childNodes[row].childNodes[column].childNodes[0];
+
+  if (childState) {
+    parentNode.dataset.bigger = childNode.dataset.self;
+  } else {
+    parentNode.dataset.smaller = childNode.dataset.self;
+  }
+
+  childNode.dataset.parent = parentNode.dataset.self;
+
+  const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;
+  const { offsetLeft: toLeft, offsetTop: toTop } = childNode;
+
+  const svgPallet = document.getElementById(SVGCONTAINERID);
+
+  const line = document.createElementNS(NSADDRESS, "line");
+
+  line.setAttribute("x1", fromLeft + CONTENTWIDTH / 2);
+  line.setAttribute("y1", formTop + CONTENTWIDTH / 2);
+  line.setAttribute("x2", toLeft + CONTENTWIDTH / 2);
+  line.setAttribute("y2", toTop + CONTENTWIDTH / 2);
+
+  line.style.stroke = "black";
+  line.style.strokeWidth = 5;
+  line.style.strokeOpacity = 1;
+  svgPallet.appendChild(line);
 }
