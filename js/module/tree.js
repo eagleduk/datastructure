@@ -34,8 +34,7 @@ function insertInputValue(inputValue, row, column) {
 
   // 비교 값 추출
   const rowContainers = mainContainer.childNodes;
-  const columnContainer = rowContainers[row].childNodes[column];
-  const comparsionContent = columnContainer?.childNodes[0];
+  const comparsionContent = getContent(row, column);
   if (comparsionContent) {
     const { self: comparsionValue } = comparsionContent.dataset;
 
@@ -69,26 +68,115 @@ function searchInputValue(inputValue, row, column) {
     `.${MODULENAME}__main-container`
   );
   const rowContainers = mainContainer.childNodes;
-  const columnContainer = rowContainers[row].childNodes[column];
-  const comparsionContent = columnContainer?.childNodes[0];
+  const comparsionContent = getContent(row, column);
+
   if (comparsionContent) {
     const { self: comparsionValue } = comparsionContent.dataset;
 
-    if (comparsionValue === inputValue) {
-      return true;
+    if (comparsionValue === String(inputValue)) {
+      return { row, column };
     } else {
       if (rowContainers.length <= row + 1) {
         return false;
       }
       if (parseInt(comparsionValue) < parseInt(inputValue)) {
-        searchInputValue(inputValue, row + 1, column * 2 + 1);
+        return searchInputValue(inputValue, row + 1, column * 2 + 1);
       } else {
-        searchInputValue(inputValue, row + 1, column * 2);
+        return searchInputValue(inputValue, row + 1, column * 2);
       }
     }
-  } else {
-    return false;
   }
+  return false;
+}
+
+const deleteButtonEventHandler = (e) => {
+  const { value: inputValue } = document.getElementById(TREEINPUTVALUEID);
+  const searchResult = searchInputValue(inputValue, 0, 0);
+
+  if (searchResult) {
+    deleteContent(searchResult);
+  } else {
+    document.getElementById(
+      RESULTTEXTID
+    ).innerText = `Value[${inputValue}] is not found`;
+  }
+};
+
+function deleteContent({ row, column }) {
+  let deleteContent = getContent(row, column);
+
+  let smaller = getContent(row + 1, column * 2);
+  let bigger = getContent(row + 1, column * 2 + 1);
+
+  // case 1: child node 두개 => 작은 child node 중 제일 큰수와 자리 변경
+  /**
+   *  본인과 본인보다 작은 자식들중 큰 수와 dataset.self 값 변경
+   */
+  //console.log("변경전 ", deleteContent, row, column);
+  if (smaller && bigger) {
+    const changeNode = getChildNodeBigOfSmall(row + 1, column * 2);
+    //const changeNode = getLeafChildNode(row + 1, column * 2, 1);
+    deleteContent = changeContent(deleteContent, changeNode.sourceContent);
+    row = changeNode.row;
+    column = changeNode.column;
+  }
+  //console.log("변경후 ", deleteContent, row, column);
+
+  // case 2: child node 한개 => case 1 ==> 자식이 있을 때, 부모와 최하위 자식과 자리 변경
+  /**
+   *  본인과 최 하위 자식의 dataset.self 값 변경
+   */
+  smaller = getContent(row + 1, column * 2);
+  bigger = getContent(row + 1, column * 2 + 1);
+  //console.log("변경전 ", deleteContent, row, column);
+  while (smaller || bigger) {
+    let childType = 0;
+    if (bigger) childType = 1;
+    row += 1;
+    column = column * 2 + childType;
+    let changeNode = getContent(row, column);
+    deleteContent = changeContent(deleteContent, changeNode);
+    smaller = getContent(row + 1, column * 2);
+    bigger = getContent(row + 1, column * 2 + 1);
+  }
+  //console.log("변경후 ", deleteContent, row, column);
+
+  // case 3: child node 없을 때 => case 2 ==> 최하위 자식 삭제
+  /**
+   *  본인과 연결선 삭제
+   */
+  const deleteLine = document.querySelector(`[id*='${row}_${column}']`);
+  deleteLine.remove();
+  deleteContent.remove();
+}
+
+function getChildNodeBigOfSmall(row, column) {
+  const sourceContent = getContent(row, column);
+  const biggerChild = getContent(row + 1, column * 2 + 1);
+  if (biggerChild) return getChildNodeBigOfSmall(row + 1, column * 2 + 1);
+  return {
+    sourceContent,
+    row,
+    column,
+  };
+}
+
+function getLeafChildNode(row, column, childType) {
+  const sourceContent = getContent(row, column + childType);
+  const childNode = getContent(row + 1, column * 2 + childType);
+  if (childNode) return getLeafChildNode(row + 1, column * 2, childType);
+  return {
+    sourceContent,
+    row,
+    column,
+  };
+}
+
+function changeContent(target, source) {
+  const temp = target.dataset.self;
+  target.dataset.self = source.dataset.self;
+  source.dataset.self = temp;
+  return source;
 }
 
 export const CONTROLMENU = [];
@@ -150,8 +238,14 @@ function renderButtonContainer() {
   insert.value = "Insert";
   insert.addEventListener("click", inputButtonEventHandler);
 
+  const del = document.createElement("input");
+  del.type = "button";
+  del.value = "Delete";
+  del.addEventListener("click", deleteButtonEventHandler);
+
   buttonContainer.appendChild(search);
   buttonContainer.appendChild(insert);
+  buttonContainer.appendChild(del);
 
   return buttonContainer;
 }
@@ -239,13 +333,10 @@ function addRootValue() {
   column.dataset.columnNumber = 0;
 
   const valueContent = createSpanElement();
-  valueContent.innerText = ROOTVALUE;
+  //valueContent.innerText = ROOTVALUE;
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
   valueContent.id = ROOTNODEID;
   valueContent.dataset.self = ROOTVALUE;
-  valueContent.dataset.smaller = undefined;
-  valueContent.dataset.bigger = undefined;
-  valueContent.dataset.parent = undefined;
 
   column.appendChild(valueContent);
 }
@@ -258,12 +349,9 @@ function addValueContent(inputValue, row, column) {
   const columnContainer = mainContainer.childNodes[row].childNodes[column];
 
   const valueContent = createSpanElement();
-  valueContent.innerText = inputValue;
+  //valueContent.innerText = inputValue;
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
   valueContent.dataset.self = inputValue;
-  valueContent.dataset.smaller = undefined;
-  valueContent.dataset.bigger = undefined;
-  valueContent.dataset.parent = undefined;
 
   columnContainer.appendChild(valueContent);
 
@@ -271,19 +359,16 @@ function addValueContent(inputValue, row, column) {
 }
 
 function connectContents(row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
-
   const parentRow = row - 1;
   const parentColumn = parseInt(column / 2);
   const childState = column % 2;
 
-  const parentNode =
-    mainContainer.childNodes[parentRow].childNodes[parentColumn].childNodes[0];
-  const childNode =
-    mainContainer.childNodes[row].childNodes[column].childNodes[0];
+  const parentNode = getContent(parentRow, parentColumn);
+  const childNode = getContent(row, column);
 
+  childNode.dataset.type = childState;
+
+  /*
   if (childState) {
     parentNode.dataset.bigger = childNode.dataset.self;
   } else {
@@ -291,6 +376,7 @@ function connectContents(row, column) {
   }
 
   childNode.dataset.parent = parentNode.dataset.self;
+  */
 
   const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;
   const { offsetLeft: toLeft, offsetTop: toTop } = childNode;
@@ -307,5 +393,13 @@ function connectContents(row, column) {
   line.style.stroke = "black";
   line.style.strokeWidth = 5;
   line.style.strokeOpacity = 1;
+  line.id = `${parentRow}_${parentColumn}-${row}_${column}`;
   svgPallet.appendChild(line);
+}
+
+function getContent(row, column) {
+  const mainContainer = document.querySelector(
+    `.${MODULENAME}__main-container`
+  );
+  return mainContainer?.childNodes[row]?.childNodes[column]?.childNodes[0];
 }

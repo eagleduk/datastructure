@@ -99,3 +99,7 @@
 
 .module-container__content-tree span.tree__value-container.comparison {
 }
+
+.module-container__content-tree span.tree__value-container::before {
+  content: attr(data-self);
+}
