@@ -65,7 +65,7 @@ async function moduleLoader(module) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "tree";
+  const module = "heap";
   moduleLoader(module);
 });
 

@@ -6,7 +6,7 @@ const ROOTVALUE = 50;
 const ROOTNODEID = "rootNode";
 const TREEINPUTVALUEID = `${MODULENAME}_value`;
 const CONTENTWIDTH = 50;
-const SVGCONTAINERID = "tree-SVG";
+const SVGCONTAINERID = `${MODULENAME}-SVG`;
 const RESULTTEXTID = "resultText";
 
 const DATASET = {
@@ -15,9 +15,9 @@ const DATASET = {
 };
 
 const CLASSNAMES = {
-  ROW: ["tree__row-container"],
-  COLUMN: ["tree__column-container"],
-  VALUECONTENT: ["tree__value-container"],
+  ROW: [`${MODULENAME}__row-container`],
+  COLUMN: [`${MODULENAME}__column-container`],
+  VALUECONTENT: [`${MODULENAME}__value-container`],
 };
 
 const inputButtonEventHandler = (e) => {
@@ -36,7 +36,7 @@ function insertInputValue(inputValue, row, column) {
   const rowContainers = mainContainer.childNodes;
   const comparsionContent = getContent(row, column);
   if (comparsionContent) {
-    const { self: comparsionValue } = comparsionContent.dataset;
+    const { value: comparsionValue } = comparsionContent.dataset;
 
     if (rowContainers.length <= row + 1) {
       addRowContainer();
@@ -71,7 +71,7 @@ function searchInputValue(inputValue, row, column) {
   const comparsionContent = getContent(row, column);
 
   if (comparsionContent) {
-    const { self: comparsionValue } = comparsionContent.dataset;
+    const { value: comparsionValue } = comparsionContent.dataset;
 
     if (comparsionValue === String(inputValue)) {
       return { row, column };
@@ -110,7 +110,7 @@ function deleteContent({ row, column }) {
 
   // case 1: child node 두개 => 작은 child node 중 제일 큰수와 자리 변경
   /**
-   *  본인과 본인보다 작은 자식들중 큰 수와 dataset.self 값 변경
+   *  본인과 본인보다 작은 자식들중 큰 수와 dataset.value 값 변경
    */
   //console.log("변경전 ", deleteContent, row, column);
   if (smaller && bigger) {
@@ -124,7 +124,7 @@ function deleteContent({ row, column }) {
 
   // case 2: child node 한개 => case 1 ==> 자식이 있을 때, 부모와 최하위 자식과 자리 변경
   /**
-   *  본인과 최 하위 자식의 dataset.self 값 변경
+   *  본인과 최 하위 자식의 dataset.value 값 변경
    */
   smaller = getContent(row + 1, column * 2);
   bigger = getContent(row + 1, column * 2 + 1);
@@ -173,9 +173,9 @@ function getLeafChildNode(row, column, childType) {
 }
 
 function changeContent(target, source) {
-  const temp = target.dataset.self;
-  target.dataset.self = source.dataset.self;
-  source.dataset.self = temp;
+  const temp = target.dataset.value;
+  target.dataset.value = source.dataset.value;
+  source.dataset.value = temp;
   return source;
 }
 
@@ -216,7 +216,7 @@ function renderInputValueContainer() {
 
   const input = createElement("input");
   input.type = "number";
-  input.value = 54;
+  input.value = getRandomValue();
   input.id = TREEINPUTVALUEID;
 
   inputValueContainer.appendChild(label);
@@ -294,7 +294,7 @@ export const renderModule = () => {
   addRowContainer();
 
   // Add Root Value
-  addRootValue();
+  addValueContent(ROOTVALUE, 0, 0);
 };
 
 function addRowContainer() {
@@ -323,24 +323,6 @@ function addColumn(rowContainer, rowNumber = 0) {
   }
 }
 
-function addRootValue() {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
-
-  const row = mainContainer.childNodes[0];
-  const column = row.childNodes[0];
-  column.dataset.columnNumber = 0;
-
-  const valueContent = createSpanElement();
-  //valueContent.innerText = ROOTVALUE;
-  valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
-  valueContent.id = ROOTNODEID;
-  valueContent.dataset.self = ROOTVALUE;
-
-  column.appendChild(valueContent);
-}
-
 function addValueContent(inputValue, row, column) {
   const mainContainer = document.querySelector(
     `.${MODULENAME}__main-container`
@@ -351,7 +333,7 @@ function addValueContent(inputValue, row, column) {
   const valueContent = createSpanElement();
   //valueContent.innerText = inputValue;
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
-  valueContent.dataset.self = inputValue;
+  valueContent.dataset.value = inputValue;
 
   columnContainer.appendChild(valueContent);
 
@@ -370,12 +352,12 @@ function connectContents(row, column) {
 
   /*
   if (childState) {
-    parentNode.dataset.bigger = childNode.dataset.self;
+    parentNode.dataset.bigger = childNode.dataset.value;
   } else {
-    parentNode.dataset.smaller = childNode.dataset.self;
+    parentNode.dataset.smaller = childNode.dataset.value;
   }
 
-  childNode.dataset.parent = parentNode.dataset.self;
+  childNode.dataset.parent = parentNode.dataset.value;
   */
 
   const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;

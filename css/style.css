@@ -4,8 +4,9 @@
 @import url("/css/module/linkedlist.css");
 @import url("/css/module/hashtable.css");
 @import url("/css/module/tree.css");
+@import url("/css/module/heap.css");
 
-:root  {
+:root {
   --controller-width: 200px;
   --linkedlist-content-width: 60px;
   --linkedlist-content-height: var(--linkedlist-content-width);
