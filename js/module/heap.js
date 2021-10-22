@@ -19,9 +19,10 @@ const insertButtonEventHandler = (e) => {
   const input = document.getElementById(HEAPINPUTVALUEID);
   const { value } = input;
   const { row, column } = pushInputValue(value, 0, 0);
-  connectContents(row, column);
-  compareToParent(row, column);
-  console.log(row, column);
+  if (row !== 0) {
+    connectContents(row, column);
+    compareToParent(row, column);
+  }
   input.value = getRandomValue();
 };
 
@@ -30,19 +31,121 @@ function pushInputValue(value) {
     `.${MODULENAME}__main-container`
   );
   const rowCounter = mainContainer.childNodes.length;
-  const childNodes = mainContainer.lastChild.childNodes;
-  const ll = childNodes.length;
+  if (rowCounter === 0) {
+    // Add Root Row
+    addRowContainer();
 
-  for (let columnIndex = 0; columnIndex < ll; columnIndex++) {
-    if (!childNodes[columnIndex].hasChildNodes()) {
-      addValueContent(value, rowCounter - 1, columnIndex);
-      return { row: rowCounter - 1, column: columnIndex };
+    // Add Root Value
+    addValueContent(value, 0, 0);
+    return { row: 0, column: 0 };
+  } else {
+    const childNodes = mainContainer.lastChild.childNodes;
+    const ll = childNodes.length;
+
+    for (let columnIndex = 0; columnIndex < ll; columnIndex++) {
+      if (!childNodes[columnIndex].hasChildNodes()) {
+        addValueContent(value, rowCounter - 1, columnIndex);
+        return { row: rowCounter - 1, column: columnIndex };
+      }
+    }
+    addRowContainer();
+
+    addValueContent(value, rowCounter, 0);
+    return { row: rowCounter, column: 0 };
+  }
+}
+
+const popButtonEventHandler = (e) => {
+  heapPop();
+};
+
+function heapPop() {
+  const deleteContent = getLastValue();
+
+  if (deleteContent) {
+    changeRootContent(deleteContent);
+
+    sortHeap(0, 0);
+  }
+}
+
+function getLastValue() {
+  const mainContainer = document.querySelector(
+    `.${MODULENAME}__main-container`
+  );
+
+  const rowIndex = mainContainer.childNodes.length - 1;
+  const columns = mainContainer.childNodes[rowIndex].childNodes;
+  for (let columnIndex = columns.length - 1; columnIndex >= 0; columnIndex--) {
+    let column = columns[columnIndex];
+    if (column.hasChildNodes()) {
+      let value = column.childNodes[0].dataset.value;
+      return {
+        column: columnIndex,
+        row: rowIndex,
+        value,
+      };
     }
   }
-  addRowContainer();
+  return undefined;
+}
 
-  addValueContent(value, rowCounter, 0);
-  return { row: rowCounter, column: 0 };
+function changeRootContent({ row, column, value }) {
+  const deleteContent = getContent(row, column);
+  const rootContent = getContent(0, 0);
+  rootContent.dataset.value = value;
+
+  const deleteLine = document.querySelector(`[id*='${row}_${column}']`);
+  if (deleteLine) deleteLine.remove();
+  if (column === 0) {
+    deleteContent.parentNode.parentNode.remove();
+  }
+  deleteContent.remove();
+}
+
+function sortHeap(row, column) {
+  const content = getContent(row, column);
+  if (!content) return;
+  const value = content.dataset.value;
+  const child1 = getContent(row + 1, column * 2);
+  const child2 = getContent(row + 1, column * 2 + 1);
+
+  if (child1 && child2) {
+    const value1 = child1.dataset.value;
+    const value2 = child2.dataset.value;
+
+    if (
+      parseInt(value1) < parseInt(value2) &&
+      parseInt(value) < parseInt(value2)
+    ) {
+      // 2 와 바꿈
+      changeContent(content, child2);
+      sortHeap(row + 1, column * 2 + 1);
+    } else if (
+      parseInt(value2) < parseInt(value1) &&
+      parseInt(value) < parseInt(value1)
+    ) {
+      // 1 과 바꿈
+      changeContent(content, child1);
+      sortHeap(row + 1, column * 2);
+    }
+  } else if (child1 || child2) {
+    if (child1) {
+      const value1 = child1.dataset.value;
+      if (parseInt(value) < parseInt(value1)) {
+        // 1과 바꿈
+        changeContent(content, child1);
+        sortHeap(row + 1, column * 2);
+      }
+    } else {
+      const value2 = child2.dataset.value;
+      if (parseInt(value) < parseInt(value2)) {
+        // 2와 바꿈
+        changeContent(content, child2);
+        sortHeap(row + 1, column * 2 + 1);
+      }
+    }
+  }
 }
 
 export const CONTROLMENU = [];
@@ -107,7 +210,7 @@ function renderHeapButtonContainer() {
   const insert = document.createElement("input");
   insert.type = "button";
   insert.value = "Pop";
-  //insert.addEventListener("click", inputButtonEventHandler);
+  insert.addEventListener("click", popButtonEventHandler);
 
   //const del = document.createElement("input");
   //del.type = "button";
