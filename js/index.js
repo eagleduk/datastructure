@@ -64,12 +64,22 @@ async function moduleLoader(module) {
   importModule.renderModule();
 }
 
+function moduleSelected(selected) {
+  const modules = document.querySelectorAll("header ul li a");
+  modules.forEach((module) => {
+    module.className = "";
+    if (selected === module.dataset.module) {
+      module.className = "selectedModule";
+    }
+  });
+}
+
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "heap";
-  moduleLoader(module);
+  globalThis.location.href = `#array`;
 });
 
 window.addEventListener("hashchange", (e) => {
   const module = globalThis.location.hash.slice(1);
+  moduleSelected(module);
   moduleLoader(module);
 });
