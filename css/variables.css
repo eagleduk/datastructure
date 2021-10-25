@@ -1,0 +1,12 @@
+:root {
+  /* header */
+  --header-background-color: white;
+  --header-menu-background-color-normal: slateblue;
+  --header-menu-background-color-hover: bisque;
+  --header-menu-background-color-selected: chocolate;
+  --header-menu-text-color: white;
+
+  --controller-width: 200px;
+  --linkedlist-content-width: 60px;
+  --linkedlist-content-height: var(--linkedlist-content-width);
+}

@@ -1,3 +1,5 @@
+@import url("/css/variables.css");
+
 @import url("/css/module/array.css");
 @import url("/css/module/queue.css");
 @import url("/css/module/stack.css");
@@ -5,12 +7,6 @@
 @import url("/css/module/hashtable.css");
 @import url("/css/module/tree.css");
 @import url("/css/module/heap.css");
-
-:root {
-  --controller-width: 200px;
-  --linkedlist-content-width: 60px;
-  --linkedlist-content-height: var(--linkedlist-content-width);
-}
 
 html {
   padding: 0;
@@ -32,6 +28,7 @@ header {
 }
 header nav {
   height: 100%;
+  background-color: var(--header-background-color);
 }
 
 header ul {
@@ -53,15 +50,15 @@ header li a {
   height: 100%;
   text-decoration: none;
   padding: 10px 20px;
-  color: white;
-  background-color: slateblue;
+  color: var(--header-menu-text-color);
+  background-color: var(--header-menu-background-color-normal);
   text-align: center;
   box-sizing: border-box;
   font-size: 1.5rem;
 }
 
 header li a:hover {
-  background-color: bisque;
+  background-color: var(--header-menu-background-color-hover);
 }
 
 header li a:active {
@@ -73,7 +70,7 @@ header li a:visited {
 }
 
 header li a.selectedModule {
-  background-color: chocolate;
+  background-color: var(--header-menu-background-color-selected);
 }
 
 /* main */
