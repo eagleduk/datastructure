@@ -1,11 +1,18 @@
-.module-container div.module-container__control-array {
+div.module-container__control-array {
   background-color: tomato;
   position: absolute;
-  left: var(--controller-width);
   padding: 10px;
 }
 
-.module-container div.module-container__content-array {
+div.module-container__content-array::before {
+  content: "[";
+}
+
+div.module-container__content-array::after {
+  content: "]";
+}
+
+div.module-container__content-array {
   display: flex;
   width: 100%;
   height: 100%;
@@ -18,7 +25,7 @@
   gap: 15px 15px;
 }
 
-.module-container div.module-container__content-array div {
+div.module-container__content-array div {
   text-align: center;
   padding: 20px;
   border: 2px solid black;
@@ -26,20 +33,20 @@
   box-sizing: border-box;
 }
 
-.module-container div.module-container__content-array div:active {
+div.module-container__content-array div:active {
   border-color: yellow;
 }
 
-.module-container__content-array span {
+div.module-container__content-array span {
   display: block;
   padding: 15px;
 }
 
-.module-container__content-array span:first-child {
+div.module-container__content-array span:first-child {
   border-bottom: 2px solid tomato;
 }
 
-.module-container__content-array span:last-child {
+div.module-container__content-array span:last-child {
   font-size: 24px;
   font-weight: bold;
 }

@@ -75,7 +75,7 @@ header li a.selectedModule {
 
 /* main */
 
-main {
+main.content {
   background-color: antiquewhite;
   width: 100vw;
   height: 100%;
@@ -86,40 +86,7 @@ main {
   overflow-y: auto;
 }
 
-section {
+main div.module-container {
   background-color: aquamarine;
   width: 100%;
-}
-
-/* controller */
-article {
-  background-color: aqua;
-  width: var(--controller-width);
-  position: absolute;
-  z-index: 9999;
-}
-
-article li {
-  list-style: none;
-}
-
-article li span {
-  display: block;
-  background-color: darkcyan;
-}
-
-article li span.control-abled {
-  cursor: pointer;
-}
-
-article li span.control-disabled {
-  opacity: 0.5;
-  cursor: text;
-}
-
-/* module */
-section div.module-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
 }

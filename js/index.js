@@ -21,17 +21,63 @@ function createSectionElement() {
   return createElement("section");
 }
 
+function createNumberInputElement(placeholder, defaultValue) {
+  const input = createElement("input");
+  input.type = "number";
+  if (placeholder) input.placeholder = placeholder;
+  if (defaultValue) input.value = defaultValue;
+
+  return input;
+}
+
+function createButton(value = "Done") {
+  const input = document.createElement("input");
+  input.type = "button";
+  input.value = value;
+
+  return input;
+}
+
 const getRandomColor = () => {
   const result = "#" + Math.floor(Math.random() * 16777215).toString(16);
   if (result.length < 7) return getRandomColor();
   return result;
 };
 
-function replaceModule(module, targetTag) {
-  const targetNode = document.querySelector(targetTag);
-  targetNode.replaceChild(module, targetNode.children[0]);
+function renderModuleContent(moduleNode) {
+  const main = document.querySelector("main");
+  if (main.hasChildNodes()) main.removeChild(main.firstChild);
+  main.appendChild(moduleNode);
 }
 
+async function moduleLoader(module = "array") {
+  const importModule = await import(`./module/${module}.js`);
+  importModule.renderModule();
+}
+
+function moduleSelected(selected = "array") {
+  const modules = document.querySelectorAll("header ul li a");
+  modules.forEach((module) => {
+    module.className = "";
+    if (selected === module.dataset.module) {
+      module.className = "selectedModule";
+    }
+  });
+}
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  globalThis.location.href = `#array`;
+  moduleSelected();
+  moduleLoader();
+});
+
+window.addEventListener("hashchange", (e) => {
+  const module = globalThis.location.hash.slice(1);
+  moduleSelected(module);
+  moduleLoader(module);
+});
+
+/*
 function renderController(CONTROLMENU) {
   const ul = document.createElement("ul");
 
@@ -54,32 +100,10 @@ function renderController(CONTROLMENU) {
   replaceModule(div, "article");
 }
 
-function renderModuleContent(moduleNode) {
-  replaceModule(moduleNode, "section");
+function replaceModule(module, targetTag) {
+  const targetNode = document.querySelector(targetTag);
+  targetNode.replaceChild(module, targetNode.children[0]);
 }
 
-async function moduleLoader(module) {
-  const importModule = await import(`./module/${module}.js`);
-  renderController(importModule.CONTROLMENU);
-  importModule.renderModule();
-}
 
-function moduleSelected(selected) {
-  const modules = document.querySelectorAll("header ul li a");
-  modules.forEach((module) => {
-    module.className = "";
-    if (selected === module.dataset.module) {
-      module.className = "selectedModule";
-    }
-  });
-}
-
-window.addEventListener("DOMContentLoaded", (e) => {
-  globalThis.location.href = `#array`;
-});
-
-window.addEventListener("hashchange", (e) => {
-  const module = globalThis.location.hash.slice(1);
-  moduleSelected(module);
-  moduleLoader(module);
-});
+*/

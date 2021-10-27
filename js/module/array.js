@@ -1,74 +1,110 @@
-const MODULECONTENTCLASS = "module-container__content-array";
+const MODULE = "array";
+const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
+const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
-const renderButtonEvent = (e) => {
-  const number = document.querySelector(
-    ".module-container__control-array input[type=number]"
-  ).value;
-  renderContent(number);
+const searchEventHandler = (e) => {
+  e.preventDefault();
+  const {
+    target: {
+      index: { value },
+    },
+  } = e;
+  searchContent(value);
 };
 
-export const CONTROLMENU = [
-  {
-    display: "Render",
-  },
-];
+const pushEventHandler = (e) => {
+  e.preventDefault();
+  const {
+    target: { value },
+  } = e;
+  pushContent(value.value);
 
-/* 배열 사이즈 설정 창 */
+  value.value = getRandomValue();
+};
+
 function renderControlArray() {
-  const lengthValue = document.createElement("input");
-  lengthValue.type = "number";
-  lengthValue.value = DEFAULTLENGTH;
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
+  const controller = document.createElement("div");
 
-  const renderButton = document.createElement("input");
-  renderButton.type = "button";
-  renderButton.value = "Set";
-  renderButton.addEventListener("click", renderButtonEvent);
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchEventHandler);
 
-  const subController = createDivElement();
-  subController.className = "module-container__control-array";
-  subController.appendChild(lengthValue);
-  subController.appendChild(renderButton);
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "Index";
+  index.name = "index";
+  index.required = true;
 
-  return subController;
+  const searchButton = document.createElement("input");
+  searchButton.type = "submit";
+  searchButton.value = "search";
+
+  row1.appendChild(index);
+  row1.appendChild(searchButton);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", pushEventHandler);
+
+  const value = document.createElement("input");
+  value.type = "number";
+  value.placeholder = "Value";
+  value.value = getRandomValue();
+  value.name = "value";
+  value.required = true;
+
+  const push = document.createElement("input");
+  push.type = "submit";
+  push.value = "push";
+
+  row2.appendChild(value);
+  row2.appendChild(push);
+
+  controller.appendChild(row1);
+  controller.appendChild(row2);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = MODULECONTROLCLASS;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+
+  return controlPanel;
 }
 
 /* 배열 본문 창 */
 function renderContentArray() {
-  const moduleContent = createDivElement();
+  const moduleContent = document.createElement("div");
   moduleContent.className = MODULECONTENTCLASS;
   return moduleContent;
 }
 
-/* 배열 그리기 */
-function renderContent(number = DEFAULTLENGTH) {
+function searchContent(index) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-  while (moduleContent.hasChildNodes()) {
-    moduleContent.removeChild(moduleContent.firstChild);
-  }
+  console.log(moduleContent.childNodes[index]);
+}
 
-  for (let index = 0; index < number; index++) {
-    const container = createDivElement();
-    let indexContainer = createSpanElement();
-    indexContainer.innerText = `array[${index}]`;
+function pushContent(value) {
+  const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-    let valueContainer = createSpanElement();
-    valueContainer.innerText = getRandomValue();
+  const container = document.createElement("div");
+  let indexContainer = document.createElement("span");
+  indexContainer.innerText = `${moduleContent.childNodes.length}`;
 
-    container.appendChild(indexContainer);
-    container.appendChild(valueContainer);
+  let valueContainer = document.createElement("span");
+  valueContainer.innerText = value;
 
-    moduleContent.appendChild(container);
-  }
+  container.appendChild(indexContainer);
+  container.appendChild(valueContainer);
+
+  moduleContent.appendChild(container);
 }
 
 export const renderModule = () => {
-  const nodeModule = createDivElement();
+  const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
   nodeModule.appendChild(renderControlArray());
   nodeModule.appendChild(renderContentArray());
 
   renderModuleContent(nodeModule);
-
-  renderContent();
 };
