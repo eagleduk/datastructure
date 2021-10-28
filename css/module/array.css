@@ -1,15 +1,33 @@
 div.module-container__control-array {
   background-color: tomato;
   position: absolute;
-  padding: 10px;
+}
+
+div.module-container__control-array div {
+  padding: 0px 10px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+div.module-container__control-array div.toolbar {
+  height: 20px;
+  background-color: blue;
+}
+
+div.module-container__control-array div form {
+  margin-bottom: 5px;
 }
 
 div.module-container__content-array::before {
   content: "[";
+  font-size: 20px;
+  font-weight: 900;
 }
 
 div.module-container__content-array::after {
   content: "]";
+  font-size: 20px;
+  font-weight: 900;
 }
 
 div.module-container__content-array {
@@ -20,7 +38,7 @@ div.module-container__content-array {
   align-items: center;
   justify-content: center;
   flex-flow: wrap;
-  padding: 80px 20px 20px 20px;
+  padding: 20px 20px 20px 20px;
   box-sizing: border-box;
   gap: 15px 15px;
 }
@@ -28,7 +46,7 @@ div.module-container__content-array {
 div.module-container__content-array div {
   text-align: center;
   padding: 20px;
-  border: 2px solid black;
+  border: 2px solid var(--content-border-color);
   width: 130px;
   box-sizing: border-box;
 }
@@ -43,7 +61,7 @@ div.module-container__content-array span {
 }
 
 div.module-container__content-array span:first-child {
-  border-bottom: 2px solid tomato;
+  border-bottom: 2px solid var(--divider-color);
 }
 
 div.module-container__content-array span:last-child {

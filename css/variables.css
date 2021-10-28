@@ -6,6 +6,31 @@
   --header-menu-background-color-selected: chocolate;
   --header-menu-text-color: white;
 
+  /* content */
+  --content-background-color: aquamarine;
+  --content-border-color: black;
+
+  /* input */
+  --input-submit-normal: aqua;
+  --input-submit-hover: blanchedalmond;
+  --input-submit-active: blueviolet;
+
+  /* button */
+  --btn-insert-normal: blue;
+  --btn-search-normal: gray;
+  --btn-delete-normal: red;
+
+  --btn-insert-hover: blue;
+  --btn-search-hover: gray;
+  --btn-delete-hover: red;
+
+  --btn-insert-active: blue;
+  --btn-search-active: gray;
+  --btn-delete-active: red;
+
+  /* divider */
+  --divider-color: tomato;
+
   --controller-width: 200px;
   --linkedlist-content-width: 60px;
   --linkedlist-content-height: var(--linkedlist-content-width);

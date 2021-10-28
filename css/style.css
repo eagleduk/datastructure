@@ -76,7 +76,6 @@ header li a.selectedModule {
 /* main */
 
 main.content {
-  background-color: antiquewhite;
   width: 100vw;
   height: 100%;
   display: flex;
@@ -87,6 +86,78 @@ main.content {
 }
 
 main div.module-container {
-  background-color: aquamarine;
+  background-color: var(--content-background-color);
   width: 100%;
+}
+
+/* input */
+
+input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 16px;
+}
+
+input[type="number"] {
+  outline: none;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="submit"] {
+  background-color: var(--input-submit-normal);
+  text-transform: uppercase;
+  border: none;
+  margin-left: 15px;
+  cursor: pointer;
+  color: white;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--input-submit-hover);
+}
+
+input[type="submit"]:active {
+  background-color: var(--input-submit-active);
+}
+
+input[type="submit"].insert {
+  background-color: var(--btn-insert-normal);
+}
+
+input[type="submit"].insert:hover {
+  background-color: var(--btn-insert-hover);
+}
+
+input[type="submit"].insert:active {
+  background-color: var(--btn-insert-active);
+}
+
+input[type="submit"].search {
+  background-color: var(--btn-search-normal);
+}
+
+input[type="submit"].search:hover {
+  background-color: var(--btn-search-hover);
+}
+
+input[type="submit"].search:active {
+  background-color: var(--btn-search-active);
+}
+
+input[type="submit"].delete {
+  background-color: var(--btn-delete-normal);
+}
+
+input[type="submit"].delete:hover {
+  background-color: var(--btn-delete-hover);
+}
+
+input[type="submit"].delete:active {
+  background-color: var(--btn-delete-active);
 }

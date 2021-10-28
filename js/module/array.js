@@ -12,7 +12,7 @@ const searchEventHandler = (e) => {
   searchContent(value);
 };
 
-const pushEventHandler = (e) => {
+const insertEventHandler = (e) => {
   e.preventDefault();
   const {
     target: { value },
@@ -25,6 +25,7 @@ const pushEventHandler = (e) => {
 function renderControlArray() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+
   const controller = document.createElement("div");
 
   const row1 = document.createElement("form");
@@ -32,33 +33,35 @@ function renderControlArray() {
 
   const index = document.createElement("input");
   index.type = "number";
-  index.placeholder = "Index";
+  index.placeholder = "input array index";
   index.name = "index";
   index.required = true;
 
-  const searchButton = document.createElement("input");
-  searchButton.type = "submit";
-  searchButton.value = "search";
+  const search = document.createElement("input");
+  search.type = "submit";
+  search.className = "search";
+  search.value = "search";
 
   row1.appendChild(index);
-  row1.appendChild(searchButton);
+  row1.appendChild(search);
 
   const row2 = document.createElement("form");
-  row2.addEventListener("submit", pushEventHandler);
+  row2.addEventListener("submit", insertEventHandler);
 
   const value = document.createElement("input");
   value.type = "number";
-  value.placeholder = "Value";
+  value.placeholder = "input array value";
   value.value = getRandomValue();
   value.name = "value";
   value.required = true;
 
-  const push = document.createElement("input");
-  push.type = "submit";
-  push.value = "push";
+  const insert = document.createElement("input");
+  insert.type = "submit";
+  insert.className = "insert";
+  insert.value = "insert";
 
   row2.appendChild(value);
-  row2.appendChild(push);
+  row2.appendChild(insert);
 
   controller.appendChild(row1);
   controller.appendChild(row2);
