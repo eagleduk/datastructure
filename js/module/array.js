@@ -67,7 +67,7 @@ function renderControlArray() {
   controller.appendChild(row2);
 
   const controlPanel = document.createElement("div");
-  controlPanel.className = MODULECONTROLCLASS;
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
   controlPanel.appendChild(toolbar);
   controlPanel.appendChild(controller);
 

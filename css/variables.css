@@ -7,8 +7,13 @@
   --header-menu-text-color: white;
 
   /* content */
-  --content-background-color: aquamarine;
-  --content-border-color: black;
+  --content-background-normal: aquamarine;
+  --content-background-second: brown;
+  --content-background-third: darkgray;
+  --content-background-fourth: coral;
+
+  --content-border-normal: black;
+  --content-border-active: yellow;
 
   /* input */
   --input-submit-normal: aqua;
@@ -30,6 +35,10 @@
 
   /* divider */
   --divider-color: tomato;
+
+  /* controller */
+  --contoller-background-color: tomato;
+  --toolbar-background-normal: blue;
 
   --controller-width: 200px;
   --linkedlist-content-width: 60px;

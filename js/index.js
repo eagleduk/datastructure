@@ -66,9 +66,10 @@ function moduleSelected(selected = "array") {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  globalThis.location.href = `#array`;
-  moduleSelected();
-  moduleLoader();
+  const module = "queue";
+  globalThis.location.href = `#${module}`;
+  moduleSelected(module);
+  moduleLoader(module);
 });
 
 window.addEventListener("hashchange", (e) => {

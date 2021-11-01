@@ -1,4 +1,6 @@
-const MODULECONTENTCLASS = "module-container__content-stack";
+const MODULE = "stack";
+const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
+const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 const MOVEDURATION = 3 * 1000;
 
 const stackRenderEvent = (e) => {
@@ -14,10 +16,15 @@ const stackRenderEvent = (e) => {
 };
 
 const stackPushEvent = (e) => {
+  e.preventDefault();
+  const {
+    target: { value },
+  } = e;
+
   const enqueueContainer = document.querySelector(
     `.${MODULECONTENTCLASS} .content-stack__left`
   );
-  const valueContent = createValueContent();
+  const valueContent = createValueContent(value.value);
 
   enqueueContainer.appendChild(valueContent);
 
@@ -28,9 +35,13 @@ const stackPushEvent = (e) => {
 
     container.prepend(valueContent);
   }, MOVEDURATION);
+
+  value.value = getRandomValue();
 };
 
 const stackPopEvent = (e) => {
+  e.preventDefault();
+
   const container = document.querySelector(
     `.${MODULECONTENTCLASS} .content-stack__center`
   );
@@ -52,6 +63,50 @@ const stackPopEvent = (e) => {
   }, MOVEDURATION);
 };
 
+function renderControlStack() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
+
+  const controller = document.createElement("div");
+
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", stackPushEvent);
+
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "input array index";
+  index.name = "value";
+  index.required = true;
+
+  const search = document.createElement("input");
+  search.type = "submit";
+  search.className = "insert";
+  search.value = "push";
+
+  row1.appendChild(index);
+  row1.appendChild(search);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", stackPopEvent);
+
+  const insert = document.createElement("input");
+  insert.type = "submit";
+  insert.className = "delete";
+  insert.value = "pop";
+
+  row2.appendChild(insert);
+
+  controller.appendChild(row1);
+  controller.appendChild(row2);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+
+  return controlPanel;
+}
+
 export const CONTROLMENU = [
   {
     display: "Render",
@@ -70,11 +125,12 @@ export const CONTROLMENU = [
   },
 ];
 
-function createValueContent() {
-  const div = createDivElement();
-  div.className = "stack__content-value";
+function createValueContent(value) {
+  const div = document.createElement("div");
+  div.className = "stack__content-value value-content";
+  div.dataset.value = value;
 
-  div.innerText = getRandomValue();
+  // div.innerText = getRandomValue();
 
   return div;
 }
@@ -85,9 +141,8 @@ function renderContent(queueMiddle) {
     queueMiddle.appendChild(valueContainer);
   }
 }
-
-function renderContentContainer() {
-  const container = createDivElement();
+function renderContentStack() {
+  const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
 
   container.appendChild(renderContentStackLeft());
@@ -98,33 +153,34 @@ function renderContentContainer() {
 }
 
 function renderContentStackLeft() {
-  const queueTop = createDivElement();
+  const queueTop = document.createElement("div");
   queueTop.className = "content-stack content-stack__left";
 
   return queueTop;
 }
 
 function renderContentStackCenter() {
-  const queueMiddle = createDivElement();
+  const queueMiddle = document.createElement("div");
   queueMiddle.className = "content-stack content-stack__center";
 
-  renderContent(queueMiddle);
+  // renderContent(queueMiddle);
 
   return queueMiddle;
 }
 
 function renderContentStackRight() {
-  const queueBottom = createDivElement();
+  const queueBottom = document.createElement("div");
   queueBottom.className = "content-stack content-stack__right";
 
   return queueBottom;
 }
 
 export const renderModule = () => {
-  const nodeModule = createDivElement();
+  const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 
-  nodeModule.appendChild(renderContentContainer());
+  nodeModule.appendChild(renderControlStack());
+  nodeModule.appendChild(renderContentStack());
 
   renderModuleContent(nodeModule);
 };

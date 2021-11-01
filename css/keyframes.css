@@ -1,0 +1,5 @@
+@keyframes blink-effect {
+  50% {
+    opacity: 0;
+  }
+}
