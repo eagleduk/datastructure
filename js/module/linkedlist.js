@@ -1,6 +1,8 @@
 const CONTENTWIDTH = 60;
+const MODULE = "linkedlist";
 const CONTENTID = "linkedlist_";
-const MODULECONTENTCLASS = "module-container__content-linkedlist";
+const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
+const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
 let SEQ = 0;
 
@@ -11,15 +13,17 @@ const linkedlistRenderEvent = (e) => {
   renderContent();
 };
 
-const contentSelectEvent = (e) => {
+const backgroundClickEventHandler = (e) => {
   // 선택 초기화
   document
     .querySelector("div.linkedlist__content-value.selected")
     ?.classList.remove("selected");
+  console.log("EEE");
+};
 
+const contentSelectEventHandler = (e) => {
+  e.stopPropagation();
   e.target.classList.add("selected");
-  const menus = document.querySelectorAll("article span.control-disabled");
-  menus.forEach((menu) => menu.classList.remove("control-disabled"));
 };
 
 const prevInsertContentEvent = (e) => {
@@ -106,15 +110,15 @@ export const CONTROLMENU = [
   },
 ];
 
+// 연결된 라인 삭제
 function deleteLine(fromID, toID) {
-  // 연결된 라인 삭제
   const deleteLineID = `${fromID}--${toID}`;
   const deleteLine = document.querySelector(`line#${deleteLineID}`);
   deleteLine?.remove();
 }
 
+// 새로운 컨텐츠 추가
 function insertContent(prevContentID, currentContentID) {
-  // 새로운 컨텐츠 추가
   const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
   const { clientWidth, clientHeight } = moduleContainer;
   const valueContent = createValueContent(
@@ -212,9 +216,9 @@ function renderContentConnection(prev, current, next) {
 }
 
 function createValueContent(x, y) {
-  const div = createDivElement();
-  div.className = "linkedlist__content-value";
-  div.addEventListener("click", contentSelectEvent);
+  const div = document.createElement("div");
+  div.className = "linkedlist__content-value value-content";
+  div.addEventListener("click", contentSelectEventHandler);
 
   div.id = `${CONTENTID}${SEQ++}`;
 
@@ -249,14 +253,54 @@ function renderContent(number = DEFAULTLENGTH) {
 }
 
 function renderContentContainer() {
-  const container = createDivElement();
+  const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
+  container.addEventListener("click", backgroundClickEventHandler);
   return container;
+}
+
+function renderDefaultContent() {
+  const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
+
+  const { clientWidth, clientHeight } = moduleContainer;
+
+  const valueContent = document.createElement("div");
+  valueContent.className = "linkedlist__content-value value-content";
+  valueContent.addEventListener("click", contentSelectEventHandler);
+  valueContent.id = `${MODULE}_${SEQ++}`;
+
+  const top = (clientHeight - CONTENTWIDTH) / 2;
+  const left = (clientWidth - CONTENTWIDTH) / 2;
+
+  valueContent.style.top = top + "px";
+  valueContent.style.left = left + "px";
+  valueContent.dataset.value = getRandomValue();
+
+  const prev = document.createElement("input");
+  prev.type = "button";
+  prev.value = "prev";
+  prev.addEventListener("click", prevInsertContentEvent);
+
+  const del = document.createElement("input");
+  del.type = "button";
+  del.value = "del";
+  del.addEventListener("click", deleteContentEvent);
+
+  const next = document.createElement("input");
+  next.type = "button";
+  next.value = "next";
+  next.addEventListener("click", nextInsertContentEvent);
+
+  valueContent.appendChild(prev);
+  valueContent.appendChild(del);
+  valueContent.appendChild(next);
+
+  moduleContainer.appendChild(valueContent);
 }
 
 export const renderModule = () => {
   SEQ = 0;
-  const nodeModule = createDivElement();
+  const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 
   const svg = document.createElementNS(NSADDRESS, "svg");
@@ -267,5 +311,5 @@ export const renderModule = () => {
 
   renderModuleContent(nodeModule);
 
-  renderContent();
+  renderDefaultContent();
 };

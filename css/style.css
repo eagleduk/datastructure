@@ -203,13 +203,14 @@ input[type="submit"].delete:active {
 .value-content {
   width: 2em;
   height: 2em;
-  border: 2px solid var(--content-border-normal);
+  border: 2px solid var(--value-border-normal);
   padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2em;
   border-radius: 50%;
+  box-sizing: border-box;
 }
 
 .value-content::before {

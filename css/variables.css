@@ -6,14 +6,21 @@
   --header-menu-background-color-selected: chocolate;
   --header-menu-text-color: white;
 
-  /* content */
+  /* background */
   --content-background-normal: aquamarine;
   --content-background-second: brown;
   --content-background-third: darkgray;
   --content-background-fourth: coral;
 
+  /* content */
+  --value-background-normal: darksalmon;
+
+  --value-border-normal: khaki;
+  --value-border-selected: lightsalmon;
+  --value-border-active: yellow;
+
+  /* border */
   --content-border-normal: black;
-  --content-border-active: yellow;
 
   /* input */
   --input-submit-normal: aqua;

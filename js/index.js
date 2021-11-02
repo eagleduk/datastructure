@@ -66,7 +66,7 @@ function moduleSelected(selected = "array") {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "queue";
+  const module = "linkedlist";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);
