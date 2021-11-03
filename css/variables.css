@@ -42,6 +42,8 @@
 
   /* divider */
   --divider-color: tomato;
+  --divider-from-color: teal;
+  --divider-to-color: red;
 
   /* controller */
   --contoller-background-color: tomato;

@@ -32,17 +32,26 @@ div.module-container__content-linkedlist {
 .value-content.linkedlist__content-value.selected input[type="button"] {
   display: flex;
   position: absolute;
-  top: -40px;
+  top: -27px;
   font-size: 8px;
+  left: -10px;
 }
 
 .value-content.linkedlist__content-value.selected
   input[type="button"]:first-child {
-  left: -30px;
+  left: -60px;
 }
 .value-content.linkedlist__content-value.selected
   input[type="button"]:last-child {
-  left: 30px;
+  left: 32px;
+}
+
+linearGradient > stop:first-child {
+  stop-color: var(--divider-from-color);
+}
+
+linearGradient > stop:last-child {
+  stop-color: var(--divider-to-color);
 }
 
 /* 

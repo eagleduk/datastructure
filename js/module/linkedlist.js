@@ -1,28 +1,27 @@
 const CONTENTWIDTH = 60;
+
 const MODULE = "linkedlist";
-const CONTENTID = "linkedlist_";
+const SVGID = "line-svg";
+
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
 let SEQ = 0;
 
-const linkedlistRenderEvent = (e) => {
-  SEQ = 0;
-  const svg = document.querySelector("svg#line-svg");
-  while (svg.hasChildNodes()) svg.removeChild(svg.firstChild);
-  renderContent();
-};
-
-const backgroundClickEventHandler = (e) => {
+const clearContentSelected = () => {
   // 선택 초기화
   document
     .querySelector("div.linkedlist__content-value.selected")
     ?.classList.remove("selected");
-  console.log("EEE");
+};
+
+const backgroundClickEventHandler = (e) => {
+  clearContentSelected();
 };
 
 const contentSelectEventHandler = (e) => {
   e.stopPropagation();
+  clearContentSelected();
   e.target.classList.add("selected");
 };
 
@@ -37,7 +36,7 @@ const prevInsertContentEvent = (e) => {
     dataset: { prev: prevContentID },
     id: currentContentID,
   } = selectedContent;
-
+  console.log(prevContentID, currentContentID);
   deleteLine(prevContentID, currentContentID);
   insertContentBefore(prevContentID, currentContentID);
 };
@@ -75,8 +74,8 @@ const deleteContentEvent = (e) => {
 
   if (prevContentID && nextContentID)
     renderContentConnection(
-      prevContentID.replace(CONTENTID, ""),
-      nextContentID.replace(CONTENTID, "")
+      prevContentID.replace(MODULE, ""),
+      nextContentID.replace(MODULE, "")
     );
 
   selectedContent.remove();
@@ -87,29 +86,6 @@ const deleteContentEvent = (e) => {
   resetMenu.forEach((menu) => menu.classList.add("control-disabled"));
 };
 
-export const CONTROLMENU = [
-  {
-    display: "Render",
-    event: linkedlistRenderEvent,
-    css: "control-abled render",
-  },
-  {
-    display: "Prev Insert",
-    event: prevInsertContentEvent,
-    css: "control-abled control-disabled",
-  },
-  {
-    display: "Next Insert",
-    event: nextInsertContentEvent,
-    css: "control-abled control-disabled",
-  },
-  {
-    display: "Delete",
-    event: deleteContentEvent,
-    css: "control-abled control-disabled",
-  },
-];
-
 // 연결된 라인 삭제
 function deleteLine(fromID, toID) {
   const deleteLineID = `${fromID}--${toID}`;
@@ -117,65 +93,48 @@ function deleteLine(fromID, toID) {
   deleteLine?.remove();
 }
 
-// 새로운 컨텐츠 추가
-function insertContent(prevContentID, currentContentID) {
-  const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
-  const { clientWidth, clientHeight } = moduleContainer;
-  const valueContent = createValueContent(
-    clientWidth - CONTENTWIDTH,
-    clientHeight - CONTENTWIDTH
-  );
-  document.querySelector(`#${currentContentID}`).before(valueContent);
-
-  // 라인 추가
-  const newContentID = valueContent.id;
-  renderContentConnection(
-    prevContentID?.replace(CONTENTID, ""),
-    newContentID?.replace(CONTENTID, ""),
-    currentContentID?.replace(CONTENTID, "")
-  );
-}
-
+// 새로운 컨텐츠 추가 - Prev
 function insertContentBefore(prevContentID, currentContentID) {
-  // 새로운 컨텐츠 추가
   const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
   const { clientWidth, clientHeight } = moduleContainer;
+
   const valueContent = createValueContent(
-    clientWidth - CONTENTWIDTH,
-    clientHeight - CONTENTWIDTH
+    getRandomValue(clientHeight - CONTENTWIDTH),
+    getRandomValue(clientWidth - CONTENTWIDTH)
   );
   document.querySelector(`#${currentContentID}`).before(valueContent);
 
   // 라인 추가
   const newContentID = valueContent.id;
   renderContentConnection(
-    prevContentID?.replace(CONTENTID, ""),
-    newContentID?.replace(CONTENTID, ""),
-    currentContentID?.replace(CONTENTID, "")
+    prevContentID?.replace(MODULE, ""),
+    newContentID?.replace(MODULE, ""),
+    currentContentID?.replace(MODULE, "")
   );
 }
 
+// 새로운 컨텐츠 추가 - Next
 function insertContentAfter(prevContentID, currentContentID) {
-  // 새로운 컨텐츠 추가
   const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
   const { clientWidth, clientHeight } = moduleContainer;
   const valueContent = createValueContent(
-    clientWidth - CONTENTWIDTH,
-    clientHeight - CONTENTWIDTH
+    getRandomValue(clientHeight - CONTENTWIDTH),
+    getRandomValue(clientWidth - CONTENTWIDTH)
   );
   document.querySelector(`#${prevContentID}`).after(valueContent);
 
   // 라인 추가
   const newContentID = valueContent.id;
+  console.log(prevContentID, newContentID, currentContentID);
   renderContentConnection(
-    prevContentID?.replace(CONTENTID, ""),
-    newContentID?.replace(CONTENTID, ""),
-    currentContentID?.replace(CONTENTID, "")
+    prevContentID?.replace(MODULE, ""),
+    newContentID?.replace(MODULE, ""),
+    currentContentID?.replace(MODULE, "")
   );
 }
 
 function renderConnection(prev, next) {
-  const svg = document.querySelector("svg#line-svg");
+  const svg = document.querySelector(`svg#${SVGID}`);
   const { offsetLeft: fromLeft, offsetTop: formTop, id: fromId } = prev;
   const { offsetLeft: toLeft, offsetTop: toTop, id: toId } = next;
 
@@ -185,70 +144,37 @@ function renderConnection(prev, next) {
   }
   const color = getRandomColor();
   const line = document.createElementNS(NSADDRESS, "line");
+
   line.setAttribute("x1", fromLeft + CONTENTWIDTH / 2);
   line.setAttribute("y1", formTop + CONTENTWIDTH / 2);
+
   line.setAttribute("x2", toLeft + CONTENTWIDTH / 2);
   line.setAttribute("y2", toTop + CONTENTWIDTH / 2);
-  line.style.stroke = color;
+
+  line.style.stroke = "url(#TEST)";
   line.style.strokeWidth = 5;
   line.style.strokeOpacity = 1;
   line.id = lineId;
   line.dataset.color = color;
+
   svg.appendChild(line);
 }
 
 function renderContentConnection(prev, current, next) {
-  const currentContent = document.querySelector(`div#${CONTENTID}${current}`);
+  const currentContent = document.querySelector(`div#${MODULE}${current}`);
 
-  const prevContent = document.querySelector(`div#${CONTENTID}${prev}`);
+  const prevContent = document.querySelector(`div#${MODULE}${prev}`);
   if (prevContent) {
-    currentContent.dataset.prev = `${CONTENTID}${prev}`;
-    prevContent.dataset.next = `${CONTENTID}${current}`;
+    currentContent.dataset.prev = `${MODULE}${prev}`;
+    prevContent.dataset.next = `${MODULE}${current}`;
     renderConnection(prevContent, currentContent);
   }
 
-  const nextContent = document.querySelector(`div#${CONTENTID}${next}`);
+  const nextContent = document.querySelector(`div#${MODULE}${next}`);
   if (nextContent) {
-    currentContent.dataset.next = `${CONTENTID}${next}`;
-    nextContent.dataset.prev = `${CONTENTID}${current}`;
+    currentContent.dataset.next = `${MODULE}${next}`;
+    nextContent.dataset.prev = `${MODULE}${current}`;
     renderConnection(currentContent, nextContent);
-  }
-}
-
-function createValueContent(x, y) {
-  const div = document.createElement("div");
-  div.className = "linkedlist__content-value value-content";
-  div.addEventListener("click", contentSelectEventHandler);
-
-  div.id = `${CONTENTID}${SEQ++}`;
-
-  const top = getRandomValue(y);
-  const left = getRandomValue(x);
-
-  div.style.top = top + "px";
-  div.style.left = left + "px";
-  div.innerText = getRandomValue();
-
-  return div;
-}
-
-function renderContent(number = DEFAULTLENGTH) {
-  const moduleContainer = document.querySelector(`div.${MODULECONTENTCLASS}`);
-
-  while (moduleContainer.hasChildNodes()) {
-    moduleContainer.removeChild(moduleContainer.firstChild);
-  }
-
-  const { clientWidth, clientHeight } = moduleContainer;
-
-  for (let index = 0; index < number; index++) {
-    const valueContent = createValueContent(
-      clientWidth - CONTENTWIDTH,
-      clientHeight - CONTENTWIDTH
-    );
-    moduleContainer.appendChild(valueContent);
-
-    renderContentConnection(index - 1, index);
   }
 }
 
@@ -264,13 +190,18 @@ function renderDefaultContent() {
 
   const { clientWidth, clientHeight } = moduleContainer;
 
+  const top = (clientHeight - CONTENTWIDTH) / 2;
+  const left = (clientWidth - CONTENTWIDTH) / 2;
+  const valueContent = createValueContent(top, left);
+
+  moduleContainer.appendChild(valueContent);
+}
+
+function createValueContent(top, left) {
   const valueContent = document.createElement("div");
   valueContent.className = "linkedlist__content-value value-content";
   valueContent.addEventListener("click", contentSelectEventHandler);
-  valueContent.id = `${MODULE}_${SEQ++}`;
-
-  const top = (clientHeight - CONTENTWIDTH) / 2;
-  const left = (clientWidth - CONTENTWIDTH) / 2;
+  valueContent.id = `${MODULE}${SEQ++}`;
 
   valueContent.style.top = top + "px";
   valueContent.style.left = left + "px";
@@ -278,16 +209,19 @@ function renderDefaultContent() {
 
   const prev = document.createElement("input");
   prev.type = "button";
+  prev.className = "insert";
   prev.value = "prev";
   prev.addEventListener("click", prevInsertContentEvent);
 
   const del = document.createElement("input");
   del.type = "button";
+  del.className = "delete";
   del.value = "del";
   del.addEventListener("click", deleteContentEvent);
 
   const next = document.createElement("input");
   next.type = "button";
+  next.className = "insert";
   next.value = "next";
   next.addEventListener("click", nextInsertContentEvent);
 
@@ -295,7 +229,32 @@ function renderDefaultContent() {
   valueContent.appendChild(del);
   valueContent.appendChild(next);
 
-  moduleContainer.appendChild(valueContent);
+  return valueContent;
+}
+
+function createSVGCanvas() {
+  const svg = document.createElementNS(NSADDRESS, "svg");
+  svg.id = SVGID;
+
+  const linearGradient = document.createElementNS(NSADDRESS, "linearGradient");
+  linearGradient.id = "TEST";
+  linearGradient.setAttribute("x1", "0%");
+  linearGradient.setAttribute("y1", "0%");
+  linearGradient.setAttribute("x2", "100%");
+  linearGradient.setAttribute("y2", "100%");
+
+  const stop1 = document.createElementNS(NSADDRESS, "stop");
+  stop1.setAttribute("offset", "0%");
+
+  const stop2 = document.createElementNS(NSADDRESS, "stop");
+  stop2.setAttribute("offset", "100%");
+
+  linearGradient.appendChild(stop1);
+  linearGradient.appendChild(stop2);
+
+  svg.appendChild(linearGradient);
+
+  return svg;
 }
 
 export const renderModule = () => {
@@ -303,8 +262,7 @@ export const renderModule = () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 
-  const svg = document.createElementNS(NSADDRESS, "svg");
-  svg.id = "line-svg";
+  const svg = createSVGCanvas();
 
   nodeModule.appendChild(svg);
   nodeModule.appendChild(renderContentContainer());

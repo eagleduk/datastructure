@@ -122,6 +122,7 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
+input[type="button"],
 input[type="submit"] {
   background-color: var(--input-submit-normal);
   text-transform: uppercase;
@@ -132,46 +133,57 @@ input[type="submit"] {
   /* font-family: "Lucida Console"; */
 }
 
+input[type="button"]:hover,
 input[type="submit"]:hover {
   background-color: var(--input-submit-hover);
 }
 
+input[type="button"]:active,
 input[type="submit"]:active {
   background-color: var(--input-submit-active);
 }
 
+input[type="button"].insert,
 input[type="submit"].insert {
   background-color: var(--btn-insert-normal);
 }
 
+input[type="button"].insert:hover,
 input[type="submit"].insert:hover {
   background-color: var(--btn-insert-hover);
 }
 
+input[type="button"].insert:active,
 input[type="submit"].insert:active {
   background-color: var(--btn-insert-active);
 }
 
+input[type="button"].search,
 input[type="submit"].search {
   background-color: var(--btn-search-normal);
 }
 
+input[type="button"].search:hover,
 input[type="submit"].search:hover {
   background-color: var(--btn-search-hover);
 }
 
+input[type="button"].search:active,
 input[type="submit"].search:active {
   background-color: var(--btn-search-active);
 }
 
+input[type="button"].delete,
 input[type="submit"].delete {
   background-color: var(--btn-delete-normal);
 }
 
+input[type="button"].delete:hover,
 input[type="submit"].delete:hover {
   background-color: var(--btn-delete-hover);
 }
 
+input[type="button"].delete:active,
 input[type="submit"].delete:active {
   background-color: var(--btn-delete-active);
 }
