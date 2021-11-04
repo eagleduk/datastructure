@@ -26,6 +26,7 @@ const contentSelectEventHandler = (e) => {
 };
 
 const prevInsertContentEvent = (e) => {
+  e.stopPropagation();
   const selectedContent = document.querySelector(
     "div.linkedlist__content-value.selected"
   );
@@ -42,6 +43,7 @@ const prevInsertContentEvent = (e) => {
 };
 
 const nextInsertContentEvent = (e) => {
+  e.stopPropagation();
   const selectedContent = document.querySelector(
     "div.linkedlist__content-value.selected"
   );
@@ -58,6 +60,7 @@ const nextInsertContentEvent = (e) => {
 };
 
 const deleteContentEvent = (e) => {
+  e.stopPropagation();
   const selectedContent = document.querySelector(
     "div.linkedlist__content-value.selected"
   );
@@ -125,7 +128,6 @@ function insertContentAfter(prevContentID, currentContentID) {
 
   // 라인 추가
   const newContentID = valueContent.id;
-  console.log(prevContentID, newContentID, currentContentID);
   renderContentConnection(
     prevContentID?.replace(MODULE, ""),
     newContentID?.replace(MODULE, ""),
@@ -178,7 +180,7 @@ function renderContentConnection(prev, current, next) {
   }
 }
 
-function renderContentContainer() {
+function renderContentLinkedList() {
   const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
   container.addEventListener("click", backgroundClickEventHandler);
@@ -265,7 +267,7 @@ export const renderModule = () => {
   const svg = createSVGCanvas();
 
   nodeModule.appendChild(svg);
-  nodeModule.appendChild(renderContentContainer());
+  nodeModule.appendChild(renderContentLinkedList());
 
   renderModuleContent(nodeModule);
 

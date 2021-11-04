@@ -53,21 +53,3 @@ linearGradient > stop:first-child {
 linearGradient > stop:last-child {
   stop-color: var(--divider-to-color);
 }
-
-/* 
-.linkedlist__content-value:first-child {
-  border-color: red;
-}
-
-.linkedlist__content-value:last-child {
-  border-color: orange;
-}
-
-.linkedlist__content-value:first-child::before {
-  content: "";
-}
-
-.linkedlist__content-value.selected {
-  border-color: yellowgreen;
-}
-*/
