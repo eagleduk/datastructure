@@ -1,146 +1,40 @@
-.module-container div.module-container__content-hashtable {
+div.module-container__content-hashtable {
   display: flex;
   height: 100%;
   flex-direction: column;
 }
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container {
-  width: 100%;
-  height: 150px;
-  background-color: brown;
-  box-sizing: border-box;
-  z-index: 9999;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  text-align: center;
-}
 
-:is(div.hash-container__hash-key, div.hash-container__hash-value) div {
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key {
-  background-color: aliceblue;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-value {
-  padding: 15px;
-  box-sizing: border-box;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:first-child {
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:first-child
-  input[type="number"] {
-  padding: 10px 10px;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:nth-child(2) {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 15px;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:nth-child(2)
-  input[type="button"] {
-  display: block;
-  font-size: 1rem;
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:nth-child(3) {
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__hash-container
-  div.hash-container__hash-key
-  div:last-child {
-}
-
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container {
+div.module-container__content-hashtable {
   width: 100%;
   height: 100%;
-  /* background-color: coral; */
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section {
+div.module-container__content-hashtable section {
   flex-basis: 120px;
-  background-color: violet;
+  background-color: var(--content-background-second);
   padding: 15px;
   box-sizing: border-box;
   display: flex;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section:nth-child(2n) {
-  background-color: steelblue;
+div.module-container__content-hashtable section:nth-child(2n) {
+  background-color: (--content-background-third);
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:first-child {
-  background-color: darkgray;
+div.module-container__content-hashtable section > div:first-child {
+  background-color: var(--content-background-fourth);
   width: 200px;
 }
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:last-child {
-  background-color: whitesmoke;
+div.module-container__content-hashtable section > div:last-child {
+  background-color: var(--content-background-fifth);
   margin-left: 20px;
   width: 100%;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div {
+div.module-container__content-hashtable section > div {
   display: flex;
   flex-direction: row;
   justify-content: start;
@@ -148,11 +42,7 @@
   overflow-x: auto;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:first-child {
+div.module-container__content-hashtable section > div:first-child {
   box-sizing: border-box;
   display: flex;
   justify-content: center;
@@ -160,39 +50,27 @@
   font-size: 24px;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:first-child.selectedKey {
-  border: 5px solid yellow;
+div.module-container__content-hashtable section > div:first-child.selectedKey {
+  border: 5px solid var(--value-border-active);
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:last-child::before {
+div.module-container__content-hashtable section > div:last-child::before {
   content: "[";
   margin-right: 10px;
 }
 
-.module-container
-  div.module-container__content-hashtable
-  div.hashtable__main-container
-  section
-  > div:last-child::after {
+div.module-container__content-hashtable section > div:last-child::after {
   content: "]";
 }
 
 .valueArrays div {
   margin-right: 10px;
   box-sizing: border-box;
-  border: 5px solid black;
+  border: 5px solid var(--value-border-normal);
 }
 
 .valueArrays div.searchValue {
-  border: 5px solid red;
+  border: 5px solid var(--value-border-selected);
 }
 
 .valueArrays div h3,

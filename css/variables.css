@@ -8,9 +8,12 @@
 
   /* background */
   --content-background-normal: aquamarine;
+
+  --content-background-first: cornflowerblue;
   --content-background-second: brown;
   --content-background-third: darkgray;
   --content-background-fourth: coral;
+  --content-background-fifth: whitesmoke;
 
   /* content */
   --value-background-normal: darksalmon;
@@ -18,9 +21,6 @@
   --value-border-normal: khaki;
   --value-border-selected: lightsalmon;
   --value-border-active: yellow;
-
-  /* border */
-  --content-border-normal: black;
 
   /* input */
   --input-submit-normal: aqua;
@@ -48,8 +48,4 @@
   /* controller */
   --contoller-background-color: tomato;
   --toolbar-background-normal: blue;
-
-  --controller-width: 200px;
-  --linkedlist-content-width: 60px;
-  --linkedlist-content-height: var(--linkedlist-content-width);
 }

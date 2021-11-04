@@ -1,4 +1,5 @@
 const MODULE = "hashtable";
+const HASHTABLELENGTH = 5;
 
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
@@ -22,12 +23,14 @@ const searchValue = (node, key) => {
 };
 
 const searchButtonEventHandler = (e) => {
-  const { value: key } = document.getElementById(HASHTABLEKEYID);
-  const index = parseInt(key) % DEFAULTLENGTH;
+  e.preventDefault();
 
-  document.getElementById(HASHTABLERESULTID).innerText = index;
+  const { value: key } = e.target.input;
+  const index = parseInt(key) % HASHTABLELENGTH;
 
-  const hashtableRow = document.querySelector(`#${HASHTABLEVALUEROW}${index}`);
+  // document.getElementById(HASHTABLERESULTID).innerText = index;
+  const hashtableRow = document.querySelector(`.${MODULECONTENTCLASS}`)
+    .childNodes[index];
 
   const hashtableRowkey = hashtableRow.querySelector("div:first-child");
   hashtableRowkey.classList.add("selectedKey");
@@ -37,6 +40,7 @@ const searchButtonEventHandler = (e) => {
   );
 
   const nodeIndex = searchValue(hashtableRowValues, key);
+  /*
   let value = `Key[${key}] is not found.`;
   if (nodeIndex > -1) {
     value =
@@ -44,6 +48,7 @@ const searchButtonEventHandler = (e) => {
   }
 
   document.getElementById(HASHTABLEVALUEID).innerText = value;
+  */
 };
 
 const hashtableValueArray = (index, key, value) => {
@@ -83,29 +88,114 @@ const hashtableValueArray = (index, key, value) => {
 };
 
 const putButtonEventHandler = (e) => {
-  const { value: key } = document.getElementById(HASHTABLEKEYID);
-  const index = parseInt(key) % DEFAULTLENGTH;
+  e.preventDefault();
+  const { input } = e.target;
+  const index = parseInt(input.value) % HASHTABLELENGTH;
   const value = getRandomValue();
 
-  document.getElementById(HASHTABLERESULTID).innerText = index;
-  document.getElementById(HASHTABLEVALUEID).innerText = value;
+  hashtableValueArray(index, input.value, value);
 
-  hashtableValueArray(index, key, value);
-
-  document.getElementById(HASHTABLEKEYID).value = getRandomValue();
+  input.value = getRandomValue();
 };
 
-export const CONTROLMENU = [];
+function renderControlHashTable() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
 
-function renderContentContainer() {
+  const controller = document.createElement("div");
+
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchButtonEventHandler);
+
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "input array index";
+  index.name = "input";
+  index.required = true;
+
+  const search = document.createElement("input");
+  search.type = "submit";
+  search.className = "search";
+  search.value = "search";
+
+  row1.appendChild(index);
+  row1.appendChild(search);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", putButtonEventHandler);
+
+  const key = document.createElement("input");
+  key.type = "number";
+  key.placeholder = "input array index";
+  key.name = "input";
+  key.required = true;
+
+  const insert = document.createElement("input");
+  insert.type = "submit";
+  insert.className = "insert";
+  insert.value = "put";
+
+  row2.appendChild(key);
+  row2.appendChild(insert);
+
+  controller.appendChild(row1);
+  controller.appendChild(row2);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+
+  return controlPanel;
+}
+
+function renderContentHashTable() {
   const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
 
-  container.appendChild(renderHashtableHeaderContainer());
-  container.appendChild(renderContentMainContainer());
+  for (let i = 0; i < HASHTABLELENGTH; i++) {
+    container.appendChild(renderContentSection(i));
+  }
 
   return container;
 }
+
+function renderContentSection(index) {
+  const section = document.createElement("section");
+  section.className = `${MODULE}_rows`;
+  section.id = `${HASHTABLEVALUEROW}${index}`;
+  // hashtable__hash
+  section.appendChild(renderContentSectionKeyContainer(index));
+  // hashtable__value
+  section.appendChild(renderContentSectionValueContainer(index));
+  return section;
+}
+
+function renderContentSectionKeyContainer(index) {
+  const container = document.createElement("div");
+  container.innerText = index;
+  return container;
+}
+
+function renderContentSectionValueContainer(index) {
+  const container = document.createElement("div");
+  container.className = HASHTABLEVALUEARRAYCLASS;
+  return container;
+}
+
+export const renderModule = () => {
+  const nodeModule = document.createElement("div");
+  nodeModule.className = "module-container";
+
+  nodeModule.appendChild(renderControlHashTable());
+  nodeModule.appendChild(renderContentHashTable());
+
+  renderModuleContent(nodeModule);
+};
+
+/*
+
+
 
 function renderHashtableHeaderContainer() {
   const hashContainer = document.createElement("div");
@@ -128,6 +218,7 @@ function renderHashtableHeaderHashContainer() {
 
   return hashKeyContainer;
 }
+
 
 function renderHashtableHeaderHashKeyContainer() {
   const container = document.createElement("div");
@@ -210,42 +301,13 @@ function renderContentMainContainer() {
   const mainContainer = document.createElement("div");
   mainContainer.className = "hashtable__main-container";
 
-  for (let i = 0; i < DEFAULTLENGTH; i++) {
+  for (let i = 0; i < HASHTABLELENGTH; i++) {
     mainContainer.appendChild(renderContentSection(i));
   }
 
   return mainContainer;
 }
 
-function renderContentSection(index) {
-  const section = createSectionElement();
-  section.className = `${MODULE}_rows`;
-  section.id = `${HASHTABLEVALUEROW}${index}`;
-  // hashtable__hash
-  section.appendChild(renderContentSectionKeyContainer(index));
-  // hashtable__value
-  section.appendChild(renderContentSectionValueContainer(index));
-  return section;
-}
 
-function renderContentSectionKeyContainer(index) {
-  const container = document.createElement("div");
-  container.innerText = index;
-  return container;
-}
 
-function renderContentSectionValueContainer(index) {
-  const container = document.createElement("div");
-  //container.id = `${HASHTABLEVALUEROWS}${index}`;
-  container.className = HASHTABLEVALUEARRAYCLASS;
-  return container;
-}
-
-export const renderModule = () => {
-  const nodeModule = document.createElement("div");
-  nodeModule.className = "module-container";
-
-  nodeModule.appendChild(renderContentContainer());
-
-  renderModuleContent(nodeModule);
-};
+*/

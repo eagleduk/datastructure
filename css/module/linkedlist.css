@@ -12,8 +12,6 @@ div.module-container__content-linkedlist {
 
 .value-content.linkedlist__content-value {
   position: absolute;
-  width: var(--linkedlist-content-width);
-  height: var(--linkedlist-content-height);
   cursor: pointer;
   border-radius: 0;
   border-width: 5px;

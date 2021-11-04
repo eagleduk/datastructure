@@ -26,7 +26,7 @@ div.module-container__content-array {
 div.module-container__content-array div {
   text-align: center;
   padding: 20px;
-  border: 2px solid var(--content-border-normal);
+  border: 2px solid var(--value-border-normal);
   width: 130px;
   box-sizing: border-box;
 }
