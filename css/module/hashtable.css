@@ -21,7 +21,7 @@ div.module-container__content-hashtable section {
 }
 
 div.module-container__content-hashtable section:nth-child(2n) {
-  background-color: (--content-background-third);
+  background-color: var(--content-background-third);
 }
 
 div.module-container__content-hashtable section > div:first-child {
