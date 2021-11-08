@@ -65,8 +65,13 @@ function moduleSelected(selected = "array") {
   });
 }
 
+function notification(message) {
+  const article = document.querySelector("article");
+  article.innerHTML = message;
+}
+
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "hashtable";
+  const module = "heap";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

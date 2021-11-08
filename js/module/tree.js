@@ -1,36 +1,61 @@
-const MODULENAME = "tree";
-const MODULECONTENTCLASS = `module-container__content-${MODULENAME}`;
+const MODULE = "tree";
+const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
+const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
 const BINARY = 2;
 const ROOTVALUE = 50;
-const ROOTNODEID = "rootNode";
-const TREEINPUTVALUEID = `${MODULENAME}_value`;
-const CONTENTWIDTH = 50;
-const SVGCONTAINERID = `${MODULENAME}-SVG`;
-const RESULTTEXTID = "resultText";
-
-const DATASET = {
-  ROW: [],
-  COLUMN: [],
-};
+const CONTENTWIDTH = 60;
+const SVGCONTAINERID = `${MODULE}-SVG`;
 
 const CLASSNAMES = {
-  ROW: [`${MODULENAME}__row-container`],
-  COLUMN: [`${MODULENAME}__column-container`],
-  VALUECONTENT: [`${MODULENAME}__value-container`],
+  ROW: [`${MODULE}__row-container`],
+  COLUMN: [`${MODULE}__column-container`],
+  VALUECONTENT: [`value-content`],
 };
 
-const inputButtonEventHandler = (e) => {
-  const input = document.getElementById(TREEINPUTVALUEID);
-  const { value: inputValue } = input;
+const searchEventHandler = (e) => {
+  e.preventDefault();
+  const { value: inputValue } = e.target.searchValue;
+  const searchResult = searchTreeData(inputValue, 0, 0);
+
+  console.log(inputValue, " +++ ", searchResult);
+  if (!searchResult) notification("Value is not found");
+};
+
+function searchTreeData(inputValue, row, column) {
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
+  const rowContainers = mainContainer.childNodes;
+  const comparsionContent = getContent(row, column);
+
+  if (comparsionContent) {
+    const { value: comparsionValue } = comparsionContent.dataset;
+
+    if (comparsionValue === String(inputValue)) {
+      return { row, column };
+    } else {
+      if (rowContainers.length <= row + 1) {
+        return false;
+      }
+      if (parseInt(comparsionValue) < parseInt(inputValue)) {
+        return searchTreeData(inputValue, row + 1, column * 2 + 1);
+      } else {
+        return searchTreeData(inputValue, row + 1, column * 2);
+      }
+    }
+  }
+  return false;
+}
+
+const insertEventHandler = (e) => {
+  e.preventDefault();
+  const { insertValue } = e.target;
+  const inputValue = insertValue.value;
   insertInputValue(inputValue, 0, 0);
-  input.value = getRandomValue();
+  insertValue.value = getRandomValue();
 };
 
 function insertInputValue(inputValue, row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
   // 비교 값 추출
   const rowContainers = mainContainer.childNodes;
@@ -54,51 +79,16 @@ function insertInputValue(inputValue, row, column) {
   }
 }
 
-const searchButtonEventHandler = (e) => {
-  const { value: inputValue } = document.getElementById(TREEINPUTVALUEID);
-  const searchResult = searchInputValue(inputValue, 0, 0);
-
-  document.getElementById(RESULTTEXTID).innerText = `Value[${inputValue}] is ${
-    searchResult ? "" : "not"
-  } found`;
-};
-
-function searchInputValue(inputValue, row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
-  const rowContainers = mainContainer.childNodes;
-  const comparsionContent = getContent(row, column);
-
-  if (comparsionContent) {
-    const { value: comparsionValue } = comparsionContent.dataset;
-
-    if (comparsionValue === String(inputValue)) {
-      return { row, column };
-    } else {
-      if (rowContainers.length <= row + 1) {
-        return false;
-      }
-      if (parseInt(comparsionValue) < parseInt(inputValue)) {
-        return searchInputValue(inputValue, row + 1, column * 2 + 1);
-      } else {
-        return searchInputValue(inputValue, row + 1, column * 2);
-      }
-    }
-  }
-  return false;
-}
-
-const deleteButtonEventHandler = (e) => {
-  const { value: inputValue } = document.getElementById(TREEINPUTVALUEID);
-  const searchResult = searchInputValue(inputValue, 0, 0);
+const deleteEventHandler = (e) => {
+  e.preventDefault();
+  const { value: inputValue } = e.target.deleteValue;
+  const searchResult = searchTreeData(inputValue, 0, 0);
 
   if (searchResult) {
     deleteContent(searchResult);
   } else {
-    document.getElementById(
-      RESULTTEXTID
-    ).innerText = `Value[${inputValue}] is not found`;
+    console.log("Value is not found");
+    notification("Value is not found");
   }
 };
 
@@ -112,7 +102,6 @@ function deleteContent({ row, column }) {
   /**
    *  본인과 본인보다 작은 자식들중 큰 수와 dataset.value 값 변경
    */
-  //console.log("변경전 ", deleteContent, row, column);
   if (smaller && bigger) {
     const changeNode = getChildNodeBigOfSmall(row + 1, column * 2);
     //const changeNode = getLeafChildNode(row + 1, column * 2, 1);
@@ -120,7 +109,6 @@ function deleteContent({ row, column }) {
     row = changeNode.row;
     column = changeNode.column;
   }
-  //console.log("변경후 ", deleteContent, row, column);
 
   // case 2: child node 한개 => case 1 ==> 자식이 있을 때, 부모와 최하위 자식과 자리 변경
   /**
@@ -128,7 +116,6 @@ function deleteContent({ row, column }) {
    */
   smaller = getContent(row + 1, column * 2);
   bigger = getContent(row + 1, column * 2 + 1);
-  //console.log("변경전 ", deleteContent, row, column);
   while (smaller || bigger) {
     let childType = 0;
     if (bigger) childType = 1;
@@ -139,7 +126,6 @@ function deleteContent({ row, column }) {
     smaller = getContent(row + 1, column * 2);
     bigger = getContent(row + 1, column * 2 + 1);
   }
-  //console.log("변경후 ", deleteContent, row, column);
 
   // case 3: child node 없을 때 => case 2 ==> 최하위 자식 삭제
   /**
@@ -161,25 +147,12 @@ function getChildNodeBigOfSmall(row, column) {
   };
 }
 
-function getLeafChildNode(row, column, childType) {
-  const sourceContent = getContent(row, column + childType);
-  const childNode = getContent(row + 1, column * 2 + childType);
-  if (childNode) return getLeafChildNode(row + 1, column * 2, childType);
-  return {
-    sourceContent,
-    row,
-    column,
-  };
-}
-
 function changeContent(target, source) {
   const temp = target.dataset.value;
   target.dataset.value = source.dataset.value;
   source.dataset.value = temp;
   return source;
 }
-
-export const CONTROLMENU = [];
 
 function renderSVGContainer() {
   const svg = document.createElementNS(NSADDRESS, "svg");
@@ -188,121 +161,87 @@ function renderSVGContainer() {
   return svg;
 }
 
-function renderTreeHeaderContainer() {
-  const treeHeaderContainer = createDivElement();
-  treeHeaderContainer.className = `${MODULENAME}__header-container`;
+function renderControlTree() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
 
-  treeHeaderContainer.appendChild(renderActionContainer());
-  treeHeaderContainer.appendChild(renderResultContainer());
+  const controller = document.createElement("div");
 
-  return treeHeaderContainer;
-}
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchEventHandler);
 
-function renderActionContainer() {
-  const actionContainer = createDivElement();
-  actionContainer.className = `${MODULENAME}__action-container`;
-
-  actionContainer.appendChild(renderInputValueContainer());
-  actionContainer.appendChild(renderButtonContainer());
-
-  return actionContainer;
-}
-
-function renderInputValueContainer() {
-  const inputValueContainer = createDivElement();
-
-  const label = createElement("h3");
-  label.innerText = "Value";
-
-  const input = createElement("input");
-  input.type = "number";
-  input.value = getRandomValue();
-  input.id = TREEINPUTVALUEID;
-
-  inputValueContainer.appendChild(label);
-  inputValueContainer.appendChild(input);
-
-  return inputValueContainer;
-}
-
-function renderButtonContainer() {
-  const buttonContainer = createDivElement();
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "input array index";
+  index.name = "searchValue";
+  index.required = true;
 
   const search = document.createElement("input");
-  search.type = "button";
-  search.value = "Search";
-  search.addEventListener("click", searchButtonEventHandler);
+  search.type = "submit";
+  search.className = "search";
+  search.value = "search";
+
+  row1.appendChild(index);
+  row1.appendChild(search);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", insertEventHandler);
+
+  const value = document.createElement("input");
+  value.type = "number";
+  value.placeholder = "input array value";
+  value.value = getRandomValue();
+  value.name = "insertValue";
+  value.required = true;
 
   const insert = document.createElement("input");
-  insert.type = "button";
-  insert.value = "Insert";
-  insert.addEventListener("click", inputButtonEventHandler);
+  insert.type = "submit";
+  insert.className = "insert";
+  insert.value = "insert";
+
+  row2.appendChild(value);
+  row2.appendChild(insert);
+
+  const row3 = document.createElement("form");
+  row3.addEventListener("submit", deleteEventHandler);
+
+  const value1 = document.createElement("input");
+  value1.type = "number";
+  value1.placeholder = "input array value";
+  value1.value = getRandomValue();
+  value1.name = "deleteValue";
+  value1.required = true;
 
   const del = document.createElement("input");
-  del.type = "button";
-  del.value = "Delete";
-  del.addEventListener("click", deleteButtonEventHandler);
+  del.type = "submit";
+  del.className = "delete";
+  del.value = "delete";
 
-  buttonContainer.appendChild(search);
-  buttonContainer.appendChild(insert);
-  buttonContainer.appendChild(del);
+  row3.appendChild(value1);
+  row3.appendChild(del);
 
-  return buttonContainer;
+  controller.appendChild(row1);
+  controller.appendChild(row2);
+  controller.appendChild(row3);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+  return controlPanel;
 }
 
-function renderResultContainer() {
-  const resultContainer = createDivElement();
-
-  const label = createElement("h3");
-  label.innerText = "Result";
-
-  const result = createElement("h1");
-  result.innerText = "-";
-  result.id = RESULTTEXTID;
-
-  resultContainer.appendChild(label);
-  resultContainer.appendChild(result);
-
-  return resultContainer;
-}
-
-function renderTreeMainContainer() {
-  const treeMainContainer = createDivElement();
-  treeMainContainer.className = `${MODULENAME}__main-container`;
-
-  return treeMainContainer;
-}
-
-function renderContentContainer() {
-  const container = createDivElement();
+function renderContentTree() {
+  const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
-
-  container.appendChild(renderSVGContainer());
-  container.appendChild(renderTreeHeaderContainer());
-  container.appendChild(renderTreeMainContainer());
 
   return container;
 }
 
-export const renderModule = () => {
-  const nodeModule = createDivElement();
-  nodeModule.className = "module-container";
-  nodeModule.appendChild(renderContentContainer());
-  renderModuleContent(nodeModule);
-
-  // Add Root Row
-  addRowContainer();
-
-  // Add Root Value
-  addValueContent(ROOTVALUE, 0, 0);
-};
-
 function addRowContainer() {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
-  const rowContainer = createDivElement();
+  const rowContainer = document.createElement("div");
   rowContainer.className = CLASSNAMES.ROW.join(" ");
   rowContainer.dataset.rowNumber = mainContainer.childNodes.length;
 
@@ -315,7 +254,7 @@ function addColumn(rowContainer, rowNumber = 0) {
   const length = BINARY ** rowNumber;
 
   for (let i = 0; i < length; i++) {
-    let column = createDivElement();
+    let column = document.createElement("div");
     column.className = CLASSNAMES.COLUMN.join(" ");
     column.dataset.columnNumber = i;
 
@@ -324,14 +263,11 @@ function addColumn(rowContainer, rowNumber = 0) {
 }
 
 function addValueContent(inputValue, row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
   const columnContainer = mainContainer.childNodes[row].childNodes[column];
 
   const valueContent = createSpanElement();
-  //valueContent.innerText = inputValue;
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
   valueContent.dataset.value = inputValue;
 
@@ -349,16 +285,6 @@ function connectContents(row, column) {
   const childNode = getContent(row, column);
 
   childNode.dataset.type = childState;
-
-  /*
-  if (childState) {
-    parentNode.dataset.bigger = childNode.dataset.value;
-  } else {
-    parentNode.dataset.smaller = childNode.dataset.value;
-  }
-
-  childNode.dataset.parent = parentNode.dataset.value;
-  */
 
   const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;
   const { offsetLeft: toLeft, offsetTop: toTop } = childNode;
@@ -380,8 +306,23 @@ function connectContents(row, column) {
 }
 
 function getContent(row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
   return mainContainer?.childNodes[row]?.childNodes[column]?.childNodes[0];
 }
+
+export const renderModule = () => {
+  const nodeModule = document.createElement("div");
+  nodeModule.className = "module-container";
+
+  nodeModule.appendChild(renderSVGContainer());
+  nodeModule.appendChild(renderControlTree());
+  nodeModule.appendChild(renderContentTree());
+
+  renderModuleContent(nodeModule);
+
+  // Add Root Row
+  addRowContainer();
+
+  // Add Root Value
+  addValueContent(ROOTVALUE, 0, 0);
+};

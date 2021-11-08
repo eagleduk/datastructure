@@ -1,35 +1,53 @@
-const MODULENAME = "heap";
-const MODULECONTENTCLASS = `module-container__content-${MODULENAME}`;
+const MODULE = "heap";
+const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
+const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
 const BINARY = 2;
 const ROOTVALUE = 50;
-const ROOTNODEID = "rootNode";
-const HEAPINPUTVALUEID = `${MODULENAME}_value`;
-const CONTENTWIDTH = 50;
-const SVGCONTAINERID = `${MODULENAME}-SVG`;
-const RESULTTEXTID = "resultText";
+const CONTENTWIDTH = 60;
+const SVGCONTAINERID = `${MODULE}-SVG`;
 
 const CLASSNAMES = {
-  ROW: [`${MODULENAME}__row-container`],
-  COLUMN: [`${MODULENAME}__column-container`],
-  VALUECONTENT: [`${MODULENAME}__value-container`],
+  ROW: [`${MODULE}__row-container`],
+  COLUMN: [`${MODULE}__column-container`],
+  VALUECONTENT: [`value-content`],
 };
 
-const insertButtonEventHandler = (e) => {
-  const input = document.getElementById(HEAPINPUTVALUEID);
-  const { value } = input;
-  const { row, column } = pushInputValue(value, 0, 0);
+const searchEventHandler = (e) => {
+  e.preventDefault();
+  const { value: inputValue } = e.target.searchValue;
+  const searchResult = searchHeapData(inputValue, 0, 0);
+
+  console.log(inputValue, " +++ ", searchResult);
+  if (!searchResult) notification(`Value[${inputValue}] is not found`);
+};
+
+function searchHeapData(inputValue, row, column) {
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
+  let result = false;
+  mainContainer.childNodes.forEach((row) => {
+    row.childNodes.forEach((column) => {
+      result = column.childNodes[0].dataset.value === String(inputValue);
+    });
+  });
+
+  return result;
+}
+
+const insertEventHandler = (e) => {
+  e.preventDefault();
+  const { insertValue } = e.target;
+  const inputValue = insertValue.value;
+  const { row, column } = pushInputValue(inputValue, 0, 0);
   if (row !== 0) {
     connectContents(row, column);
     compareToParent(row, column);
   }
-  input.value = getRandomValue();
+  insertValue.value = getRandomValue();
 };
 
 function pushInputValue(value) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
   const rowCounter = mainContainer.childNodes.length;
   if (rowCounter === 0) {
     // Add Root Row
@@ -55,24 +73,21 @@ function pushInputValue(value) {
   }
 }
 
-const popButtonEventHandler = (e) => {
-  heapPop();
-};
-
-function heapPop() {
+const popEventHandler = (e) => {
+  e.preventDefault();
   const deleteContent = getLastValue();
 
   if (deleteContent) {
     changeRootContent(deleteContent);
 
     sortHeap(0, 0);
+  } else {
+    notification("Value is not found");
   }
-}
+};
 
 function getLastValue() {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
   const rowIndex = mainContainer.childNodes.length - 1;
   const columns = mainContainer.childNodes[rowIndex].childNodes;
@@ -148,129 +163,93 @@ function sortHeap(row, column) {
   }
 }
 
-export const CONTROLMENU = [];
-
-function renderHeapSVGContainer() {
+function renderSVGContainer() {
   const svg = document.createElementNS(NSADDRESS, "svg");
   svg.id = SVGCONTAINERID;
 
   return svg;
 }
 
-function renderHeapHeaderContainer() {
-  const heapHeaderContainer = createDivElement();
-  heapHeaderContainer.className = `${MODULENAME}__header-container`;
+function renderControlHeap() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
 
-  heapHeaderContainer.appendChild(renderHeapActionContainer());
-  heapHeaderContainer.appendChild(renderHeapResultContainer());
+  const controller = document.createElement("div");
 
-  return heapHeaderContainer;
-}
-function renderHeapResultContainer() {
-  const resultContainer = createDivElement();
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchEventHandler);
 
-  const label = createElement("h3");
-  label.innerText = "Result";
-
-  const result = createElement("h1");
-  result.innerText = "-";
-  result.id = RESULTTEXTID;
-
-  resultContainer.appendChild(label);
-  resultContainer.appendChild(result);
-
-  return resultContainer;
-}
-
-function renderHeapInputValueContainer() {
-  const inputValueContainer = createDivElement();
-
-  const label = createElement("h3");
-  label.innerText = "Value";
-
-  const input = createElement("input");
-  input.type = "number";
-  input.value = getRandomValue();
-  input.id = HEAPINPUTVALUEID;
-
-  inputValueContainer.appendChild(label);
-  inputValueContainer.appendChild(input);
-
-  return inputValueContainer;
-}
-
-function renderHeapButtonContainer() {
-  const buttonContainer = createDivElement();
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "input array index";
+  index.name = "searchValue";
+  index.required = true;
 
   const search = document.createElement("input");
-  search.type = "button";
-  search.value = "Insert";
-  search.addEventListener("click", insertButtonEventHandler);
+  search.type = "submit";
+  search.className = "search";
+  search.value = "search";
+
+  row1.appendChild(index);
+  row1.appendChild(search);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", insertEventHandler);
+
+  const value = document.createElement("input");
+  value.type = "number";
+  value.placeholder = "input array value";
+  value.value = getRandomValue();
+  value.name = "insertValue";
+  value.required = true;
 
   const insert = document.createElement("input");
-  insert.type = "button";
-  insert.value = "Pop";
-  insert.addEventListener("click", popButtonEventHandler);
+  insert.type = "submit";
+  insert.className = "insert";
+  insert.value = "insert";
 
-  //const del = document.createElement("input");
-  //del.type = "button";
-  //del.value = "Delete";
-  //del.addEventListener("click", deleteButtonEventHandler);
+  row2.appendChild(value);
+  row2.appendChild(insert);
 
-  buttonContainer.appendChild(search);
-  buttonContainer.appendChild(insert);
-  //   buttonContainer.appendChild(del);
+  const row3 = document.createElement("form");
+  row3.addEventListener("submit", popEventHandler);
 
-  return buttonContainer;
+  const value1 = document.createElement("input");
+  value1.type = "number";
+  value1.placeholder = "input array value";
+  value1.value = getRandomValue();
+  value1.name = "deleteValue";
+  value1.required = true;
+
+  const del = document.createElement("input");
+  del.type = "submit";
+  del.className = "delete";
+  del.value = "pop";
+
+  row3.appendChild(del);
+
+  controller.appendChild(row1);
+  controller.appendChild(row2);
+  controller.appendChild(row3);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+  return controlPanel;
 }
 
-function renderHeapActionContainer() {
-  const actionContainer = createDivElement();
-  actionContainer.className = `${MODULENAME}__action-container`;
-
-  actionContainer.appendChild(renderHeapInputValueContainer());
-  actionContainer.appendChild(renderHeapButtonContainer());
-
-  return actionContainer;
-}
-
-function renderHeapMainContainer() {
-  const heapMainContainer = createDivElement();
-  heapMainContainer.className = `${MODULENAME}__main-container`;
-
-  return heapMainContainer;
-}
-
-function renderHeapContentContainer() {
-  const container = createDivElement();
+function renderContentHeap() {
+  const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
-
-  container.appendChild(renderHeapSVGContainer());
-  container.appendChild(renderHeapHeaderContainer());
-  container.appendChild(renderHeapMainContainer());
 
   return container;
 }
 
-export const renderModule = () => {
-  const nodeModule = createDivElement();
-  nodeModule.className = "module-container";
-  nodeModule.appendChild(renderHeapContentContainer());
-  renderModuleContent(nodeModule);
-
-  // Add Root Row
-  addRowContainer();
-
-  // Add Root Value
-  addValueContent(ROOTVALUE, 0, 0);
-};
-
 function addRowContainer() {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
-  const rowContainer = createDivElement();
+  const rowContainer = document.createElement("div");
   rowContainer.className = CLASSNAMES.ROW.join(" ");
   rowContainer.dataset.rowNumber = mainContainer.childNodes.length;
 
@@ -283,7 +262,7 @@ function addColumn(rowContainer, rowNumber = 0) {
   const length = BINARY ** rowNumber;
 
   for (let i = 0; i < length; i++) {
-    let column = createDivElement();
+    let column = document.createElement("div");
     column.className = CLASSNAMES.COLUMN.join(" ");
     column.dataset.columnNumber = i;
 
@@ -292,9 +271,7 @@ function addColumn(rowContainer, rowNumber = 0) {
 }
 
 function addValueContent(inputValue, row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
   const columnContainer = mainContainer.childNodes[row].childNodes[column];
 
@@ -333,9 +310,7 @@ function connectContents(row, column) {
 }
 
 function getContent(row, column) {
-  const mainContainer = document.querySelector(
-    `.${MODULENAME}__main-container`
-  );
+  const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
   return mainContainer?.childNodes[row]?.childNodes[column]?.childNodes[0];
 }
 
@@ -361,3 +336,19 @@ function changeContent(target, source) {
   source.dataset.value = temp;
   return source;
 }
+
+export const renderModule = () => {
+  const nodeModule = document.createElement("div");
+  nodeModule.className = "module-container";
+
+  nodeModule.appendChild(renderSVGContainer());
+  nodeModule.appendChild(renderControlHeap());
+  nodeModule.appendChild(renderContentHeap());
+  renderModuleContent(nodeModule);
+
+  // Add Root Row
+  addRowContainer();
+
+  // Add Root Value
+  addValueContent(ROOTVALUE, 0, 0);
+};

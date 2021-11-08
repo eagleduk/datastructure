@@ -95,12 +95,11 @@ main div.module-container {
 article {
   position: fixed;
   top: 80px;
-  left: calc(100vw / 2 - 200px / 2);
+  right: 80px;
   width: 200px;
-  height: 120px;
-  background-color: blanchedalmond;
+  height: 80px;
+  background-color: var(--notification-background-normal);
   text-align: center;
-  display: none;
 }
 
 /* input */
@@ -223,6 +222,8 @@ input[type="submit"].delete:active {
   font-size: 2em;
   border-radius: 50%;
   box-sizing: border-box;
+  background-color: var(--value-background-normal);
+  z-index: 0;
 }
 
 .value-content::before {

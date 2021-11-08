@@ -1,105 +1,24 @@
-.module-container div.module-container__content-tree {
+div.module-container__content-tree {
   display: flex;
   height: 100%;
   flex-direction: column;
 }
 
-.module-container div.module-container__content-tree svg {
+div.module-container__content-tree svg {
   padding-top: 80px;
   box-sizing: border-box;
 }
 
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container {
+div.module-container__content-tree div.tree__row-container {
   width: 100%;
-  min-height: 80px;
-  background-color: brown;
-  box-sizing: border-box;
-  z-index: 9999;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  text-align: center;
-}
-
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container
-  h3,
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container
-  h1 {
-  margin: 0;
-}
-
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container
-  input[type="button"] {
-  display: block;
-  margin: 0;
-}
-
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container
-  div.tree__action-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.module-container
-  div.module-container__content-tree
-  div.tree__header-container
-  div.tree__action-container
-  div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.module-container div.module-container__content-tree div.tree__main-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.module-container__content-tree div.tree__row-container {
-  width: 100%;
-  height: 60px;
+  height: 5em;
   display: flex;
 }
 
-.module-container__content-tree div.tree__column-container {
+div.module-container__content-tree div.tree__column-container {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.module-container__content-tree span.tree__value-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: burlywood;
-  font-size: 24px;
-  font-weight: 500;
-  border: 2px solid black;
-  box-sizing: border-box;
-}
-
-.module-container__content-tree span.tree__value-container.comparison {
-}
-
-.module-container__content-tree span.tree__value-container::before {
-  content: attr(data-value);
 }

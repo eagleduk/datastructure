@@ -1,17 +1,15 @@
-.module-container div.module-container__content-heap {
+div.module-container__content-heap {
   display: flex;
   height: 100%;
   flex-direction: column;
 }
 
-.module-container div.module-container__content-heap svg {
+div.module-container__content-heap svg {
   padding-top: 80px;
   box-sizing: border-box;
 }
-
-.module-container
-  div.module-container__content-heap
-  div.heap__header-container {
+/* 
+div.module-container__content-heap div.heap__header-container {
   width: 100%;
   min-height: 80px;
   background-color: brown;
@@ -22,33 +20,25 @@
   text-align: center;
 }
 
-.module-container div.module-container__content-heap div.heap__main-container {
+div.module-container__content-heap div.heap__main-container {
   width: 100%;
   height: 100%;
   position: relative;
 }
 
-.module-container
-  div.module-container__content-heap
-  div.heap__header-container
-  h3,
-.module-container
-  div.module-container__content-heap
-  div.heap__header-container
-  h1 {
+div.module-container__content-heap div.heap__header-container h3,
+div.module-container__content-heap div.heap__header-container h1 {
   margin: 0;
 }
 
-.module-container
-  div.module-container__content-heap
+div.module-container__content-heap
   div.heap__header-container
   input[type="button"] {
   display: block;
   margin: 0;
 }
 
-.module-container
-  div.module-container__content-heap
+div.module-container__content-heap
   div.heap__header-container
   div.heap__action-container {
   width: 100%;
@@ -57,8 +47,7 @@
   align-items: center;
 }
 
-.module-container
-  div.module-container__content-heap
+div.module-container__content-heap
   div.heap__header-container
   div.heap__action-container
   div {
@@ -69,27 +58,27 @@
   flex-direction: column;
 }
 
-.module-container div.module-container__content-heap div.heap__main-container {
+div.module-container__content-heap div.heap__main-container {
   width: 100%;
   height: 100%;
   position: relative;
-}
+} */
 
-.module-container__content-heap div.heap__row-container {
+div.module-container__content-heap div.heap__row-container {
   width: 100%;
-  height: 60px;
+  height: 5em;
   display: flex;
 }
 
-.module-container__content-heap div.heap__column-container {
+div.module-container__content-heap div.heap__column-container {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.module-container__content-heap span.heap__value-container {
+/* 
+div.module-container__content-heap span.heap__value-container {
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -103,9 +92,9 @@
   box-sizing: border-box;
 }
 
-.module-container__content-heap span.heap__value-container.comparison {
+div.module-container__content-heap span.heap__value-container.comparison {
 }
 
-.module-container__content-heap span.heap__value-container::before {
+div.module-container__content-heap span.heap__value-container::before {
   content: attr(data-value);
-}
+} */
