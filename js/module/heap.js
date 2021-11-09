@@ -19,7 +19,7 @@ const searchEventHandler = (e) => {
   const searchResult = searchHeapData(inputValue, 0, 0);
 
   console.log(inputValue, " +++ ", searchResult);
-  if (!searchResult) notification(`Value[${inputValue}] is not found`);
+  if (!searchResult) errorNotification(`Value[${inputValue}] is not found`);
 };
 
 function searchHeapData(inputValue, row, column) {
@@ -275,7 +275,7 @@ function addValueContent(inputValue, row, column) {
 
   const columnContainer = mainContainer.childNodes[row].childNodes[column];
 
-  const valueContent = createSpanElement();
+  const valueContent = document.createElement("div");
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
   valueContent.dataset.value = inputValue;
 

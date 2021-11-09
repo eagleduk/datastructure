@@ -19,7 +19,7 @@ const searchEventHandler = (e) => {
   const searchResult = searchTreeData(inputValue, 0, 0);
 
   console.log(inputValue, " +++ ", searchResult);
-  if (!searchResult) notification("Value is not found");
+  if (!searchResult) errorNotification("Value is not found");
 };
 
 function searchTreeData(inputValue, row, column) {
@@ -267,7 +267,7 @@ function addValueContent(inputValue, row, column) {
 
   const columnContainer = mainContainer.childNodes[row].childNodes[column];
 
-  const valueContent = createSpanElement();
+  const valueContent = document.createElement("div");
   valueContent.className = CLASSNAMES.VALUECONTENT.join(" ");
   valueContent.dataset.value = inputValue;
 

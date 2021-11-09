@@ -84,7 +84,9 @@ function renderContentArray() {
 function searchContent(index) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-  console.log(moduleContent.childNodes[index]);
+  //console.log(moduleContent.childNodes[index]);
+  if (!moduleContent.childNodes[index])
+    errorNotification(`Index[${index}] is not found`);
 }
 
 function pushContent(value) {

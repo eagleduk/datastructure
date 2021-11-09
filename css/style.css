@@ -91,8 +91,8 @@ main div.module-container {
   width: 100%;
 }
 
-/* */
-article {
+/* notification */
+article.notification {
   position: fixed;
   top: 80px;
   right: 80px;
@@ -100,10 +100,30 @@ article {
   height: 80px;
   background-color: var(--notification-background-normal);
   text-align: center;
+  font-size: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--notification-border-normal);
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+article.display {
+  animation: notification 5s;
+}
+
+article.warning {
+  background-color: var(--notification-background-warning);
+  border: 2px solid var(--notification-border-warning);
+}
+
+article.error {
+  background-color: var(--notification-background-error);
+  border: 2px solid var(--notification-border-error);
 }
 
 /* input */
-
 input {
   padding: 5px 10px;
   border-radius: 5px;

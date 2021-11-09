@@ -1,41 +1,16 @@
 const DEFAULTLENGTH = 3;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
+function _promiseTimeout(ms) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve();
+    }, ms);
+  });
+}
+
 function getRandomValue(maxValue = 100) {
   return parseInt(Math.random() * maxValue + 1);
-}
-
-function createElement(tagName) {
-  return document.createElement(tagName);
-}
-
-function createSpanElement() {
-  return createElement("span");
-}
-
-function createDivElement() {
-  return createElement("div");
-}
-
-function createSectionElement() {
-  return createElement("section");
-}
-
-function createNumberInputElement(placeholder, defaultValue) {
-  const input = createElement("input");
-  input.type = "number";
-  if (placeholder) input.placeholder = placeholder;
-  if (defaultValue) input.value = defaultValue;
-
-  return input;
-}
-
-function createButton(value = "Done") {
-  const input = document.createElement("input");
-  input.type = "button";
-  input.value = value;
-
-  return input;
 }
 
 const getRandomColor = () => {
@@ -65,9 +40,15 @@ function moduleSelected(selected = "array") {
   });
 }
 
-function notification(message) {
+function notification(message, className) {
   const article = document.querySelector("article");
+  article.className = `notification display ${className}`;
   article.innerHTML = message;
+  setTimeout(() => (article.className = `notification`), 5000);
+}
+
+function errorNotification(message) {
+  notification(message, "error");
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
@@ -82,34 +63,3 @@ window.addEventListener("hashchange", (e) => {
   moduleSelected(module);
   moduleLoader(module);
 });
-
-/*
-function renderController(CONTROLMENU) {
-  const ul = document.createElement("ul");
-
-  for (let { display, css, event } of CONTROLMENU) {
-    let span = document.createElement("span");
-    span.innerText = display;
-    span.className = css;
-    span.addEventListener("click", event);
-
-    let li = document.createElement("li");
-    li.appendChild(span);
-
-    ul.appendChild(li);
-  }
-
-  const div = document.createElement("div");
-  div.appendChild(ul);
-  div.classList.add("array-controller");
-
-  replaceModule(div, "article");
-}
-
-function replaceModule(module, targetTag) {
-  const targetNode = document.querySelector(targetTag);
-  targetNode.replaceChild(module, targetNode.children[0]);
-}
-
-
-*/

@@ -51,4 +51,11 @@
 
   /* notification */
   --notification-background-normal: blanchedalmond;
+  --notification-border-normal: black;
+
+  --notification-background-warning: blanchedalmond;
+  --notification-border-warning: black;
+
+  --notification-background-error: blanchedalmond;
+  --notification-border-error: red;
 }
