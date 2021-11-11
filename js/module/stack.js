@@ -66,6 +66,9 @@ const stackPopEvent = (e) => {
 function renderControlStack() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -107,24 +110,6 @@ function renderControlStack() {
   return controlPanel;
 }
 
-export const CONTROLMENU = [
-  {
-    display: "Render",
-    event: stackRenderEvent,
-    css: "control-abled",
-  },
-  {
-    display: "Push",
-    event: stackPushEvent,
-    css: "control-abled",
-  },
-  {
-    display: "Pop",
-    event: stackPopEvent,
-    css: "control-abled",
-  },
-];
-
 function createValueContent(value) {
   const div = document.createElement("div");
   div.className = "stack__content-value value-content";
@@ -142,14 +127,16 @@ function renderContent(queueMiddle) {
   }
 }
 function renderContentStack() {
-  const container = document.createElement("div");
-  container.className = `${MODULECONTENTCLASS}`;
+  const moduleContent = document.createElement("div");
+  moduleContent.className = MODULECONTENTCLASS;
+  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  moduleContent.addEventListener("drop", contentDropEventHandler);
 
-  container.appendChild(renderContentStackLeft());
-  container.appendChild(renderContentStackCenter());
-  container.appendChild(renderContentStackRight());
+  moduleContent.appendChild(renderContentStackLeft());
+  moduleContent.appendChild(renderContentStackCenter());
+  moduleContent.appendChild(renderContentStackRight());
 
-  return container;
+  return moduleContent;
 }
 
 function renderContentStackLeft() {

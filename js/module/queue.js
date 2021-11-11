@@ -57,6 +57,9 @@ const queueDequeueEvent = (e) => {
 function renderControlQueue() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -108,14 +111,16 @@ function createValueContent(value) {
 }
 
 function renderContentQueue() {
-  const container = document.createElement("div");
-  container.className = `${MODULECONTENTCLASS}`;
+  const moduleContent = document.createElement("div");
+  moduleContent.className = MODULECONTENTCLASS;
+  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  moduleContent.addEventListener("drop", contentDropEventHandler);
 
-  container.appendChild(renderContentQueueTop());
-  container.appendChild(renderContentQueueMiddle());
-  container.appendChild(renderContentQueueBottom());
+  moduleContent.appendChild(renderContentQueueTop());
+  moduleContent.appendChild(renderContentQueueMiddle());
+  moduleContent.appendChild(renderContentQueueBottom());
 
-  return container;
+  return moduleContent;
 }
 
 function renderContentQueueTop() {

@@ -101,6 +101,9 @@ const putButtonEventHandler = (e) => {
 function renderControlHashTable() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -150,14 +153,16 @@ function renderControlHashTable() {
 }
 
 function renderContentHashTable() {
-  const container = document.createElement("div");
-  container.className = `${MODULECONTENTCLASS}`;
+  const moduleContent = document.createElement("div");
+  moduleContent.className = MODULECONTENTCLASS;
+  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  moduleContent.addEventListener("drop", contentDropEventHandler);
 
   for (let i = 0; i < HASHTABLELENGTH; i++) {
-    container.appendChild(renderContentSection(i));
+    moduleContent.appendChild(renderContentSection(i));
   }
 
-  return container;
+  return moduleContent;
 }
 
 function renderContentSection(index) {

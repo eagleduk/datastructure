@@ -9,6 +9,31 @@ function _promiseTimeout(ms) {
   });
 }
 
+function controlPanelDragStartEventHandler(e) {
+  const { layerX, layerY } = e;
+  var parentNode = e.target.parentElement;
+  e.dataTransfer.setDragImage(parentNode, layerX, layerY);
+  e.dataTransfer.setData("targetClass", parentNode.className);
+  e.dataTransfer.setData("offsetX", layerX);
+  e.dataTransfer.setData("offsetY", layerY);
+}
+
+function contentDragoverEventHandler(e) {
+  e.preventDefault();
+}
+
+function contentDropEventHandler(e) {
+  const { layerX, layerY } = e;
+  const targetClass = e.dataTransfer.getData("targetClass");
+  const offsetX = e.dataTransfer.getData("offsetX");
+  const offsetY = e.dataTransfer.getData("offsetY");
+  const controlPanel = document.querySelector(
+    `.${targetClass.replace(" ", ".")}`
+  );
+  controlPanel.style.top = `${layerY - offsetY}px`;
+  controlPanel.style.left = `${layerX - offsetX}px`;
+}
+
 function getRandomValue(maxValue = 100) {
   return parseInt(Math.random() * maxValue + 1);
 }
@@ -52,7 +77,7 @@ function errorNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "heap";
+  const module = "array";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

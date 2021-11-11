@@ -164,6 +164,9 @@ function renderSVGContainer() {
 function renderControlTree() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -232,10 +235,12 @@ function renderControlTree() {
 }
 
 function renderContentTree() {
-  const container = document.createElement("div");
-  container.className = `${MODULECONTENTCLASS}`;
+  const moduleContent = document.createElement("div");
+  moduleContent.className = MODULECONTENTCLASS;
+  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  moduleContent.addEventListener("drop", contentDropEventHandler);
 
-  return container;
+  return moduleContent;
 }
 
 function addRowContainer() {

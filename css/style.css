@@ -96,7 +96,7 @@ article.notification {
   position: fixed;
   top: 80px;
   right: 80px;
-  width: 200px;
+  /* width: 200px; */
   height: 80px;
   background-color: var(--notification-background-normal);
   text-align: center;
@@ -104,9 +104,12 @@ article.notification {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 2px solid var(--notification-border-normal);
+  border: 10px solid var(--notification-border-normal);
   box-sizing: border-box;
   border-radius: 10px;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
 }
 
 article.display {
@@ -115,12 +118,12 @@ article.display {
 
 article.warning {
   background-color: var(--notification-background-warning);
-  border: 2px solid var(--notification-border-warning);
+  border-color: var(--notification-border-warning);
 }
 
 article.error {
   background-color: var(--notification-background-error);
-  border: 2px solid var(--notification-border-error);
+  border-color: var(--notification-border-error);
 }
 
 /* input */
@@ -220,6 +223,7 @@ input[type="submit"].delete:active {
 }
 
 .content-control div.toolbar {
+  width: inherit;
   height: 20px;
   background-color: var(--toolbar-background-normal);
 }

@@ -25,6 +25,9 @@ const insertEventHandler = (e) => {
 function renderControlArray() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -78,13 +81,14 @@ function renderControlArray() {
 function renderContentArray() {
   const moduleContent = document.createElement("div");
   moduleContent.className = MODULECONTENTCLASS;
+  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  moduleContent.addEventListener("drop", contentDropEventHandler);
   return moduleContent;
 }
 
 function searchContent(index) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-  //console.log(moduleContent.childNodes[index]);
   if (!moduleContent.childNodes[index])
     errorNotification(`Index[${index}] is not found`);
 }
@@ -108,6 +112,7 @@ function pushContent(value) {
 export const renderModule = () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
+
   nodeModule.appendChild(renderControlArray());
   nodeModule.appendChild(renderContentArray());
 

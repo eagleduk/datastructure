@@ -50,12 +50,12 @@
   --toolbar-background-normal: blue;
 
   /* notification */
-  --notification-background-normal: blanchedalmond;
-  --notification-border-normal: black;
+  --notification-background-normal: green;
+  --notification-border-normal: green;
 
-  --notification-background-warning: blanchedalmond;
-  --notification-border-warning: black;
+  --notification-background-warning: #ffa461;
+  --notification-border-warning: #ffa461;
 
-  --notification-background-error: blanchedalmond;
+  --notification-background-error: red;
   --notification-border-error: red;
 }
