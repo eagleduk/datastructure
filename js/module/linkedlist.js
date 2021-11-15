@@ -1,10 +1,11 @@
 const CONTENTWIDTH = 60;
 
 const MODULE = "linkedlist";
-const SVGID = "line-svg";
+const SVGID = `${MODULE}-svg`;
 
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
+const MODULESVGCLASS = `module-container__canvas-${MODULE}`;
 
 let SEQ = 0;
 
@@ -37,7 +38,7 @@ const prevInsertContentEvent = (e) => {
     dataset: { prev: prevContentID },
     id: currentContentID,
   } = selectedContent;
-  console.log(prevContentID, currentContentID);
+
   deleteLine(prevContentID, currentContentID);
   insertContentBefore(prevContentID, currentContentID);
 };
@@ -136,7 +137,8 @@ function insertContentAfter(prevContentID, currentContentID) {
 }
 
 function renderConnection(prev, next) {
-  const svg = document.querySelector(`svg#${SVGID}`);
+  // const svg = document.querySelector(`svg#${SVGID}`);
+  const svg = document.querySelector(`svg.${MODULESVGCLASS}`);
   const { offsetLeft: fromLeft, offsetTop: formTop, id: fromId } = prev;
   const { offsetLeft: toLeft, offsetTop: toTop, id: toId } = next;
 
@@ -236,7 +238,8 @@ function createValueContent(top, left) {
 
 function createSVGCanvas() {
   const svg = document.createElementNS(NSADDRESS, "svg");
-  svg.id = SVGID;
+  // svg.id = SVGID;
+  svg.classList.add(MODULESVGCLASS);
 
   const linearGradient = document.createElementNS(NSADDRESS, "linearGradient");
   linearGradient.id = "TEST";

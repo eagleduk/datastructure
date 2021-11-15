@@ -4,7 +4,7 @@ div.module-container__content-linkedlist {
   position: relative;
 }
 
-.module-container svg {
+svg.module-container__canvas-linkedlist {
   width: 100%;
   height: 100%;
   position: absolute;

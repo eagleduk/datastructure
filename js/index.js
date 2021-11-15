@@ -76,6 +76,10 @@ function errorNotification(message) {
   notification(message, "error");
 }
 
+function warnNotification(message) {
+  notification(message, "warning");
+}
+
 window.addEventListener("DOMContentLoaded", (e) => {
   const module = "array";
   globalThis.location.href = `#${module}`;

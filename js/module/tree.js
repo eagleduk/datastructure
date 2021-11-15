@@ -1,11 +1,13 @@
 const MODULE = "tree";
+
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
+const MODULESVGCLASS = `module-container__canvas-${MODULE}`;
 
 const BINARY = 2;
 const ROOTVALUE = 50;
 const CONTENTWIDTH = 60;
-const SVGCONTAINERID = `${MODULE}-SVG`;
+// const SVGCONTAINERID = `${MODULE}-SVG`;
 
 const CLASSNAMES = {
   ROW: [`${MODULE}__row-container`],
@@ -156,7 +158,11 @@ function changeContent(target, source) {
 
 function renderSVGContainer() {
   const svg = document.createElementNS(NSADDRESS, "svg");
-  svg.id = SVGCONTAINERID;
+  svg.classList.add(MODULESVGCLASS);
+  // svg.id = SVGCONTAINERID;
+
+  svg.addEventListener("dragover", contentDragoverEventHandler);
+  svg.addEventListener("drop", contentDropEventHandler);
 
   return svg;
 }
@@ -237,8 +243,8 @@ function renderControlTree() {
 function renderContentTree() {
   const moduleContent = document.createElement("div");
   moduleContent.className = MODULECONTENTCLASS;
-  moduleContent.addEventListener("dragover", contentDragoverEventHandler);
-  moduleContent.addEventListener("drop", contentDropEventHandler);
+  // moduleContent.addEventListener("dragover", contentDragoverEventHandler);
+  // moduleContent.addEventListener("drop", contentDropEventHandler);
 
   return moduleContent;
 }
@@ -294,7 +300,8 @@ function connectContents(row, column) {
   const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;
   const { offsetLeft: toLeft, offsetTop: toTop } = childNode;
 
-  const svgPallet = document.getElementById(SVGCONTAINERID);
+  // const svgPallet = document.getElementById(SVGCONTAINERID);
+  const svgPallet = document.querySelector(`svg.${MODULESVGCLASS}`);
 
   const line = document.createElementNS(NSADDRESS, "line");
 

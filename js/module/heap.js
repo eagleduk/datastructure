@@ -1,11 +1,13 @@
 const MODULE = "heap";
+
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
+const MODULESVGCLASS = `module-container__canvas-${MODULE}`;
 
 const BINARY = 2;
 const ROOTVALUE = 50;
 const CONTENTWIDTH = 60;
-const SVGCONTAINERID = `${MODULE}-SVG`;
+// const SVGCONTAINERID = `${MODULE}-SVG`;
 
 const CLASSNAMES = {
   ROW: [`${MODULE}__row-container`],
@@ -165,7 +167,10 @@ function sortHeap(row, column) {
 
 function renderSVGContainer() {
   const svg = document.createElementNS(NSADDRESS, "svg");
-  svg.id = SVGCONTAINERID;
+  // svg.id = SVGCONTAINERID;
+  svg.classList.add(MODULESVGCLASS);
+  svg.addEventListener("dragover", contentDragoverEventHandler);
+  svg.addEventListener("drop", contentDropEventHandler);
 
   return svg;
 }
@@ -173,6 +178,9 @@ function renderSVGContainer() {
 function renderControlHeap() {
   const toolbar = document.createElement("div");
   toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
 
   const controller = document.createElement("div");
 
@@ -242,6 +250,8 @@ function renderControlHeap() {
 function renderContentHeap() {
   const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
+  // container.addEventListener("dragover", contentDragoverEventHandler);
+  // container.addEventListener("drop", contentDropEventHandler);
 
   return container;
 }
@@ -293,7 +303,8 @@ function connectContents(row, column) {
   const { offsetLeft: fromLeft, offsetTop: formTop } = parentNode;
   const { offsetLeft: toLeft, offsetTop: toTop } = childNode;
 
-  const svgPallet = document.getElementById(SVGCONTAINERID);
+  // const svgPallet = document.getElementById(SVGCONTAINERID);
+  const svgPallet = document.querySelector(`svg.${MODULESVGCLASS}`);
 
   const line = document.createElementNS(NSADDRESS, "line");
 

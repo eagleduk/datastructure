@@ -4,65 +4,11 @@ div.module-container__content-heap {
   flex-direction: column;
 }
 
-div.module-container__content-heap svg {
-  padding-top: 80px;
-  box-sizing: border-box;
-}
-/* 
-div.module-container__content-heap div.heap__header-container {
-  width: 100%;
-  min-height: 80px;
-  background-color: brown;
-  box-sizing: border-box;
-  z-index: 9999;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  text-align: center;
-}
-
-div.module-container__content-heap div.heap__main-container {
+svg.module-container__canvas-heap {
   width: 100%;
   height: 100%;
-  position: relative;
+  position: absolute;
 }
-
-div.module-container__content-heap div.heap__header-container h3,
-div.module-container__content-heap div.heap__header-container h1 {
-  margin: 0;
-}
-
-div.module-container__content-heap
-  div.heap__header-container
-  input[type="button"] {
-  display: block;
-  margin: 0;
-}
-
-div.module-container__content-heap
-  div.heap__header-container
-  div.heap__action-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-div.module-container__content-heap
-  div.heap__header-container
-  div.heap__action-container
-  div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-div.module-container__content-heap div.heap__main-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
-} */
 
 div.module-container__content-heap div.heap__row-container {
   width: 100%;
@@ -77,24 +23,3 @@ div.module-container__content-heap div.heap__column-container {
   justify-content: center;
   align-items: center;
 }
-/* 
-div.module-container__content-heap span.heap__value-container {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: burlywood;
-  font-size: 24px;
-  font-weight: 500;
-  border: 2px solid black;
-  box-sizing: border-box;
-}
-
-div.module-container__content-heap span.heap__value-container.comparison {
-}
-
-div.module-container__content-heap span.heap__value-container::before {
-  content: attr(data-value);
-} */
