@@ -1,6 +1,10 @@
 const DEFAULTLENGTH = 3;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
+async function promiseTimeout(ms) {
+  return await _promiseTimeout(ms);
+}
+
 function _promiseTimeout(ms) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -65,7 +69,7 @@ function moduleSelected(selected = "array") {
   });
 }
 
-function notification(message, className) {
+function notification(message, className = "") {
   const article = document.querySelector("article");
   article.className = `notification display ${className}`;
   article.innerHTML = message;

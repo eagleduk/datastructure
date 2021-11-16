@@ -5,16 +5,16 @@
 }
 
 @keyframes notification {
-  0% {
+  /* 0% {
     top: -80px;
-  }
+  } */
   25% {
     top: 80px;
   }
   75% {
     top: 80px;
   }
-  100% {
+  /* 100% {
     top: -80px;
-  }
+  } */
 }

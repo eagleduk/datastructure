@@ -86,17 +86,25 @@ function renderContentArray() {
   return moduleContent;
 }
 
-function searchContent(index) {
+async function searchContent(index) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-  if (!moduleContent.childNodes[index])
+  if (!moduleContent.childNodes[index]) {
     errorNotification(`Index[${index}] is not found`);
+  } else {
+    moduleContent.childNodes[index].classList.add("search-value");
+    await promiseTimeout(3000);
+    moduleContent.childNodes[index].classList.remove("search-value");
+    console.log("End");
+  }
 }
 
-function pushContent(value) {
+async function pushContent(value) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
   const container = document.createElement("div");
+  container.classList.add("insert-value");
+
   let indexContainer = document.createElement("span");
   indexContainer.innerText = `${moduleContent.childNodes.length}`;
 
@@ -107,6 +115,11 @@ function pushContent(value) {
   container.appendChild(valueContainer);
 
   moduleContent.appendChild(container);
+
+  notification("Done");
+
+  await promiseTimeout(3000);
+  container.classList.remove("insert-value");
 }
 
 export const renderModule = () => {

@@ -21,6 +21,7 @@
   --value-border-normal: khaki;
   --value-border-selected: lightsalmon;
   --value-border-active: yellow;
+  --value-border-insert: crimson;
 
   /* input */
   --input-submit-normal: aqua;

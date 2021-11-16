@@ -31,6 +31,16 @@ div.module-container__content-array div {
   box-sizing: border-box;
 }
 
+div.module-container__content-array div.insert-value {
+  border-width: 10px;
+  border-color: var(--value-border-insert);
+}
+
+div.module-container__content-array div.search-value {
+  border-width: 10px;
+  border-color: var(--value-border-selected);
+}
+
 div.module-container__content-array div:active {
   border-color: yellow;
 }
