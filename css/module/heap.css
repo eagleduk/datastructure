@@ -23,3 +23,7 @@ div.module-container__content-heap div.heap__column-container {
   justify-content: center;
   align-items: center;
 }
+
+div.module-container__content-heap div.heap__column-container div {
+  border-radius: 50%;
+}

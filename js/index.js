@@ -1,6 +1,20 @@
 const DEFAULTLENGTH = 3;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
+function allButtonDisableControl(disabled) {
+  const allButtons = document.querySelectorAll("input[type=submit]");
+  console.log(allButtons);
+  allButtons.forEach((button) => (button.disabled = disabled));
+}
+
+function allButtonabled() {
+  allButtonDisableControl(false);
+}
+
+function allButtonDisabled() {
+  allButtonDisableControl(true);
+}
+
 async function promiseTimeout(ms) {
   return await _promiseTimeout(ms);
 }

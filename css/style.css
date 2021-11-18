@@ -245,7 +245,7 @@ input[type="submit"].delete:active {
   justify-content: center;
   align-items: center;
   font-size: 2em;
-  border-radius: 50%;
+  /* border-radius: 50%; */
   box-sizing: border-box;
   background-color: var(--value-background-normal);
   z-index: 0;

@@ -181,7 +181,7 @@ function renderControlTree() {
 
   const index = document.createElement("input");
   index.type = "number";
-  index.placeholder = "input array index";
+  index.placeholder = "Search Value";
   index.name = "searchValue";
   index.required = true;
 
@@ -198,7 +198,7 @@ function renderControlTree() {
 
   const value = document.createElement("input");
   value.type = "number";
-  value.placeholder = "input array value";
+  value.placeholder = "Insert Value";
   value.value = getRandomValue();
   value.name = "insertValue";
   value.required = true;
@@ -216,7 +216,7 @@ function renderControlTree() {
 
   const value1 = document.createElement("input");
   value1.type = "number";
-  value1.placeholder = "input array value";
+  value1.placeholder = "Delete Value";
   value1.value = getRandomValue();
   value1.name = "deleteValue";
   value1.required = true;

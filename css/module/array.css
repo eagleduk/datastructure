@@ -23,38 +23,6 @@ div.module-container__content-array {
   gap: 15px 15px;
 }
 
-div.module-container__content-array div {
-  text-align: center;
-  padding: 20px;
-  border: 2px solid var(--value-border-normal);
-  width: 130px;
-  box-sizing: border-box;
-}
-
-div.module-container__content-array div.insert-value {
-  border-width: 10px;
-  border-color: var(--value-border-insert);
-}
-
-div.module-container__content-array div.search-value {
-  border-width: 10px;
-  border-color: var(--value-border-selected);
-}
-
 div.module-container__content-array div:active {
   border-color: yellow;
-}
-
-div.module-container__content-array span {
-  display: block;
-  padding: 15px;
-}
-
-div.module-container__content-array span:first-child {
-  border-bottom: 2px solid var(--divider-color);
-}
-
-div.module-container__content-array span:last-child {
-  font-size: 24px;
-  font-weight: bold;
 }

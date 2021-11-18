@@ -184,29 +184,12 @@ function renderControlHeap() {
 
   const controller = document.createElement("div");
 
-  const row1 = document.createElement("form");
-  row1.addEventListener("submit", searchEventHandler);
-
-  const index = document.createElement("input");
-  index.type = "number";
-  index.placeholder = "input array index";
-  index.name = "searchValue";
-  index.required = true;
-
-  const search = document.createElement("input");
-  search.type = "submit";
-  search.className = "search";
-  search.value = "search";
-
-  row1.appendChild(index);
-  row1.appendChild(search);
-
   const row2 = document.createElement("form");
   row2.addEventListener("submit", insertEventHandler);
 
   const value = document.createElement("input");
   value.type = "number";
-  value.placeholder = "input array value";
+  value.placeholder = "Insert Value";
   value.value = getRandomValue();
   value.name = "insertValue";
   value.required = true;
@@ -222,13 +205,6 @@ function renderControlHeap() {
   const row3 = document.createElement("form");
   row3.addEventListener("submit", popEventHandler);
 
-  const value1 = document.createElement("input");
-  value1.type = "number";
-  value1.placeholder = "input array value";
-  value1.value = getRandomValue();
-  value1.name = "deleteValue";
-  value1.required = true;
-
   const del = document.createElement("input");
   del.type = "submit";
   del.className = "delete";
@@ -236,7 +212,6 @@ function renderControlHeap() {
 
   row3.appendChild(del);
 
-  controller.appendChild(row1);
   controller.appendChild(row2);
   controller.appendChild(row3);
 

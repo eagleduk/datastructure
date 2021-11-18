@@ -20,6 +20,7 @@ const insertEventHandler = (e) => {
   pushContent(value.value);
 
   value.value = getRandomValue();
+  //allButtonabled();
 };
 
 function renderControlArray() {
@@ -36,7 +37,7 @@ function renderControlArray() {
 
   const index = document.createElement("input");
   index.type = "number";
-  index.placeholder = "input array index";
+  index.placeholder = "Search Value";
   index.name = "index";
   index.required = true;
 
@@ -53,7 +54,7 @@ function renderControlArray() {
 
   const value = document.createElement("input");
   value.type = "number";
-  value.placeholder = "input array value";
+  value.placeholder = "Input Value";
   value.value = getRandomValue();
   value.name = "value";
   value.required = true;
@@ -103,16 +104,18 @@ async function pushContent(value) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
   const container = document.createElement("div");
-  container.classList.add("insert-value");
+  container.classList.add("value-content");
 
-  let indexContainer = document.createElement("span");
-  indexContainer.innerText = `${moduleContent.childNodes.length}`;
+  container.dataset.value = value;
 
-  let valueContainer = document.createElement("span");
-  valueContainer.innerText = value;
+  // let indexContainer = document.createElement("span");
+  // indexContainer.innerText = `${moduleContent.childNodes.length}`;
 
-  container.appendChild(indexContainer);
-  container.appendChild(valueContainer);
+  // let valueContainer = document.createElement("span");
+  // valueContainer.innerText = value;
+
+  // container.appendChild(indexContainer);
+  // container.appendChild(valueContainer);
 
   moduleContent.appendChild(container);
 

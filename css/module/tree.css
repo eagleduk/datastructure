@@ -23,3 +23,7 @@ div.module-container__content-tree div.tree__column-container {
   justify-content: center;
   align-items: center;
 }
+
+div.module-container__content-tree div.tree__column-container div {
+  border-radius: 50%;
+}

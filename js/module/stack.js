@@ -77,7 +77,7 @@ function renderControlStack() {
 
   const index = document.createElement("input");
   index.type = "number";
-  index.placeholder = "input array index";
+  index.placeholder = "Push Value";
   index.name = "value";
   index.required = true;
 

@@ -68,7 +68,7 @@ function renderControlQueue() {
 
   const index = document.createElement("input");
   index.type = "number";
-  index.placeholder = "input array index";
+  index.placeholder = "Enqueue Value";
   index.name = "value";
   index.required = true;
 

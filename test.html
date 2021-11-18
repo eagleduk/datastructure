@@ -7,6 +7,24 @@
     <meta charset="utf-8">
 
     <style>
+        @keyframes notification {
+            /* 0% {
+                top: -80px;
+            } */
+
+            25% {
+                top: 80px;
+            }
+
+            75% {
+                top: 80px;
+            }
+
+            /* 100% {
+                top: -80px;
+            } */
+        }
+
         .dragtarget {
             width: 300px;
             height: 300px;
@@ -30,39 +48,48 @@
             left: 300px;
             top: 300px;
         }
+
+        .notification {
+            position: fixed;
+            top: -80px;
+            right: 80px;
+            /* width: 200px; */
+            height: 80px;
+            background-color: tomato;
+            text-align: center;
+            font-size: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 10px solid var(--notification-border-normal);
+            box-sizing: border-box;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+        }
+
+        body .notification {
+            margin-top: 160px;
+        }
+
+        .notification.display {
+            animation: notification 5s;
+        }
     </style>
 </head>
 
 <body>
-    <div class="dragtarget">
-        <div class="dragInner" draggable="true" ondragstart="dragStart_(event)" ondrag="drag_(event)">
-            Drag Target
-        </div>
-    </div>
-
-
-
-    <div class="dropzone" ondragover="dragOver_(event)" ondrop="drop_(event)"> Drop Zone </div>
+    <input type="button" value="noti" />
     <script>
-        function dragStart_(e) {
-            console.warn('drag Start');
-            const { clientX, clientY, layerX, layerY } = e;
-            var parentNode = e.target.parentElement;
-            e.dataTransfer.setDragImage(parentNode, layerX, layerY);
-        }
-        function drag_(e) {
-            console.log("drag");
-        }
+        const appendTarget = `<div class="dragtarget"></div>`;
+        document.querySelector("input[type=button]").addEventListener("click", (e) => {
+            const child = document.createElement("div");
+            child.className = "notification display";
+            console.log(child);
+            document.querySelector("body").appendChild(child);
+        })
 
-        function dragOver_(e) {
-            e.preventDefault();
-            console.log('dragOver');
-
-        }
-
-        function drop_(e) {
-            console.log("drop");
-        }
     </script>
 </body>
 
