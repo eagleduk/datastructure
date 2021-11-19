@@ -1,49 +1,58 @@
 ## ToDo
 
-1. Array  
-   [ ] Search Index => Search Value 로 변경  
-   [ ] Search 0번부터 순서대로 focus 효과  
-   [x] control placeholder 변경  
-   [x] content 형태 변경
+1. Array
 
-1. queue  
-   [x] control placeholder 변경
+   - [ ] Search Index => Search Value 로 변경
+   - [ ] Search 0번부터 순서대로 focus 효과
+   - [x] control placeholder 변경
+   - [x] content 형태 변경
 
-1. stack  
-   [x] control placeholder 변경
+1. queue
 
-1. Linked List  
-   [ ] Search Value 추가  
-   [ ] Search 0번부터 순서대로 focus 효과  
-   [x] control placeholder 변경  
-   [ ] button or submit
+   - [x] control placeholder 변경
 
-1. Hash Table  
-   [ ] Index 위주의 insert, search 를 value 기준으로  
-   [ ] Search 시 key, value focus 효과  
-   [x] control placeholder 변경
+1. stack
 
-1. Tree  
-   [ ] Search 시 순서대로 focus 효과  
-   [x] control placeholder 변경
+   - [x] control placeholder 변경
 
-1. Heap  
-   [x] Search 필요 여부 - 삭제  
-   [x] control placeholder 변경
+1. Linked List
 
-1. 공통  
-   [ ] button 클릭시 효과가 끝날 때 까지 모든 button 비활성화(?) or notification 중복 처리  
-   [ ] value 효과  
-   [ ] button 스타일
+   - [ ] Search Value 추가
+   - [ ] Search 0번부터 순서대로 focus 효과
+   - [x] control placeholder 변경
+   - [ ] button or submit
 
-1. notification 스타일 작업  
-   [ ] normal  
-   [ ] warning  
-   [ ] error
+1. Hash Table
 
-1. control 작업  
-   [ ] styling  
-   [ ] drag & drop
+   - [ ] Index 위주의 insert, search 를 value 기준으로
+   - [ ] Search 시 key, value focus 효과
+   - [x] control placeholder 변경
+
+1. Tree
+
+   - [ ] Search 시 순서대로 focus 효과
+   - [x] control placeholder 변경
+
+1. Heap
+
+   - [x] Search 필요 여부 - 삭제
+   - [x] control placeholder 변경
+
+1. 공통
+
+   - [ ] button 클릭시 효과가 끝날 때 까지 모든 button 비활성화(?) or notification 중복 처리
+   - [ ] value 효과
+   - [ ] button 스타일
+
+1. notification 스타일 작업
+
+   - [ ] normal
+   - [ ] warning
+   - [ ] error
+
+1. control 작업
+   - [ ] styling
+   - [ ] drag & drop
 
 ### 2021-11-18
 
