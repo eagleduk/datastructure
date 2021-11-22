@@ -2,8 +2,8 @@
 
 1. Array
 
-   - [ ] Search Index => Search Value 로 변경
-   - [ ] Search 0번부터 순서대로 focus 효과
+   - [x] Search Index => Search Value 로 변경
+   - [x] Search 0번부터 순서대로 focus 효과
    - [x] control placeholder 변경
    - [x] content 형태 변경
 
@@ -53,6 +53,17 @@
 1. control 작업
    - [ ] styling
    - [ ] drag & drop
+
+### 2021-11-22
+
+1. Array
+
+   - index search => value search 변경
+   - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
+
+1. queue
+1. stack
+   - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
 
 ### 2021-11-18
 

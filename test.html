@@ -7,87 +7,28 @@
     <meta charset="utf-8">
 
     <style>
-        @keyframes notification {
-            /* 0% {
-                top: -80px;
-            } */
-
-            25% {
-                top: 80px;
-            }
-
-            75% {
-                top: 80px;
-            }
-
-            /* 100% {
-                top: -80px;
-            } */
-        }
-
-        .dragtarget {
-            width: 300px;
-            height: 300px;
-            background-color: tomato;
-
-        }
-
-        .dragInner {
-            width: inherit;
-            height: 30px;
-            background-color: slateblue;
-
-            color: white;
-        }
-
-        .dropzone {
-            width: 500px;
-            height: 500px;
-            background-color: yellowgreen;
-
-            left: 300px;
-            top: 300px;
-        }
-
-        .notification {
-            position: fixed;
-            top: -80px;
-            right: 80px;
-            /* width: 200px; */
-            height: 80px;
-            background-color: tomato;
-            text-align: center;
-            font-size: 22px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: 10px solid var(--notification-border-normal);
-            box-sizing: border-box;
-            border-radius: 10px;
-            color: white;
-            font-weight: 600;
-            padding: 10px 20px;
-        }
-
-        body .notification {
-            margin-top: 160px;
-        }
-
-        .notification.display {
-            animation: notification 5s;
-        }
     </style>
 </head>
 
 <body>
-    <input type="button" value="noti" />
+    <input id="button" type="button" value="noti" />
     <script>
-        const appendTarget = `<div class="dragtarget"></div>`;
-        document.querySelector("input[type=button]").addEventListener("click", (e) => {
-            const child = document.createElement("div");
-            child.className = "notification display";
-            console.log(child);
-            document.querySelector("body").appendChild(child);
+        function _promiseTimeout(ms, fn) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    if (typeof fn === "function") fn();
+                    resolve();
+                }, ms);
+            });
+        }
+
+        document.querySelector("#button").addEventListener("click", async (e) => {
+            const fn = () => {
+                console.log("function");
+            }
+            await _promiseTimeout(2000);
+
+            console.log("End");
         })
 
     </script>

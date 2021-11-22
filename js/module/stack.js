@@ -15,8 +15,9 @@ const stackRenderEvent = (e) => {
   container.appendChild(renderContentStackRight());
 };
 
-const stackPushEvent = (e) => {
+const pushEventHandler = async (e) => {
   e.preventDefault();
+  e.target.push.disabled = true;
   const {
     target: { value },
   } = e;
@@ -27,20 +28,20 @@ const stackPushEvent = (e) => {
   const valueContent = createValueContent(value.value);
 
   enqueueContainer.appendChild(valueContent);
+  const container = document.querySelector(
+    `.${MODULECONTENTCLASS} .content-stack__center`
+  );
 
-  setTimeout((e) => {
-    const container = document.querySelector(
-      `.${MODULECONTENTCLASS} .content-stack__center`
-    );
-
-    container.prepend(valueContent);
-  }, MOVEDURATION);
+  await _promiseTimeout(MOVEDURATION, () => container.prepend(valueContent));
 
   value.value = getRandomValue();
+
+  e.target.push.disabled = false;
 };
 
-const stackPopEvent = (e) => {
+const popEventHandler = async (e) => {
   e.preventDefault();
+  e.target.pop.disabled = true;
 
   const container = document.querySelector(
     `.${MODULECONTENTCLASS} .content-stack__center`
@@ -49,18 +50,21 @@ const stackPopEvent = (e) => {
   if (!firstChild) return;
   firstChild.classList.add("pop-value");
 
-  setTimeout((e) => {
-    const enqueueContainer = document.querySelector(
-      `.${MODULECONTENTCLASS} .content-stack__right`
-    );
+  const enqueueContainer = document.querySelector(
+    `.${MODULECONTENTCLASS} .content-stack__right`
+  );
 
-    enqueueContainer.appendChild(firstChild);
+  await _promiseTimeout(MOVEDURATION, () =>
+    enqueueContainer.appendChild(firstChild)
+  );
+  await _promiseTimeout(
+    MOVEDURATION,
+    () =>
+      enqueueContainer.hasChildNodes() &&
+      enqueueContainer.removeChild(firstChild)
+  );
 
-    setTimeout((e) => {
-      if (enqueueContainer.hasChildNodes())
-        enqueueContainer.removeChild(firstChild);
-    }, MOVEDURATION);
-  }, MOVEDURATION);
+  e.target.pop.disabled = false;
 };
 
 function renderControlStack() {
@@ -73,31 +77,34 @@ function renderControlStack() {
   const controller = document.createElement("div");
 
   const row1 = document.createElement("form");
-  row1.addEventListener("submit", stackPushEvent);
+  row1.addEventListener("submit", pushEventHandler);
 
-  const index = document.createElement("input");
-  index.type = "number";
-  index.placeholder = "Push Value";
-  index.name = "value";
-  index.required = true;
+  const value = document.createElement("input");
+  value.type = "number";
+  value.placeholder = "Push Value";
+  value.name = "value";
+  value.required = true;
+  value.value = getRandomValue();
 
-  const search = document.createElement("input");
-  search.type = "submit";
-  search.className = "insert";
-  search.value = "push";
+  const push = document.createElement("input");
+  push.type = "submit";
+  push.className = "insert";
+  push.value = "push";
+  push.name = "push";
 
-  row1.appendChild(index);
-  row1.appendChild(search);
+  row1.appendChild(value);
+  row1.appendChild(push);
 
   const row2 = document.createElement("form");
-  row2.addEventListener("submit", stackPopEvent);
+  row2.addEventListener("submit", popEventHandler);
 
-  const insert = document.createElement("input");
-  insert.type = "submit";
-  insert.className = "delete";
-  insert.value = "pop";
+  const pop = document.createElement("input");
+  pop.type = "submit";
+  pop.className = "delete";
+  pop.value = "pop";
+  pop.name = "pop";
 
-  row2.appendChild(insert);
+  row2.appendChild(pop);
 
   controller.appendChild(row1);
   controller.appendChild(row2);
@@ -114,8 +121,6 @@ function createValueContent(value) {
   const div = document.createElement("div");
   div.className = "stack__content-value value-content";
   div.dataset.value = value;
-
-  // div.innerText = getRandomValue();
 
   return div;
 }
@@ -149,8 +154,6 @@ function renderContentStackLeft() {
 function renderContentStackCenter() {
   const queueMiddle = document.createElement("div");
   queueMiddle.className = "content-stack content-stack__center";
-
-  // renderContent(queueMiddle);
 
   return queueMiddle;
 }

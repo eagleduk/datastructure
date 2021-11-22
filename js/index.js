@@ -19,9 +19,10 @@ async function promiseTimeout(ms) {
   return await _promiseTimeout(ms);
 }
 
-function _promiseTimeout(ms) {
+function _promiseTimeout(ms, fn) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      if (typeof fn === "function") fn();
       resolve();
     }, ms);
   });

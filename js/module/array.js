@@ -2,14 +2,17 @@ const MODULE = "array";
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
-const searchEventHandler = (e) => {
+const searchEventHandler = async (e) => {
   e.preventDefault();
+  e.target.submit.disabled = true;
   const {
     target: {
       index: { value },
     },
   } = e;
-  searchContent(value);
+  await searchContent(value);
+
+  e.target.submit.disabled = false;
 };
 
 const insertEventHandler = (e) => {
@@ -20,7 +23,6 @@ const insertEventHandler = (e) => {
   pushContent(value.value);
 
   value.value = getRandomValue();
-  //allButtonabled();
 };
 
 function renderControlArray() {
@@ -44,6 +46,7 @@ function renderControlArray() {
   const search = document.createElement("input");
   search.type = "submit";
   search.className = "search";
+  search.name = "submit";
   search.value = "search";
 
   row1.appendChild(index);
@@ -87,17 +90,26 @@ function renderContentArray() {
   return moduleContent;
 }
 
-async function searchContent(index) {
+async function searchContent(value) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
-  if (!moduleContent.childNodes[index]) {
-    errorNotification(`Index[${index}] is not found`);
-  } else {
-    moduleContent.childNodes[index].classList.add("search-value");
-    await promiseTimeout(3000);
-    moduleContent.childNodes[index].classList.remove("search-value");
-    console.log("End");
+  const childNodes = moduleContent.childNodes;
+
+  for (let index = 0; index < childNodes.length; index++) {
+    let node = childNodes[index];
+    node.classList.add("search-value");
+    await _promiseTimeout(1000, () => node.classList.remove("search-value"));
+
+    if (node.dataset.value === value) {
+      node.classList.add("selected-value");
+
+      await _promiseTimeout(3000, () => (node.className = "value-content"));
+      return;
+    } else {
+    }
   }
+
+  errorNotification(`Value[${value}] is not found.`);
 }
 
 async function pushContent(value) {
@@ -105,24 +117,9 @@ async function pushContent(value) {
 
   const container = document.createElement("div");
   container.classList.add("value-content");
-
   container.dataset.value = value;
 
-  // let indexContainer = document.createElement("span");
-  // indexContainer.innerText = `${moduleContent.childNodes.length}`;
-
-  // let valueContainer = document.createElement("span");
-  // valueContainer.innerText = value;
-
-  // container.appendChild(indexContainer);
-  // container.appendChild(valueContainer);
-
   moduleContent.appendChild(container);
-
-  notification("Done");
-
-  await promiseTimeout(3000);
-  container.classList.remove("insert-value");
 }
 
 export const renderModule = () => {

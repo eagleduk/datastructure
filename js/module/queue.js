@@ -3,8 +3,9 @@ const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 const MOVEDURATION = 3 * 1000;
 
-const queueEnqueueEvent = (e) => {
+const enqueueEventHandler = async (e) => {
   e.preventDefault();
+  e.target.insert.disabled = true;
   const {
     target: { value },
   } = e;
@@ -14,22 +15,21 @@ const queueEnqueueEvent = (e) => {
   );
 
   const valueContent = createValueContent(value.value);
-
   enqueueContainer.appendChild(valueContent);
 
-  setTimeout((e) => {
-    const container = document.querySelector(
-      `.${MODULECONTENTCLASS} .content-queue__middle`
-    );
+  const container = document.querySelector(
+    `.${MODULECONTENTCLASS} .content-queue__middle`
+  );
 
-    container.prepend(valueContent);
-  }, MOVEDURATION);
+  await _promiseTimeout(MOVEDURATION, () => container.prepend(valueContent));
 
   value.value = getRandomValue();
+  e.target.insert.disabled = false;
 };
 
-const queueDequeueEvent = (e) => {
+const dequeueEventHandler = async (e) => {
   e.preventDefault();
+  e.target.remove.disabled = true;
   const container = document.querySelector(
     `.${MODULECONTENTCLASS} .content-queue__middle`
   );
@@ -39,19 +39,21 @@ const queueDequeueEvent = (e) => {
   if (!lastChild) return;
 
   lastChild.classList.add("dequeue-value");
+  const enqueueContainer = document.querySelector(
+    `.${MODULECONTENTCLASS} .content-queue__bottom`
+  );
 
-  setTimeout((e) => {
-    const enqueueContainer = document.querySelector(
-      `.${MODULECONTENTCLASS} .content-queue__bottom`
-    );
+  await _promiseTimeout(MOVEDURATION, () =>
+    enqueueContainer.appendChild(lastChild)
+  );
+  await _promiseTimeout(
+    MOVEDURATION,
+    () =>
+      enqueueContainer.hasChildNodes() &&
+      enqueueContainer.removeChild(lastChild)
+  );
 
-    enqueueContainer.appendChild(lastChild);
-
-    setTimeout((e) => {
-      if (enqueueContainer.hasChildNodes())
-        enqueueContainer.removeChild(lastChild);
-    }, MOVEDURATION);
-  }, MOVEDURATION);
+  e.target.remove.disabled = false;
 };
 
 function renderControlQueue() {
@@ -64,31 +66,34 @@ function renderControlQueue() {
   const controller = document.createElement("div");
 
   const row1 = document.createElement("form");
-  row1.addEventListener("submit", queueEnqueueEvent);
+  row1.addEventListener("submit", enqueueEventHandler);
 
-  const index = document.createElement("input");
-  index.type = "number";
-  index.placeholder = "Enqueue Value";
-  index.name = "value";
-  index.required = true;
-
-  const search = document.createElement("input");
-  search.type = "submit";
-  search.className = "insert";
-  search.value = "Enqueue";
-
-  row1.appendChild(index);
-  row1.appendChild(search);
-
-  const row2 = document.createElement("form");
-  row2.addEventListener("submit", queueDequeueEvent);
+  const value = document.createElement("input");
+  value.type = "number";
+  value.placeholder = "Enqueue Value";
+  value.name = "value";
+  value.required = true;
+  value.value = getRandomValue();
 
   const insert = document.createElement("input");
   insert.type = "submit";
-  insert.className = "delete";
-  insert.value = "Dequeue";
+  insert.className = "insert";
+  insert.value = "Enqueue";
+  insert.name = "insert";
 
-  row2.appendChild(insert);
+  row1.appendChild(value);
+  row1.appendChild(insert);
+
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", dequeueEventHandler);
+
+  const remove = document.createElement("input");
+  remove.type = "submit";
+  remove.className = "delete";
+  remove.value = "Dequeue";
+  remove.name = "remove";
+
+  row2.appendChild(remove);
 
   controller.appendChild(row1);
   controller.appendChild(row2);
@@ -132,8 +137,6 @@ function renderContentQueueTop() {
 function renderContentQueueMiddle() {
   const queueMiddle = document.createElement("div");
   queueMiddle.className = "content-queue content-queue__middle";
-
-  //renderContent(queueMiddle);
 
   return queueMiddle;
 }

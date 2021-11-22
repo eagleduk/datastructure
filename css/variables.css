@@ -19,7 +19,10 @@
   --value-background-normal: darksalmon;
 
   --value-border-normal: khaki;
-  --value-border-selected: lightsalmon;
+
+  --value-border-search: green;
+
+  --value-border-selected: crimson;
   --value-border-active: yellow;
   --value-border-insert: crimson;
 
@@ -40,6 +43,10 @@
   --btn-insert-active: blue;
   --btn-search-active: gray;
   --btn-delete-active: red;
+
+  --btn-insert-disabled: blue;
+  --btn-search-disabled: gray;
+  --btn-delete-disabled: red;
 
   /* divider */
   --divider-color: tomato;

@@ -155,6 +155,11 @@ input[type="submit"] {
   /* font-family: "Lucida Console"; */
 }
 
+input[type="button"]:disabled,
+input[type="submit"]:disabled {
+  opacity: 0.4;
+}
+
 input[type="button"]:hover,
 input[type="submit"]:hover {
   background-color: var(--input-submit-hover);
@@ -214,6 +219,8 @@ input[type="submit"].delete:active {
 .content-control {
   background-color: var(--contoller-background-color);
   position: absolute;
+  top: 15px;
+  left: 15px;
   z-index: 9000;
 }
 
@@ -255,5 +262,12 @@ input[type="submit"].delete:active {
   content: attr(data-value);
 }
 
-.value-content.rectangle {
+.value-content.search-value {
+  border-width: 5px;
+  border-color: var(--value-border-search);
+}
+
+.value-content.selected-value {
+  border-width: 5px;
+  border-color: var(--value-border-selected);
 }
