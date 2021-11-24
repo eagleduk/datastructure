@@ -1,7 +1,7 @@
 div.module-container__content-linkedlist {
   width: 100%;
   height: 100%;
-  position: relative;
+  /* position: relative; */
 }
 
 svg.module-container__canvas-linkedlist {
@@ -20,7 +20,7 @@ svg.module-container__canvas-linkedlist {
 }
 
 .value-content.linkedlist__content-value.selected {
-  border-color: var(--value-border-selected);
+  border-color: var(--value-border-active);
 }
 
 .value-content.linkedlist__content-value input[type="button"] {

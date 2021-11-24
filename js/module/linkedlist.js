@@ -9,6 +9,45 @@ const MODULESVGCLASS = `module-container__canvas-${MODULE}`;
 
 let SEQ = 0;
 
+const searchEventHandler = async (e) => {
+  e.preventDefault();
+  clearContentSelected();
+  e.target.search.disabled = true;
+  const {
+    target: {
+      searchValue: { value },
+    },
+  } = e;
+  await searchContent(value);
+
+  e.target.search.disabled = false;
+};
+
+async function searchContent(value) {
+  const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
+
+  const childNodes = moduleContent.childNodes;
+
+  for (let index = 0; index < childNodes.length; index++) {
+    let node = childNodes[index];
+    node.classList.add("search-value");
+    await _promiseTimeout(1000, () => node.classList.remove("search-value"));
+
+    if (node.dataset.value === value) {
+      node.classList.add("selected-value");
+
+      await _promiseTimeout(
+        3000,
+        () => (node.className = "linkedlist__content-value value-content")
+      );
+      return;
+    } else {
+    }
+  }
+
+  errorNotification(`Value[${value}] is not found.`);
+}
+
 const clearContentSelected = () => {
   // 선택 초기화
   document
@@ -182,10 +221,46 @@ function renderContentConnection(prev, current, next) {
   }
 }
 
+function renderControlLinkedList() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "toolbar";
+  toolbar.draggable = true;
+  toolbar.addEventListener("dragstart", controlPanelDragStartEventHandler);
+  toolbar.addEventListener("drag", (e) => {});
+
+  const controller = document.createElement("div");
+
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchEventHandler);
+
+  const index = document.createElement("input");
+  index.type = "number";
+  index.placeholder = "Search Value";
+  index.name = "searchValue";
+  index.required = true;
+
+  const search = document.createElement("input");
+  search.type = "submit";
+  search.className = "search";
+  search.value = "search";
+  search.name = "search";
+
+  row1.appendChild(index);
+  row1.appendChild(search);
+
+  controller.appendChild(row1);
+
+  const controlPanel = document.createElement("div");
+  controlPanel.className = `${MODULECONTROLCLASS} content-control`;
+  controlPanel.appendChild(toolbar);
+  controlPanel.appendChild(controller);
+  return controlPanel;
+}
+
 function renderContentLinkedList() {
   const container = document.createElement("div");
   container.className = `${MODULECONTENTCLASS}`;
-  container.addEventListener("click", backgroundClickEventHandler);
+  //container.addEventListener("click", backgroundClickEventHandler);
   return container;
 }
 
@@ -236,10 +311,14 @@ function createValueContent(top, left) {
   return valueContent;
 }
 
-function createSVGCanvas() {
+function renderSVGContainer() {
   const svg = document.createElementNS(NSADDRESS, "svg");
   // svg.id = SVGID;
   svg.classList.add(MODULESVGCLASS);
+
+  svg.addEventListener("dragover", contentDragoverEventHandler);
+  svg.addEventListener("drop", contentDropEventHandler);
+  svg.addEventListener("click", backgroundClickEventHandler);
 
   const linearGradient = document.createElementNS(NSADDRESS, "linearGradient");
   linearGradient.id = "TEST";
@@ -267,9 +346,8 @@ export const renderModule = () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 
-  const svg = createSVGCanvas();
-
-  nodeModule.appendChild(svg);
+  nodeModule.appendChild(renderSVGContainer());
+  nodeModule.appendChild(renderControlLinkedList());
   nodeModule.appendChild(renderContentLinkedList());
 
   renderModuleContent(nodeModule);

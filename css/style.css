@@ -110,6 +110,7 @@ article.notification {
   color: white;
   font-weight: 600;
   padding: 10px 20px;
+  z-index: 9999;
 }
 
 article.display {

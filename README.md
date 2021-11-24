@@ -7,18 +7,18 @@
    - [x] control placeholder 변경
    - [x] content 형태 변경
 
-1. queue
+1. Queue
 
    - [x] control placeholder 변경
 
-1. stack
+1. Stack
 
    - [x] control placeholder 변경
 
 1. Linked List
 
-   - [ ] Search Value 추가
-   - [ ] Search 0번부터 순서대로 focus 효과
+   - [x] Search Value 추가
+   - [x] Search 0번부터 순서대로 focus 효과
    - [x] control placeholder 변경
    - [ ] button or submit
 
@@ -30,7 +30,7 @@
 
 1. Tree
 
-   - [ ] Search 시 순서대로 focus 효과
+   - [x] Search 시 순서대로 focus 효과
    - [x] control placeholder 변경
 
 1. Heap
@@ -54,6 +54,17 @@
    - [ ] styling
    - [ ] drag & drop
 
+### 2021-11-24
+
+1. Linked List
+
+   - Search Value 추가
+   - Search 0번부터 순서대로 focus 효과
+
+1. Tree
+
+   - Search 시 순서대로 focus 효과
+
 ### 2021-11-22
 
 1. Array
@@ -61,8 +72,8 @@
    - index search => value search 변경
    - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
 
-1. queue
-1. stack
+1. Queue
+1. Stack
    - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
 
 ### 2021-11-18
@@ -72,11 +83,11 @@
    - control placeholder 변경
    - content 형태 변경
 
-1. queue
+1. Queue
 
    - control placeholder 변경
 
-1. stack
+1. Stack
 
    - control placeholder 변경
 

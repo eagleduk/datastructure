@@ -15,33 +15,44 @@ const CLASSNAMES = {
   VALUECONTENT: [`value-content`],
 };
 
-const searchEventHandler = (e) => {
+const searchEventHandler = async (e) => {
   e.preventDefault();
+  e.target.search.disabled = true;
   const { value: inputValue } = e.target.searchValue;
-  const searchResult = searchTreeData(inputValue, 0, 0);
+  const searchResult = await searchTreeData(inputValue, 0, 0);
 
-  console.log(inputValue, " +++ ", searchResult);
-  if (!searchResult) errorNotification("Value is not found");
+  if (!searchResult) errorNotification(`Value[${inputValue}] is not found`);
+  e.target.search.disabled = false;
 };
 
-function searchTreeData(inputValue, row, column) {
+async function searchTreeData(inputValue, row, column) {
   const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
   const rowContainers = mainContainer.childNodes;
   const comparsionContent = getContent(row, column);
 
   if (comparsionContent) {
+    comparsionContent.classList.add("search-value");
+    await _promiseTimeout(1000, () =>
+      comparsionContent.classList.remove("search-value")
+    );
     const { value: comparsionValue } = comparsionContent.dataset;
 
     if (comparsionValue === String(inputValue)) {
+      comparsionContent.classList.add("selected-value");
+
+      await _promiseTimeout(
+        3000,
+        () => (comparsionContent.className = "value-content")
+      );
       return { row, column };
     } else {
       if (rowContainers.length <= row + 1) {
         return false;
       }
       if (parseInt(comparsionValue) < parseInt(inputValue)) {
-        return searchTreeData(inputValue, row + 1, column * 2 + 1);
+        return await searchTreeData(inputValue, row + 1, column * 2 + 1);
       } else {
-        return searchTreeData(inputValue, row + 1, column * 2);
+        return await searchTreeData(inputValue, row + 1, column * 2);
       }
     }
   }
@@ -189,6 +200,7 @@ function renderControlTree() {
   search.type = "submit";
   search.className = "search";
   search.value = "search";
+  search.name = "search";
 
   row1.appendChild(index);
   row1.appendChild(search);

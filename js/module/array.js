@@ -4,25 +4,25 @@ const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 
 const searchEventHandler = async (e) => {
   e.preventDefault();
-  e.target.submit.disabled = true;
+  e.target.search.disabled = true;
   const {
     target: {
-      index: { value },
+      searchValue: { value },
     },
   } = e;
   await searchContent(value);
 
-  e.target.submit.disabled = false;
+  e.target.search.disabled = false;
 };
 
 const insertEventHandler = (e) => {
   e.preventDefault();
   const {
-    target: { value },
+    target: { insertValue },
   } = e;
-  pushContent(value.value);
+  pushContent(insertValue.value);
 
-  value.value = getRandomValue();
+  insertValue.value = getRandomValue();
 };
 
 function renderControlArray() {
@@ -40,13 +40,13 @@ function renderControlArray() {
   const index = document.createElement("input");
   index.type = "number";
   index.placeholder = "Search Value";
-  index.name = "index";
+  index.name = "searchValue";
   index.required = true;
 
   const search = document.createElement("input");
   search.type = "submit";
   search.className = "search";
-  search.name = "submit";
+  search.name = "search";
   search.value = "search";
 
   row1.appendChild(index);
@@ -59,7 +59,7 @@ function renderControlArray() {
   value.type = "number";
   value.placeholder = "Input Value";
   value.value = getRandomValue();
-  value.name = "value";
+  value.name = "insertValue";
   value.required = true;
 
   const insert = document.createElement("input");

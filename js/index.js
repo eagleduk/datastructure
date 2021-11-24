@@ -100,7 +100,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "array";
+  const module = "tree";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);
