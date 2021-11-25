@@ -54,30 +54,27 @@ div.module-container__content-hashtable section > div:first-child.selectedKey {
   border: 5px solid var(--value-border-active);
 }
 
+div.module-container__content-hashtable section > div:last-child {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-flow: wrap;
+  padding: 0px 10px 0px 10px;
+  box-sizing: border-box;
+  gap: 10px 5px;
+}
+
 div.module-container__content-hashtable section > div:last-child::before {
   content: "[";
-  margin-right: 10px;
+  font-size: 20px;
+  font-weight: 900;
 }
 
 div.module-container__content-hashtable section > div:last-child::after {
   content: "]";
-}
-
-.valueArrays div {
-  margin-right: 10px;
-  box-sizing: border-box;
-  border: 5px solid var(--value-border-normal);
-}
-
-.valueArrays div.searchValue {
-  border: 5px solid var(--value-border-selected);
-}
-
-.valueArrays div h3,
-.valueArrays div h1 {
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 5px;
+  font-size: 20px;
+  font-weight: 900;
 }

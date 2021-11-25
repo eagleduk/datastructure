@@ -24,8 +24,8 @@
 
 1. Hash Table
 
-   - [ ] Index 위주의 insert, search 를 value 기준으로
-   - [ ] Search 시 key, value focus 효과
+   - [x] Index 위주의 insert, search 를 value 기준으로
+   - [x] Search 시 key, value focus 효과
    - [x] control placeholder 변경
 
 1. Tree
@@ -43,6 +43,7 @@
    - [ ] button 클릭시 효과가 끝날 때 까지 모든 button 비활성화(?) or notification 중복 처리
    - [ ] value 효과
    - [ ] button 스타일
+   - [ ] element 변수명 확인
 
 1. notification 스타일 작업
 
@@ -53,6 +54,13 @@
 1. control 작업
    - [ ] styling
    - [ ] drag & drop
+
+### 2021-11-25
+
+1. Hash Table
+
+   - Index 위주의 insert, search 를 value 기준으로
+   - Search 시 key, value focus 효과
 
 ### 2021-11-24
 

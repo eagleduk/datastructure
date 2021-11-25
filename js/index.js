@@ -100,7 +100,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "tree";
+  const module = "hashtable";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

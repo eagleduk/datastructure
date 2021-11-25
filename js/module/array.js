@@ -112,7 +112,7 @@ async function searchContent(value) {
   errorNotification(`Value[${value}] is not found.`);
 }
 
-async function pushContent(value) {
+function pushContent(value) {
   const moduleContent = document.querySelector(`div.${MODULECONTENTCLASS}`);
 
   const container = document.createElement("div");
