@@ -15,7 +15,7 @@ div.module-container__content-stack div.content-stack {
 }
 
 .content-stack__left {
-  background-color: var(--content-background-normal);
+  background-color: var(--content-background-first);
 }
 
 .content-stack__left .stack__content-value {

@@ -1,29 +1,26 @@
 :root {
   /* header */
-  --header-background-color: white;
-  --header-menu-background-color-normal: slateblue;
-  --header-menu-background-color-hover: bisque;
-  --header-menu-background-color-selected: chocolate;
-  --header-menu-text-color: white;
+  --header-background-color: #2c3e50;
+  --header-menu-background-color-normal: #5218fa;
+  --header-menu-background-color-hover: #b87700;
+  --header-menu-background-color-selected: #ffb01f;
+  --header-menu-text-color: #f8f4ff;
 
   /* background */
-  --content-background-normal: aquamarine;
-
-  --content-background-first: cornflowerblue;
-  --content-background-second: brown;
-  --content-background-third: darkgray;
-  --content-background-fourth: coral;
-  --content-background-fifth: whitesmoke;
+  --content-background-first: #e5e4e2;
+  --content-background-second: #c0c0c0;
+  --content-background-third: #cfcfc4;
+  --content-background-fourth: #c4aead;
+  --content-background-fifth: #d3d3d3;
 
   /* content */
-  --value-background-normal: darksalmon;
+  --value-background-normal: #ffb300;
 
-  --value-border-normal: khaki;
+  --value-border-normal: #333333;
+  --value-border-search: #3cb371;
+  --value-border-selected: #e32636;
+  --value-border-active: #fdff00;
 
-  --value-border-search: green;
-
-  --value-border-selected: crimson;
-  --value-border-active: yellow;
   --value-border-insert: crimson;
 
   /* input */
@@ -32,21 +29,17 @@
   --input-submit-active: blueviolet;
 
   /* button */
-  --btn-insert-normal: blue;
-  --btn-search-normal: gray;
-  --btn-delete-normal: red;
+  --btn-search-normal: #a8a8a8;
+  --btn-search-hover: #8f8f8f;
+  --btn-search-active: #4a4a4a;
 
-  --btn-insert-hover: blue;
-  --btn-search-hover: gray;
-  --btn-delete-hover: red;
+  --btn-insert-normal: #5252ff;
+  --btn-insert-hover: #1f1fff;
+  --btn-insert-active: #000094;
 
-  --btn-insert-active: blue;
-  --btn-search-active: gray;
-  --btn-delete-active: red;
-
-  --btn-insert-disabled: blue;
-  --btn-search-disabled: gray;
-  --btn-delete-disabled: red;
+  --btn-delete-normal: #ff5252;
+  --btn-delete-hover: #ff1f1f;
+  --btn-delete-active: #940000;
 
   /* divider */
   --divider-color: tomato;
@@ -54,16 +47,16 @@
   --divider-to-color: red;
 
   /* controller */
-  --contoller-background-color: tomato;
-  --toolbar-background-normal: blue;
+  --contoller-background-color: #f28500;
+  --toolbar-background-normal: #0000cd;
 
   /* notification */
-  --notification-background-normal: green;
-  --notification-border-normal: green;
+  --notification-background-normal: #138808;
+  --notification-border-normal: #138808;
 
-  --notification-background-warning: #ffa461;
-  --notification-border-warning: #ffa461;
+  --notification-background-warning: #ff8c00;
+  --notification-border-warning: #ff8c00;
 
-  --notification-background-error: red;
-  --notification-border-error: red;
+  --notification-background-error: #ed2939;
+  --notification-border-error: #ed2939;
 }

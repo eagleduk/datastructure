@@ -87,7 +87,7 @@ main.content {
 }
 
 main div.module-container {
-  background-color: var(--content-background-normal);
+  background-color: var(--content-background-first);
   width: 100%;
 }
 
@@ -158,6 +158,7 @@ input[type="submit"] {
 
 input[type="button"]:disabled,
 input[type="submit"]:disabled {
+  pointer-events: none;
   opacity: 0.4;
 }
 

@@ -14,7 +14,7 @@ div.module-container__content-queue div.content-queue {
 }
 
 .content-queue__top {
-  background-color: var(--content-background-normal);
+  background-color: var(--content-background-first);
 }
 
 .content-queue__top .queue__content-value {

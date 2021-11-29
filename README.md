@@ -55,6 +55,13 @@
    - [ ] styling
    - [ ] drag & drop
 
+<hr>
+
+### 2021-11-29
+
+1. 공통
+   - style 작업 1차
+
 ### 2021-11-25
 
 1. Hash Table
@@ -143,6 +150,7 @@
    - warning
    - error
 
-### 도움이 될만한 사이트 정보
+## 도움이 될만한 사이트 정보
 
-rgb 사이트: [https://mycolor.space/](https://mycolor.space/)
+- rgb 사이트: [https://mycolor.space/](https://mycolor.space/)
+- 비슷한 색상 사이트: [https://html-color.codes/blue](https://html-color.codes/blue)
