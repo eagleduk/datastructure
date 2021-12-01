@@ -334,7 +334,7 @@ function getContent(row, column) {
   return mainContainer?.childNodes[row]?.childNodes[column]?.childNodes[0];
 }
 
-export const renderModule = () => {
+export default () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 

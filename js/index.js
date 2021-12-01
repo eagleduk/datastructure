@@ -15,9 +15,9 @@ function allButtonDisabled() {
   allButtonDisableControl(true);
 }
 
-async function promiseTimeout(ms) {
-  return await _promiseTimeout(ms);
-}
+// async function promiseTimeout(ms) {
+//   return await _promiseTimeout(ms);
+// }
 
 function _promiseTimeout(ms, fn) {
   return new Promise((resolve, reject) => {
@@ -70,8 +70,10 @@ function renderModuleContent(moduleNode) {
 }
 
 async function moduleLoader(module = "array") {
-  const importModule = await import(`./module/${module}.js`);
-  importModule.renderModule();
+  const { default: render } = await import(`./module/${module}.js`);
+  // console.log("module", importModule);
+  // importModule.renderModule();
+  render();
 }
 
 function moduleSelected(selected = "array") {
@@ -100,7 +102,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "tree";
+  const module = "linkedlist";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

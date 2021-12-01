@@ -6,6 +6,7 @@ const SVGID = `${MODULE}-svg`;
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
 const MODULESVGCLASS = `module-container__canvas-${MODULE}`;
+const LINEARGRADIENTID = "TTEST";
 
 let SEQ = 0;
 
@@ -188,15 +189,34 @@ function renderConnection(prev, next) {
   const color = getRandomColor();
   const line = document.createElementNS(NSADDRESS, "line");
 
-  line.setAttribute("x1", fromLeft + CONTENTWIDTH / 2);
-  line.setAttribute("y1", formTop + CONTENTWIDTH / 2);
+  const x1 = fromLeft + CONTENTWIDTH / 2;
+  const y1 = formTop + CONTENTWIDTH / 2;
 
-  line.setAttribute("x2", toLeft + CONTENTWIDTH / 2);
-  line.setAttribute("y2", toTop + CONTENTWIDTH / 2);
+  const x2 = toLeft + CONTENTWIDTH / 2;
+  const y2 = toTop + CONTENTWIDTH / 2;
 
-  line.style.stroke = "url(#TEST)";
-  line.style.strokeWidth = 5;
-  line.style.strokeOpacity = 1;
+  line.setAttribute("x1", x1);
+  line.setAttribute("y1", y1);
+
+  line.setAttribute("x2", x2);
+  line.setAttribute("y2", y2);
+
+  if (x1 < x2) {
+    const xOrigin = Math.min(x1, x2) + Math.abs(x1 - x2) / 2;
+    const yOrigin = Math.min(y1, y2) + Math.abs(y1 - y2) / 2;
+
+    // line.style.transformOrigin = `${xOrigin}px ${yOrigin}px`;
+    // line.style.transform = "rotate(180deg)";
+
+    line.setAttribute("transform-origin", `${xOrigin}px ${yOrigin}px`);
+    line.setAttribute("transform", "rotate(180)");
+  }
+
+  // line.style.stroke = `url(#${LINEARGRADIENTID})`;
+  // line.style.strokeWidth = 5;
+  // line.style.strokeOpacity = 1;
+  line.setAttribute("stroke-width", 7);
+  line.setAttribute("stroke", `url(#${LINEARGRADIENTID})`);
   line.id = lineId;
   line.dataset.color = color;
 
@@ -321,11 +341,11 @@ function renderSVGContainer() {
   svg.addEventListener("click", backgroundClickEventHandler);
 
   const linearGradient = document.createElementNS(NSADDRESS, "linearGradient");
-  linearGradient.id = "TEST";
-  linearGradient.setAttribute("x1", "0%");
-  linearGradient.setAttribute("y1", "0%");
-  linearGradient.setAttribute("x2", "100%");
-  linearGradient.setAttribute("y2", "100%");
+  linearGradient.id = LINEARGRADIENTID;
+  // linearGradient.setAttribute("x1", "0%");
+  // linearGradient.setAttribute("y1", "0%");
+  // linearGradient.setAttribute("x2", "100%");
+  // linearGradient.setAttribute("y2", "100%");
 
   const stop1 = document.createElementNS(NSADDRESS, "stop");
   stop1.setAttribute("offset", "0%");
@@ -341,7 +361,7 @@ function renderSVGContainer() {
   return svg;
 }
 
-export const renderModule = () => {
+export default () => {
   SEQ = 0;
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";

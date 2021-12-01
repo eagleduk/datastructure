@@ -13,8 +13,7 @@ svg.module-container__canvas-linkedlist {
 .value-content.linkedlist__content-value {
   position: absolute;
   cursor: pointer;
-  border-radius: 0;
-  border-width: 5px;
+  border-width: 3px;
   background-color: var(--value-background-normal);
   z-index: 999;
 }

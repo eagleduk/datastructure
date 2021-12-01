@@ -122,7 +122,7 @@ function pushContent(value) {
   moduleContent.appendChild(container);
 }
 
-export const renderModule = () => {
+export default () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 

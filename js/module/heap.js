@@ -323,7 +323,7 @@ function changeContent(target, source) {
   return source;
 }
 
-export const renderModule = () => {
+export default () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 

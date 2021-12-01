@@ -22,7 +22,3 @@ div.module-container__content-array {
   box-sizing: border-box;
   gap: 15px 15px;
 }
-
-div.module-container__content-array div:active {
-  border-color: yellow;
-}

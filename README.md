@@ -37,6 +37,7 @@
 
    - [x] Search 필요 여부 - 삭제
    - [x] control placeholder 변경
+   - [ ] pop 실행시 value 효과
 
 1. 공통
 
@@ -44,6 +45,7 @@
    - [ ] value 효과
    - [ ] button 스타일
    - [ ] element 변수명 확인
+   - [ ] 리팩토링?
 
 1. notification 스타일 작업
 
@@ -56,6 +58,17 @@
    - [ ] drag & drop
 
 <hr>
+
+### 2021-12-01
+
+1. 공통
+   - input 스타일 변경 (크기, 폰트)
+   - 모든 모듈 export default 로 변경
+
+### 2021-11-30
+
+1. Linked List
+   - from - to Line gradient 적용
 
 ### 2021-11-29
 

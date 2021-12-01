@@ -147,7 +147,7 @@ function renderContentQueueBottom() {
   return queueBottom;
 }
 
-export const renderModule = () => {
+export default () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 

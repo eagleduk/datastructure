@@ -185,7 +185,7 @@ function renderContentSectionValueContainer(index) {
   return container;
 }
 
-export const renderModule = () => {
+export default () => {
   const nodeModule = document.createElement("div");
   nodeModule.className = "module-container";
 
