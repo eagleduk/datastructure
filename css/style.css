@@ -280,3 +280,13 @@ input[type="submit"].delete:active {
   border-width: 5px;
   border-color: var(--value-border-selected);
 }
+
+.value-content.delete-value {
+  border-width: 5px;
+  border-color: var(--value-border-delete);
+}
+
+.value-content.change-value {
+  border-width: 5px;
+  border-color: var(--value-border-change);
+}

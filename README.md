@@ -37,7 +37,8 @@
 
    - [x] Search 필요 여부 - 삭제
    - [x] control placeholder 변경
-   - [ ] pop 실행시 value 효과
+   - [x] pop 실행시 value 효과
+   - [x] sort 실행시 value 효과
 
 1. 공통
 
@@ -58,6 +59,11 @@
    - [ ] drag & drop
 
 <hr>
+
+### 2021-12-02
+
+1. Heap
+   - style 작업 후 sort 시 버그 발생 - bug fix
 
 ### 2021-12-01
 

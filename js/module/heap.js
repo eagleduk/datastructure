@@ -20,7 +20,6 @@ const searchEventHandler = (e) => {
   const { value: inputValue } = e.target.searchValue;
   const searchResult = searchHeapData(inputValue, 0, 0);
 
-  console.log(inputValue, " +++ ", searchResult);
   if (!searchResult) errorNotification(`Value[${inputValue}] is not found`);
 };
 
@@ -36,16 +35,18 @@ function searchHeapData(inputValue, row, column) {
   return result;
 }
 
-const insertEventHandler = (e) => {
+const insertEventHandler = async (e) => {
   e.preventDefault();
+  e.target.insert.disabled = true;
   const { insertValue } = e.target;
   const inputValue = insertValue.value;
   const { row, column } = pushInputValue(inputValue, 0, 0);
   if (row !== 0) {
     connectContents(row, column);
-    compareToParent(row, column);
+    await compareToParent(row, column);
   }
   insertValue.value = getRandomValue();
+  e.target.insert.disabled = false;
 };
 
 function pushInputValue(value) {
@@ -75,23 +76,28 @@ function pushInputValue(value) {
   }
 }
 
-const popEventHandler = (e) => {
+const popEventHandler = async (e) => {
   e.preventDefault();
+  e.target.pop.disabled = true;
+
   const deleteContent = getLastValue();
 
   if (deleteContent) {
-    changeRootContent(deleteContent);
-
-    sortHeap(0, 0);
+    await changeRootContent(deleteContent);
+    // 5. sort
+    await sortHeap(0, 0);
   } else {
     notification("Value is not found");
   }
+  e.target.pop.disabled = false;
 };
 
 function getLastValue() {
   const mainContainer = document.querySelector(`.${MODULECONTENTCLASS}`);
 
   const rowIndex = mainContainer.childNodes.length - 1;
+  if (rowIndex < 0) return false;
+
   const columns = mainContainer.childNodes[rowIndex].childNodes;
   for (let columnIndex = columns.length - 1; columnIndex >= 0; columnIndex--) {
     let column = columns[columnIndex];
@@ -104,25 +110,38 @@ function getLastValue() {
       };
     }
   }
-  return undefined;
+  return false;
 }
 
-function changeRootContent({ row, column, value }) {
-  const deleteContent = getContent(row, column);
+async function changeRootContent({ row, column, value }) {
+  // 1. root Value 삭제
   const rootContent = getContent(0, 0);
+  rootContent.classList.add("delete-value");
+  rootContent.dataset.value = "";
+  await _promiseTimeout(2000);
+
+  // 2. 마지막 값 focus
+  const deleteContent = getContent(row, column);
+  deleteContent.classList.add("selected-value");
+  await _promiseTimeout(2000);
+
+  // 3. 마지막 값 root 로 이동
   rootContent.dataset.value = value;
 
+  // 4. 마지막 node 삭제
   const deleteLine = document.querySelector(`[id*='${row}_${column}']`);
   if (deleteLine) deleteLine.remove();
   if (column === 0) {
     deleteContent.parentNode.parentNode.remove();
   }
   deleteContent.remove();
+  rootContent.classList.remove("delete-value");
 }
 
-function sortHeap(row, column) {
+async function sortHeap(row, column) {
   const content = getContent(row, column);
   if (!content) return;
+
   const value = content.dataset.value;
   const child1 = getContent(row + 1, column * 2);
   const child2 = getContent(row + 1, column * 2 + 1);
@@ -136,14 +155,14 @@ function sortHeap(row, column) {
       parseInt(value) < parseInt(value2)
     ) {
       // 2 와 바꿈
-      changeContent(content, child2);
+      await changeContent(content, child2);
       sortHeap(row + 1, column * 2 + 1);
     } else if (
       parseInt(value2) < parseInt(value1) &&
       parseInt(value) < parseInt(value1)
     ) {
       // 1 과 바꿈
-      changeContent(content, child1);
+      await changeContent(content, child1);
       sortHeap(row + 1, column * 2);
     }
   } else if (child1 || child2) {
@@ -151,18 +170,33 @@ function sortHeap(row, column) {
       const value1 = child1.dataset.value;
       if (parseInt(value) < parseInt(value1)) {
         // 1과 바꿈
-        changeContent(content, child1);
+        await changeContent(content, child1);
         sortHeap(row + 1, column * 2);
       }
     } else {
       const value2 = child2.dataset.value;
       if (parseInt(value) < parseInt(value2)) {
         // 2와 바꿈
-        changeContent(content, child2);
+        await changeContent(content, child2);
         sortHeap(row + 1, column * 2 + 1);
       }
     }
   }
+}
+
+async function changeContent(target, source) {
+  target.classList.add("change-value");
+  source.classList.add("change-value");
+  await _promiseTimeout(2000);
+
+  const temp = target.dataset.value;
+  target.dataset.value = source.dataset.value;
+  source.dataset.value = temp;
+
+  target.classList.remove("change-value");
+  source.classList.remove("change-value");
+
+  return source;
 }
 
 function renderSVGContainer() {
@@ -198,6 +232,7 @@ function renderControlHeap() {
   insert.type = "submit";
   insert.className = "insert";
   insert.value = "insert";
+  insert.name = "insert";
 
   row2.appendChild(value);
   row2.appendChild(insert);
@@ -205,12 +240,13 @@ function renderControlHeap() {
   const row3 = document.createElement("form");
   row3.addEventListener("submit", popEventHandler);
 
-  const del = document.createElement("input");
-  del.type = "submit";
-  del.className = "delete";
-  del.value = "pop";
+  const pop = document.createElement("input");
+  pop.type = "submit";
+  pop.className = "delete";
+  pop.value = "pop";
+  pop.name = "pop";
 
-  row3.appendChild(del);
+  row3.appendChild(pop);
 
   controller.appendChild(row2);
   controller.appendChild(row3);
@@ -268,6 +304,7 @@ function addValueContent(inputValue, row, column) {
 
   return columnContainer;
 }
+
 function connectContents(row, column) {
   const parentRow = row - 1;
   const parentColumn = parseInt(column / 2);
@@ -300,7 +337,7 @@ function getContent(row, column) {
   return mainContainer?.childNodes[row]?.childNodes[column]?.childNodes[0];
 }
 
-function compareToParent(row, column) {
+async function compareToParent(row, column) {
   const parentRow = row - 1;
   const parentColumn = parseInt(column / 2);
 
@@ -311,16 +348,9 @@ function compareToParent(row, column) {
     parentNode &&
     parseInt(parentNode.dataset.value) < parseInt(childNode.dataset.value)
   ) {
-    changeContent(parentNode, childNode);
+    await changeContent(parentNode, childNode);
     compareToParent(parentRow, parentColumn);
   }
-}
-
-function changeContent(target, source) {
-  const temp = target.dataset.value;
-  target.dataset.value = source.dataset.value;
-  source.dataset.value = temp;
-  return source;
 }
 
 export default () => {

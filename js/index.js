@@ -102,7 +102,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "linkedlist";
+  const module = "heap";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

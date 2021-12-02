@@ -20,6 +20,8 @@
   --value-border-search: #3cb371;
   --value-border-selected: #e32636;
   --value-border-active: #fdff00;
+  --value-border-delete: red;
+  --value-border-change: violet;
 
   --value-border-insert: crimson;
 
