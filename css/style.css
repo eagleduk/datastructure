@@ -282,8 +282,8 @@ input[type="submit"].delete:active {
 }
 
 .value-content.delete-value {
-  border-width: 5px;
-  border-color: var(--value-border-delete);
+  border-width: 0px;
+  background-color: var(--content-background-first);
 }
 
 .value-content.change-value {

@@ -92,41 +92,60 @@ function insertInputValue(inputValue, row, column) {
   }
 }
 
-const deleteEventHandler = (e) => {
+const deleteEventHandler = async (e) => {
   e.preventDefault();
   const { value: inputValue } = e.target.deleteValue;
-  const searchResult = searchTreeData(inputValue, 0, 0);
+  const searchResult = await searchTreeData(inputValue, 0, 0);
 
   if (searchResult) {
     deleteContent(searchResult);
   } else {
-    console.log("Value is not found");
-    notification("Value is not found");
+    // console.log("Value is not found");
+    notification(`Value[${inputValue}] is not found`);
   }
 };
 
-function deleteContent({ row, column }) {
+async function deleteContent({ row, column }) {
+  //let changeNode;
   let deleteContent = getContent(row, column);
 
+  /**
+   *  case 1: child node 두개 => 작은 child node 중 제일 큰수의 위치 찾기
+   */
   let smaller = getContent(row + 1, column * 2);
   let bigger = getContent(row + 1, column * 2 + 1);
-
-  // case 1: child node 두개 => 작은 child node 중 제일 큰수와 자리 변경
-  /**
-   *  본인과 본인보다 작은 자식들중 큰 수와 dataset.value 값 변경
-   */
   if (smaller && bigger) {
-    const changeNode = getChildNodeBigOfSmall(row + 1, column * 2);
+    console.log("case 1 실행...");
+    let {
+      sourceContent,
+      row: sourceRow,
+      column: sourceColumn,
+    } = getBiggestOfChild(row + 1, column * 2);
     //const changeNode = getLeafChildNode(row + 1, column * 2, 1);
-    deleteContent = changeContent(deleteContent, changeNode.sourceContent);
-    row = changeNode.row;
-    column = changeNode.column;
+    // deleteContent = changeContent(deleteContent, changeNode.sourceContent);
+    // let changeNode = sourceContent;
+
+    deleteContent.classList.add("delete-value");
+    deleteContent.dataset.value = "";
+
+    sourceContent.classList.add("change-value");
+    await _promiseTimeout(2000);
+
+    sourceContent.classList.remove("change-value");
+    sourceContent.classList.add("delete-value");
+    deleteContent.classList.remove("delete-value");
+    deleteContent = changeContent(deleteContent, sourceContent);
+
+    row = sourceRow;
+    column = sourceColumn;
   }
 
-  // case 2: child node 한개 => case 1 ==> 자식이 있을 때, 부모와 최하위 자식과 자리 변경
   /**
-   *  본인과 최 하위 자식의 dataset.value 값 변경
+   *  case 2:
+   *        - case 1 에서 찾은 node 에서 자식이 있을 때, 자식의 위치 찾기
+   *        - child node 한개 => 자식의 위치 찾기
    */
+  let changeNode;
   smaller = getContent(row + 1, column * 2);
   bigger = getContent(row + 1, column * 2 + 1);
   while (smaller || bigger) {
@@ -134,25 +153,52 @@ function deleteContent({ row, column }) {
     if (bigger) childType = 1;
     row += 1;
     column = column * 2 + childType;
-    let changeNode = getContent(row, column);
-    deleteContent = changeContent(deleteContent, changeNode);
+    changeNode = getContent(row, column);
+    // deleteContent = changeContent(deleteContent, changeNode);
     smaller = getContent(row + 1, column * 2);
     bigger = getContent(row + 1, column * 2 + 1);
+
+    console.log("case 2 실행...", deleteContent, changeNode);
+    deleteContent.classList.add("delete-value");
+    deleteContent.dataset.value = "";
+
+    changeNode.classList.add("change-value");
+    await _promiseTimeout(2000);
+    changeNode.classList.remove("change-value");
+
+    changeNode.classList.add("delete-value");
+    deleteContent.classList.remove("delete-value");
+    deleteContent = changeContent(deleteContent, changeNode);
   }
 
-  // case 3: child node 없을 때 => case 2 ==> 최하위 자식 삭제
+  // if (changeNode) {
+  //   console.log("case 2 실행...", deleteContent);
+
+  //   deleteContent.classList.add("delete-value");
+  //   deleteContent.dataset.value = "";
+
+  //   changeNode.classList.add("change-value");
+  //   await _promiseTimeout(2000);
+
+  //   changeNode.classList.remove("change-value");
+  //   changeNode.classList.add("delete-value");
+  //   deleteContent.classList.remove("delete-value");
+  // }
+
   /**
-   *  본인과 연결선 삭제
+   *  case 3:
+   *        - case 2 에서 찾은 node 와 삭제할 node 의 dataset.value 변경, 찾은 node 삭제
+   *        - 삭제할 node 자식이 없을 때 본인만 삭제
    */
   const deleteLine = document.querySelector(`[id*='${row}_${column}']`);
   deleteLine.remove();
   deleteContent.remove();
 }
 
-function getChildNodeBigOfSmall(row, column) {
+function getBiggestOfChild(row, column) {
   const sourceContent = getContent(row, column);
   const biggerChild = getContent(row + 1, column * 2 + 1);
-  if (biggerChild) return getChildNodeBigOfSmall(row + 1, column * 2 + 1);
+  if (biggerChild) return getBiggestOfChild(row + 1, column * 2 + 1);
   return {
     sourceContent,
     row,

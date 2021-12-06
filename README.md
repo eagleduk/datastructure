@@ -32,6 +32,7 @@
 
    - [x] Search 시 순서대로 focus 효과
    - [x] control placeholder 변경
+   - [ ] delete 시 focus 효과
 
 1. Heap
 
@@ -47,6 +48,7 @@
    - [ ] button 스타일
    - [ ] element 변수명 확인
    - [ ] 리팩토링?
+   - [ ] Tree, Heap 삭제 로직 실행 시 삭제 대상 숨기고, 옮길 대상 focus 등 효과 추가
 
 1. notification 스타일 작업
 
@@ -59,6 +61,13 @@
    - [ ] drag & drop
 
 <hr>
+
+### 2021-12-07
+
+1. Heap
+   - 삭제시 대상 숨기고, 옮겨질 대상 focus 후 값 변경
+2. Tree
+   - 삭제시 대상 숨기고, 옮겨질 대상 focus 후 값 변경 => 테스트 필요
 
 ### 2021-12-02
 

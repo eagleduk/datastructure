@@ -116,9 +116,9 @@ function getLastValue() {
 async function changeRootContent({ row, column, value }) {
   // 1. root Value 삭제
   const rootContent = getContent(0, 0);
-  rootContent.classList.add("delete-value");
   rootContent.dataset.value = "";
-  await _promiseTimeout(2000);
+  rootContent.classList.add("delete-value");
+  // await _promiseTimeout(2000);
 
   // 2. 마지막 값 focus
   const deleteContent = getContent(row, column);
