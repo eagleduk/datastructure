@@ -65,13 +65,9 @@
 ### 2021-12-07
 
 1. Heap
-
    - bug fix
-
 2. Queue
-
    - display 방식 변경
-
 3. Stack
    - display 방식 변경
 
@@ -106,28 +102,22 @@
 ### 2021-11-25
 
 1. Hash Table
-
    - Index 위주의 insert, search 를 value 기준으로
    - Search 시 key, value focus 효과
 
 ### 2021-11-24
 
 1. Linked List
-
    - Search Value 추가
    - Search 0번부터 순서대로 focus 효과
-
 1. Tree
-
    - Search 시 순서대로 focus 효과
 
 ### 2021-11-22
 
 1. Array
-
    - index search => value search 변경
    - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
-
 1. Queue
 1. Stack
    - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
@@ -135,30 +125,18 @@
 ### 2021-11-18
 
 1. Array
-
    - control placeholder 변경
    - content 형태 변경
-
 1. Queue
-
    - control placeholder 변경
-
 1. Stack
-
    - control placeholder 변경
-
 1. Linked List
-
    - control placeholder 변경
-
 1. Hash Table
-
    - control placeholder 변경
-
 1. Tree
-
    - control placeholder 변경
-
 1. Heap
    - Search 필요 여부 - 삭제
    - control placeholder 변경
@@ -176,17 +154,14 @@
 ### 2021-11-11
 
 1. control 작업
-
    - styling
    - drag & drop
-
 1. 그 외
    - value content 이팩트
 
 ### 2021-11-10
 
 1. notification 스타일 작업
-
    - normal
    - warning
    - error
