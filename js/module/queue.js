@@ -1,7 +1,6 @@
 const MODULE = "queue";
 const MODULECONTROLCLASS = `module-container__control-${MODULE}`;
 const MODULECONTENTCLASS = `module-container__content-${MODULE}`;
-const MOVEDURATION = 3 * 1000;
 
 const enqueueEventHandler = async (e) => {
   e.preventDefault();
@@ -21,7 +20,7 @@ const enqueueEventHandler = async (e) => {
     `.${MODULECONTENTCLASS} .content-queue__middle`
   );
 
-  await _promiseTimeout(MOVEDURATION, () => container.prepend(valueContent));
+  await _promiseTimeout(DELETETIME, () => container.prepend(valueContent));
 
   value.value = getRandomValue();
   e.target.insert.disabled = false;
@@ -43,11 +42,11 @@ const dequeueEventHandler = async (e) => {
     `.${MODULECONTENTCLASS} .content-queue__bottom`
   );
 
-  await _promiseTimeout(MOVEDURATION, () =>
+  await _promiseTimeout(DELETETIME, () =>
     enqueueContainer.appendChild(lastChild)
   );
   await _promiseTimeout(
-    MOVEDURATION,
+    DELETETIME,
     () =>
       enqueueContainer.hasChildNodes() &&
       enqueueContainer.removeChild(lastChild)

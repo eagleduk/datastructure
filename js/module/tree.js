@@ -100,7 +100,6 @@ const deleteEventHandler = async (e) => {
   if (searchResult) {
     deleteContent(searchResult);
   } else {
-    // console.log("Value is not found");
     notification(`Value[${inputValue}] is not found`);
   }
 };
@@ -115,7 +114,6 @@ async function deleteContent({ row, column }) {
   let smaller = getContent(row + 1, column * 2);
   let bigger = getContent(row + 1, column * 2 + 1);
   if (smaller && bigger) {
-    console.log("case 1 실행...");
     let {
       sourceContent,
       row: sourceRow,
@@ -158,7 +156,6 @@ async function deleteContent({ row, column }) {
     smaller = getContent(row + 1, column * 2);
     bigger = getContent(row + 1, column * 2 + 1);
 
-    console.log("case 2 실행...", deleteContent, changeNode);
     deleteContent.classList.add("delete-value");
     deleteContent.dataset.value = "";
 
@@ -170,20 +167,6 @@ async function deleteContent({ row, column }) {
     deleteContent.classList.remove("delete-value");
     deleteContent = changeContent(deleteContent, changeNode);
   }
-
-  // if (changeNode) {
-  //   console.log("case 2 실행...", deleteContent);
-
-  //   deleteContent.classList.add("delete-value");
-  //   deleteContent.dataset.value = "";
-
-  //   changeNode.classList.add("change-value");
-  //   await _promiseTimeout(2000);
-
-  //   changeNode.classList.remove("change-value");
-  //   changeNode.classList.add("delete-value");
-  //   deleteContent.classList.remove("delete-value");
-  // }
 
   /**
    *  case 3:

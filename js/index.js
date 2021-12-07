@@ -1,9 +1,12 @@
 const DEFAULTLENGTH = 3;
 const NSADDRESS = "http://www.w3.org/2000/svg";
 
+const SELECTTIME = 1000;
+const SEARCHTIME = 3000;
+const DELETETIME = 2000;
+
 function allButtonDisableControl(disabled) {
   const allButtons = document.querySelectorAll("input[type=submit]");
-  console.log(allButtons);
   allButtons.forEach((button) => (button.disabled = disabled));
 }
 
@@ -71,8 +74,6 @@ function renderModuleContent(moduleNode) {
 
 async function moduleLoader(module = "array") {
   const { default: render } = await import(`./module/${module}.js`);
-  // console.log("module", importModule);
-  // importModule.renderModule();
   render();
 }
 
@@ -102,7 +103,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "tree";
+  const module = "queue";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

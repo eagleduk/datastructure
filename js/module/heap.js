@@ -349,7 +349,7 @@ async function compareToParent(row, column) {
     parseInt(parentNode.dataset.value) < parseInt(childNode.dataset.value)
   ) {
     await changeContent(parentNode, childNode);
-    compareToParent(parentRow, parentColumn);
+    await compareToParent(parentRow, parentColumn);
   }
 }
 
