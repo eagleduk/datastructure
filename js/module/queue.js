@@ -9,18 +9,14 @@ const enqueueEventHandler = async (e) => {
     target: { value },
   } = e;
 
-  const enqueueContainer = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-queue__top`
-  );
-
   const valueContent = createValueContent(value.value);
-  enqueueContainer.appendChild(valueContent);
 
-  const container = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-queue__middle`
+  const container = document.querySelector(`.${MODULECONTENTCLASS}`);
+  container.appendChild(valueContent);
+
+  await _promiseTimeout(SELECTTIME, () =>
+    valueContent.classList.remove("change-value")
   );
-
-  await _promiseTimeout(DELETETIME, () => container.prepend(valueContent));
 
   value.value = getRandomValue();
   e.target.insert.disabled = false;
@@ -29,28 +25,15 @@ const enqueueEventHandler = async (e) => {
 const dequeueEventHandler = async (e) => {
   e.preventDefault();
   e.target.remove.disabled = true;
-  const container = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-queue__middle`
-  );
+  const container = document.querySelector(`.${MODULECONTENTCLASS}`);
 
-  const lastChild = container.lastChild;
-
-  if (!lastChild) return;
-
-  lastChild.classList.add("dequeue-value");
-  const enqueueContainer = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-queue__bottom`
-  );
-
-  await _promiseTimeout(DELETETIME, () =>
-    enqueueContainer.appendChild(lastChild)
-  );
-  await _promiseTimeout(
-    DELETETIME,
-    () =>
-      enqueueContainer.hasChildNodes() &&
-      enqueueContainer.removeChild(lastChild)
-  );
+  const firstChild = container.firstChild;
+  if (!firstChild) {
+    notification("No have Value.");
+  } else {
+    firstChild.classList.add("selected-value");
+    await _promiseTimeout(DELETETIME, () => firstChild.remove());
+  }
 
   e.target.remove.disabled = false;
 };
@@ -107,9 +90,8 @@ function renderControlQueue() {
 
 function createValueContent(value) {
   const div = document.createElement("div");
-  div.className = "queue__content-value value-content";
+  div.className = "value-content change-value";
   div.dataset.value = value;
-  // div.innerText = value;
 
   return div;
 }
@@ -120,30 +102,7 @@ function renderContentQueue() {
   moduleContent.addEventListener("dragover", contentDragoverEventHandler);
   moduleContent.addEventListener("drop", contentDropEventHandler);
 
-  moduleContent.appendChild(renderContentQueueTop());
-  moduleContent.appendChild(renderContentQueueMiddle());
-  moduleContent.appendChild(renderContentQueueBottom());
-
   return moduleContent;
-}
-
-function renderContentQueueTop() {
-  const queueTop = document.createElement("div");
-  queueTop.className = "content-queue content-queue__top";
-
-  return queueTop;
-}
-function renderContentQueueMiddle() {
-  const queueMiddle = document.createElement("div");
-  queueMiddle.className = "content-queue content-queue__middle";
-
-  return queueMiddle;
-}
-function renderContentQueueBottom() {
-  const queueBottom = document.createElement("div");
-  queueBottom.className = "content-queue content-queue__bottom";
-
-  return queueBottom;
 }
 
 export default () => {

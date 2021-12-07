@@ -18,10 +18,6 @@ function allButtonDisabled() {
   allButtonDisableControl(true);
 }
 
-// async function promiseTimeout(ms) {
-//   return await _promiseTimeout(ms);
-// }
-
 function _promiseTimeout(ms, fn) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -103,7 +99,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "queue";
+  const module = "stack";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);

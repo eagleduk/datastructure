@@ -65,7 +65,15 @@
 ### 2021-12-07
 
 1. Heap
+
    - bug fix
+
+2. Queue
+
+   - display 방식 변경
+
+3. Stack
+   - display 방식 변경
 
 ### 2021-12-06
 

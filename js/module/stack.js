@@ -22,17 +22,14 @@ const pushEventHandler = async (e) => {
     target: { value },
   } = e;
 
-  const enqueueContainer = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-stack__left`
-  );
   const valueContent = createValueContent(value.value);
 
-  enqueueContainer.appendChild(valueContent);
-  const container = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-stack__center`
-  );
+  const container = document.querySelector(`.${MODULECONTENTCLASS}`);
+  container.prepend(valueContent);
 
-  await _promiseTimeout(MOVEDURATION, () => container.prepend(valueContent));
+  await _promiseTimeout(SELECTTIME, () =>
+    valueContent.classList.remove("change-value")
+  );
 
   value.value = getRandomValue();
 
@@ -43,26 +40,15 @@ const popEventHandler = async (e) => {
   e.preventDefault();
   e.target.pop.disabled = true;
 
-  const container = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-stack__center`
-  );
+  const container = document.querySelector(`.${MODULECONTENTCLASS}`);
+
   const firstChild = container.firstChild;
-  if (!firstChild) return;
-  firstChild.classList.add("pop-value");
-
-  const enqueueContainer = document.querySelector(
-    `.${MODULECONTENTCLASS} .content-stack__right`
-  );
-
-  await _promiseTimeout(MOVEDURATION, () =>
-    enqueueContainer.appendChild(firstChild)
-  );
-  await _promiseTimeout(
-    MOVEDURATION,
-    () =>
-      enqueueContainer.hasChildNodes() &&
-      enqueueContainer.removeChild(firstChild)
-  );
+  if (!firstChild) {
+    notification("Value is no have.");
+  } else {
+    firstChild.classList.add("selected-value");
+    await _promiseTimeout(DELETETIME, () => firstChild.remove());
+  }
 
   e.target.pop.disabled = false;
 };
@@ -119,7 +105,7 @@ function renderControlStack() {
 
 function createValueContent(value) {
   const div = document.createElement("div");
-  div.className = "stack__content-value value-content";
+  div.className = "value-content change-value";
   div.dataset.value = value;
 
   return div;
@@ -137,9 +123,9 @@ function renderContentStack() {
   moduleContent.addEventListener("dragover", contentDragoverEventHandler);
   moduleContent.addEventListener("drop", contentDropEventHandler);
 
-  moduleContent.appendChild(renderContentStackLeft());
-  moduleContent.appendChild(renderContentStackCenter());
-  moduleContent.appendChild(renderContentStackRight());
+  // moduleContent.appendChild(renderContentStackLeft());
+  // moduleContent.appendChild(renderContentStackCenter());
+  // moduleContent.appendChild(renderContentStackRight());
 
   return moduleContent;
 }
