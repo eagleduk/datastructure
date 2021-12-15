@@ -1,172 +1,134 @@
-## ToDo
+# DataStructure
 
-1. Array
+---
 
-   - [x] Search Index => Search Value 로 변경
-   - [x] Search 0번부터 순서대로 focus 효과
-   - [x] control placeholder 변경
-   - [x] content 형태 변경
+## Array
 
-1. Queue
+- 데이터를 나열, 인덱스로 구성
+- 같은 종류의 데이터를 관리
+- 같은 종류의 데이터를 순차적으로 저장
 
-   - [x] control placeholder 변경
+|        |     |     |     |     |     |     |
+| ------ | :-: | :-: | :-: | :-: | :-: | :-: |
+| 데이터 |  S  |  T  |  R  |  I  |  N  |  G  |
+| 인덱스 |  0  |  1  |  2  |  3  |  4  |  5  |
 
-1. Stack
+- 장점
+  1.  데이터에 빠르게 접근이 가능
+      - 인덱스 번호가 있기 때문에 배열의 시작지점과 데이터의 길이를 알고 있으면 된다.
+- 단점
+  1. 데이터의 추가가 어렵다
+     - 데이터의 최종 길이가 변경되면, 배열의 길이를 다시 지정하여 변수를 새로 생성 해야 한다.
+  2. 데이터의 삭제 / 수정이 복잡하다
+     - 데이터의 삭제 / 수정으로 인한 길이가 변경되면, 비어있는 공간을 채워주기 위한 데이터를 당겨주어야 한다.
+  3. JavaScript, python 등 배열의 최종 길이를 지정하지 않아도 자유롭게 데이터를 추가가 가능하다.
 
-   - [x] control placeholder 변경
+## Queue
 
-1. Linked List
+- 먼저 넣은 데이터를 먼저 꺼내는 방법
+- FIFO (First In First Out)
+- enqueue : 데이터를 넣는 행위
+- dequeue : 데이터를 꺼내는 행위
+- 큐의 종류
+  - Queue : 일반적인 큐
+  - LifoQueue : 마지막에 넣은 데이터를 먼저 꺼내는 정책의 큐 (Last In First Out). 스택과 같다
+  - PriorityQueue : 우선순위 큐. 우선순위가 높은(우선순위의 값은 낮다) 데이터를 먼저 꺼내는 정책
+- 운영체제 프로세스 스케쥴링에 많이 사용한다.
 
-   - [x] Search Value 추가
-   - [x] Search 0번부터 순서대로 focus 효과
-   - [x] control placeholder 변경
-   - [ ] button or submit
+## Stack
 
-1. Hash Table
+- 먼저 넣은 데이터를 마지막에 꺼내는 방법
+- FILO (First In Last Out)
+- push : 데이터를 넣는(쌓는) 행위
+- pop : 데이터를 꺼내는 행위
+- 운영체제 함수의 동작에 많이 사용
+- 재귀 함수의 정책에 사용된다.
 
-   - [x] Index 위주의 insert, search 를 value 기준으로
-   - [x] Search 시 key, value focus 효과
-   - [x] control placeholder 변경
+- 장점
+  1. 구조가 단순하다.
+  1. 구현이 쉽다.
+- 단점
+  1. 스택의 최대 갯수를 미리 지정해 놓아야 한다.  
+     => 파이썬에서 최대 재귀함수의 호출 횟수는 1000회로 고정되어 있다.
 
-1. Tree
+## Linked List
 
-   - [x] Search 시 순서대로 focus 효과
-   - [x] control placeholder 변경
-   - [ ] delete 시 focus 효과
+- 연결리스트
+- 사용공간을 미리 지정하지 않기 위한 배열
+- 데이터와 다음 데이터의 주소 두가지를 배열에 저장 => Node
 
-1. Heap
+  - 노드1 [데이터, 노드2]
+  - 노드2 [데이터, 노드3]
+  - 노드3 [데이터, 노드4]
+  - 노드n-1 [데이터, 노드n]
+  - 노드n [데이터, 노드n+1]
 
-   - [x] Search 필요 여부 - 삭제
-   - [x] control placeholder 변경
-   - [x] pop 실행시 value 효과
-   - [x] sort 실행시 value 효과
+- 장점
+  1. 미리 저장할 데이터 공간을 할당하지 않는다.
+- 단점
+  1. 데이터뿐 아니라 다음 노드도 저장해야 함으로 공간효율이 나쁘다.
+  1. 데이터를 검색할때 앞에서부터 순차적으로 연결정보를 찾아야 함으로 속도가 느리다.
+  1. 중간에 있는 데이터를 추가/삭제 할때 연결정보를 재구성 해야한다.
+     - LinkedList 추가/삭제 경우
+       1. Head 추가/삭제
+       2. Tail 추가/삭제
+       3. Middle 추가/삭제
 
-1. 공통
+## Hash Table
 
-   - [ ] button 클릭시 효과가 끝날 때 까지 모든 button 비활성화(?) or notification 중복 처리
-   - [ ] value 효과
-   - [ ] button 스타일
-   - [ ] element 변수명 확인
-   - [ ] 리팩토링?
-   - [ ] Tree, Heap 삭제 로직 실행 시 삭제 대상 숨기고, 옮길 대상 focus 등 효과 추가
+- 키(key), 값(value) 형태로 데이터를 저장하는 구조
+- 해쉬(Hash) : 임의의 값을 고정된 길이로 변환하는것(임의의값 -> 키 -> 해싱 함수)
+- 해쉬 테이블(Hash Table) : 키의 값으로 데이터에 접근할 수 있는 데이터 구조
+- 해싱 함수(hashing function) : 키 값을 연산을 통해 데이터의 위치를 찾는 함수
+- 해쉬 값(Hash Value) : 해시 테이블에 있는 키 주소에 부합하는 데이터
+- 슬롯(slot) : 해쉬 테이블의 각 데이터를 저장하는 한개의 공간
 
-1. notification 스타일 작업
+- 장점
+  1. 저장, 읽기 속도가 빠르다
+  1. 중복 확인이 빠르다
+- 단점
+  1. 저장공간이 많이 필요하다
+  1. 키가 같은 경우를 처리하기 위한 별도의 해결책이 필요하다
+- 용도
+  1. 데이터의 검색, 저장, 삭제시
+  1. 웹 브라우저의 캐쉬(Cash)에서 사용
 
-   - [ ] normal
-   - [ ] warning
-   - [ ] error
+## Tree
 
-1. control 작업
-   - [ ] styling
-   - [ ] drag & drop
+- 노드(Node) 와 브런치(Branch)로 이루어진 구조
+- 사이클은 절대로 가지지 않는다.
+- Node : 데이터와 브런치 정보를 가지고 있는 객체
+- Parent Node : 한 노드에 연결되어 있는 상위 레벨의 노드
+- Child Node : 한 노드에 연결되어 있는 하위 레벨의 노드
+- Root Node : 부모 노드(Parent Node)가 없는 노드
+- Leaf Node : 자식 노드(Child Node)가 없는 노드
+- Level : 최상위 노드(Root Node)를 0 으로 했을때, Dept 의 수(깊이)
+- Dept : 최하위 노드(Leaf Node) 의 레벨
+- Sibling : 한 노드에 대하여 같은 부모 노드(Parent Node)를 가지고 있는 다른 노드
 
-<hr>
+## Heap
 
-### 2021-12-07
-
-1. Heap
-   - bug fix
-2. Queue
-   - display 방식 변경
-3. Stack
-   - display 방식 변경
-
-### 2021-12-06
-
-1. Heap
-   - 삭제시 대상 숨기고, 옮겨질 대상 focus 후 값 변경
-2. Tree
-   - 삭제시 대상 숨기고, 옮겨질 대상 focus 후 값 변경 => 테스트 필요
-
-### 2021-12-02
-
-1. Heap
-   - style 작업 후 sort 시 버그 발생 - bug fix
-
-### 2021-12-01
-
-1. 공통
-   - input 스타일 변경 (크기, 폰트)
-   - 모든 모듈 export default 로 변경
-
-### 2021-11-30
-
-1. Linked List
-   - from - to Line gradient 적용
-
-### 2021-11-29
-
-1. 공통
-   - style 작업 1차
-
-### 2021-11-25
-
-1. Hash Table
-   - Index 위주의 insert, search 를 value 기준으로
-   - Search 시 key, value focus 효과
-
-### 2021-11-24
-
-1. Linked List
-   - Search Value 추가
-   - Search 0번부터 순서대로 focus 효과
-1. Tree
-   - Search 시 순서대로 focus 효과
-
-### 2021-11-22
-
-1. Array
-   - index search => value search 변경
-   - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
-1. Queue
-1. Stack
-   - 버튼 클릭시 이벤트 끝날 때 까지 버튼 비활성화
-
-### 2021-11-18
-
-1. Array
-   - control placeholder 변경
-   - content 형태 변경
-1. Queue
-   - control placeholder 변경
-1. Stack
-   - control placeholder 변경
-1. Linked List
-   - control placeholder 변경
-1. Hash Table
-   - control placeholder 변경
-1. Tree
-   - control placeholder 변경
-1. Heap
-   - Search 필요 여부 - 삭제
-   - control placeholder 변경
-
-### 2021-11-16
-
-1. Array
-   - content 효과 insert, search (임시)
-
-### 2021-11-15
-
-1. control 작업
-   - Tree, Heap drag & drop 작업
-
-### 2021-11-11
-
-1. control 작업
-   - styling
-   - drag & drop
-1. 그 외
-   - value content 이팩트
-
-### 2021-11-10
-
-1. notification 스타일 작업
-   - normal
-   - warning
-   - error
-
-## 도움이 될만한 사이트 정보
-
-- rgb 사이트: [https://mycolor.space/](https://mycolor.space/)
-- 비슷한 색상 사이트: [https://html-color.codes/blue](https://html-color.codes/blue)
+- 최대값이나 최소값을 빠르게 찾기위한 완전 2진트리
+- 최대힙 : 최대값을 구하기 위한 힙구조
+  - 부모 노드는 각 자식노드들 보다 크거나 같다.
+- 최소합 : 최소값을 구하기 위한 힙구조
+  - 부모 노드는 각 자식노드들 보다 작거나 같다.
+- 2진 탐색 트리 : 데이터의 탐색을 위한 트리 구조
+  - 왼쪽 자식 노드 < 부모 노드 < 오른쪽 자식 노드
+- 최대힙 : 데이터들의 최대 값을 구하기 위한 트리 구조
+  - 왼쪽 자식 노드 <= 부모 노드, 오른쪽 자식 노드 <= 부모 노드
+  - 자식 노드들의 우위가 없다.
+- 힙은 배열로 구현을 한다.
+  - 배열의 0번째 주소는 사용하지 않는다.
+  - 부모 노드 인덱스 = 자식 노드 인덱스 / 2
+  - 왼쪽 자식 노드 인덱스 = 부모 노드 인덱스 \* 2
+  - 오른쪽 자식 노드 인덱스 = 부모 노드 인덱스 \* 2 + 1
+- 데이터 추가
+  1. 배열의 마지막에 데이터를 추가
+  1. 부모의 데이터와 비교하여 더 크면 자기 스왑
+  1. 부모가 없거나(루트 노드) 부모의 데이터 값이 클경우 스왑하지 않는다.
+- 데이터 삭제
+  - 트리의 루트 데이터(최소값 또는 최대값)을 꺼내는 행위
+    1. 루트 노드의 값을 꺼내고, 제일 마지막에 추가된 데이터를 루트 노드의 자리에 삽입한다.
+    1. 루트 노드의 값과 자식 노드들의 값을 비교하여, 더 큰 자식 노드 값의 위치와 스왑한다.
+    1. 자식 노드가 없거나, 자식 노드들의 값보다 부모 노드의 값이 더 클 경우 스왑하지 않는다.
