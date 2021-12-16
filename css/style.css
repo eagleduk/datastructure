@@ -1,13 +1,13 @@
-@import url("/css/variables.css");
-@import url("/css/keyframes.css");
+@import url("./variables.css");
+@import url("./keyframes.css");
 
-@import url("/css/module/array.css");
-@import url("/css/module/queue.css");
-@import url("/css/module/stack.css");
-@import url("/css/module/linkedlist.css");
-@import url("/css/module/hashtable.css");
-@import url("/css/module/tree.css");
-@import url("/css/module/heap.css");
+@import url("./module/array.css");
+@import url("./module/queue.css");
+@import url("./module/stack.css");
+@import url("./module/linkedlist.css");
+@import url("./module/hashtable.css");
+@import url("./module/tree.css");
+@import url("./module/heap.css");
 
 html {
   padding: 0;
