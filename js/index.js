@@ -99,7 +99,7 @@ function warnNotification(message) {
 }
 
 window.addEventListener("DOMContentLoaded", (e) => {
-  const module = "stack";
+  const module = "array";
   globalThis.location.href = `#${module}`;
   moduleSelected(module);
   moduleLoader(module);
