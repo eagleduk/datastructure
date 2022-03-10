@@ -174,7 +174,7 @@ async function deleteContent({ row, column }) {
    *        - 삭제할 node 자식이 없을 때 본인만 삭제
    */
   const deleteLine = document.querySelector(`[id*='${row}_${column}']`);
-  deleteLine.remove();
+  if (deleteLine) deleteLine.remove();
   deleteContent.remove();
 }
 
@@ -216,9 +216,6 @@ function renderControlTree() {
 
   const controller = document.createElement("div");
 
-  const row1 = document.createElement("form");
-  row1.addEventListener("submit", searchEventHandler);
-
   const index = document.createElement("input");
   index.type = "number";
   index.placeholder = "Search Value";
@@ -231,11 +228,10 @@ function renderControlTree() {
   search.value = "search";
   search.name = "search";
 
+  const row1 = document.createElement("form");
+  row1.addEventListener("submit", searchEventHandler);
   row1.appendChild(index);
   row1.appendChild(search);
-
-  const row2 = document.createElement("form");
-  row2.addEventListener("submit", insertEventHandler);
 
   const value = document.createElement("input");
   value.type = "number";
@@ -249,11 +245,10 @@ function renderControlTree() {
   insert.className = "insert";
   insert.value = "insert";
 
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", insertEventHandler);
   row2.appendChild(value);
   row2.appendChild(insert);
-
-  const row3 = document.createElement("form");
-  row3.addEventListener("submit", deleteEventHandler);
 
   const value1 = document.createElement("input");
   value1.type = "number";
@@ -267,6 +262,16 @@ function renderControlTree() {
   del.className = "delete";
   del.value = "delete";
 
+  const row3 = document.createElement("form");
+  row3.addEventListener("submit", async (e) => {
+    search.disabled = true;
+    insert.disabled = true;
+    del.disabled = true;
+    await deleteEventHandler(e);
+    search.disabled = false;
+    insert.disabled = false;
+    del.disabled = false;
+  });
   row3.appendChild(value1);
   row3.appendChild(del);
 
@@ -329,6 +334,7 @@ function addValueContent(inputValue, row, column) {
 }
 
 function connectContents(row, column) {
+  if (row === 0) return;
   const parentRow = row - 1;
   const parentColumn = parseInt(column / 2);
   const childState = column % 2;

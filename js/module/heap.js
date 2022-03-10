@@ -41,6 +41,7 @@ const insertEventHandler = async (e) => {
   const { insertValue } = e.target;
   const inputValue = insertValue.value;
   const { row, column } = pushInputValue(inputValue, 0, 0);
+  console.log("row", row, " column  ", column);
   if (row !== 0) {
     connectContents(row, column);
     await compareToParent(row, column);
@@ -218,9 +219,6 @@ function renderControlHeap() {
 
   const controller = document.createElement("div");
 
-  const row2 = document.createElement("form");
-  row2.addEventListener("submit", insertEventHandler);
-
   const value = document.createElement("input");
   value.type = "number";
   value.placeholder = "Insert Value";
@@ -234,18 +232,31 @@ function renderControlHeap() {
   insert.value = "insert";
   insert.name = "insert";
 
-  row2.appendChild(value);
-  row2.appendChild(insert);
-
-  const row3 = document.createElement("form");
-  row3.addEventListener("submit", popEventHandler);
-
   const pop = document.createElement("input");
   pop.type = "submit";
   pop.className = "delete";
   pop.value = "pop";
   pop.name = "pop";
 
+  const row2 = document.createElement("form");
+  row2.addEventListener("submit", async (e) => {
+    insert.disabled = true;
+    pop.disabled = true;
+    await insertEventHandler(e);
+    insert.disabled = false;
+    pop.disabled = false;
+  });
+  row2.appendChild(value);
+  row2.appendChild(insert);
+
+  const row3 = document.createElement("form");
+  row3.addEventListener("submit", async (e) => {
+    insert.disabled = true;
+    pop.disabled = true;
+    await popEventHandler(e);
+    insert.disabled = false;
+    pop.disabled = false;
+  });
   row3.appendChild(pop);
 
   controller.appendChild(row2);

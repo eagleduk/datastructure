@@ -33,6 +33,7 @@
    - [x] Search 시 순서대로 focus 효과
    - [x] control placeholder 변경
    - [ ] delete 시 focus 효과
+   - [x] root Node만 있을 시 삭제 로직 에러
 
 1. Heap
 
@@ -40,6 +41,7 @@
    - [x] control placeholder 변경
    - [x] pop 실행시 value 효과
    - [x] sort 실행시 value 효과
+   - [x] root Node만 있을 시 Pop 이후 insert 로직 버그
 
 1. 공통
 
@@ -49,6 +51,8 @@
    - [ ] element 변수명 확인
    - [ ] 리팩토링?
    - [ ] Tree, Heap 삭제 로직 실행 시 삭제 대상 숨기고, 옮길 대상 focus 등 효과 추가
+   - [ ] 로직 수행시 다른 로직을 실행하면 버그... (Tree, Heap) 특히 삭제(delete,pop) 시에 버그 발생...
+     1. 삭제 로직 시 다른 버튼들은 비활성화.
 
 1. notification 스타일 작업
 
